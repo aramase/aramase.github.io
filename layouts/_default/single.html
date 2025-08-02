@@ -1,0 +1,49 @@
+{{ define "main" }}
+<div class="post">
+  {{ if .IsHome }}
+    <div class="post-content">
+      <div class="about-header">
+        <img src="/images/aramase.jpg" alt="Anish Ramasekar" class="about-image">
+        <div class="about-intro">
+          <h1>Anish Ramasekar</h1>
+          <p class="about-subtitle">Principal Software Engineer at Microsoft</p>
+        </div>
+      </div>
+      
+      <p>I work on the Azure Container Upstream team building features for Kubernetes upstream and various CNCF projects that power Azure Kubernetes Service. I'm a co-chair of Kubernetes SIG Auth and a maintainer of the Secrets Store CSI Driver project.</p>
+      
+      <p>I'm passionate about Kubernetes security, workload identity, and secrets management in cloud-native environments. My work spans across multiple domains including:</p>
+      
+      <ul>
+        <li><strong>Kubernetes Security</strong> - Contributing to SIG-Auth and security-related features, container runtime security, workload identity patterns</li>
+        <li><strong>Azure Workload Identity</strong> - Secrets management and secure authentication in cloud environments</li>
+        <li><strong>Open Source</strong> - Active contribution to CNCF projects as a maintainer of several security-focused tools</li>
+      </ul>
+      
+      <p>I regularly speak at conferences and community events about Kubernetes security, sharing practical insights and real-world solutions. You can find my recent talks and presentations in the <a href="/talks/">talks section</a>.</p>
+      
+      <p>I also write about Kubernetes security, cloud-native best practices, and emerging security technologies. Feel free to reach out if you'd like to discuss Kubernetes security, collaborate on open source projects, or have questions about cloud-native security best practices.</p>
+    </div>
+  {{ else }}
+    {{ if not (eq .Type "page") }}
+    <div class="post-meta">
+      {{ .Date.Format "January 2, 2006" }}
+    </div>
+    {{ end }}
+    
+    <h1 class="post-title">{{ .Title }}</h1>
+    
+    {{ if .Params.tags }}
+      <div class="post-tags">
+        {{ range .Params.tags }}
+          <a href="/tags/{{ . | urlize }}">#{{ . }}</a>{{ if not (eq . (index $.Params.tags (sub (len $.Params.tags) 1))) }}, {{ end }}
+        {{ end }}
+      </div>
+    {{ end }}
+    
+    <div class="post-content">
+      {{ .Content }}
+    </div>
+  {{ end }}
+</div>
+{{ end }}

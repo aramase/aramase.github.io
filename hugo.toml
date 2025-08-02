@@ -1,0 +1,61 @@
+baseURL = 'https://aramase.github.io'
+languageCode = 'en-us'
+title = 'Anish Ramasekar'
+copyright = "© 2025 Anish Ramasekar"
+enableInlineShortcodes = true
+buildDrafts = false
+buildFuture = false
+enableRobotsTXT = true
+canonifyURLs = true
+
+[params]
+  author = "Anish Ramasekar"
+  description = "Principal Software Engineer at Microsoft, Kubernetes SIG Auth Co-Chair, and Secrets Store CSI Driver Maintainer. Expert in cloud-native security, Kubernetes authentication, and open source leadership."
+  keywords = ["kubernetes", "security", "cloud-native", "authentication", "microsoft", "cncf", "talks", "blog"]
+  showMenuItems = 3
+  MenuMore = "Show more"
+  subtitle = "Principal Software Engineer, Kubernetes & Cloud Security"
+  github = "aramase"
+  twitter = "anishramasekar"
+  
+  [params.social]
+    github = "aramase"
+    twitter = "AnishRamasekar"
+    linkedin = "anishramasekar"
+    bluesky = "aramase.bsky.social"
+    email = "anish.ramasekar@gmail.com"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    style = "github-dark"
+    codeFences = true
+    guessSyntax = true
+    lineNos = false
+    lineNumbersInTable = false
+    noClasses = true
+    tabWidth = 4
+
+[outputs]
+  home = ["HTML", "RSS"]
+  page = ["HTML"]
+  section = ["HTML", "RSS"]
+
+[sitemap]
+  changefreq = 'monthly'
+  filename = 'sitemap.xml'
+  priority = 0.5
+
+[menu]
+  [[menu.main]]
+    identifier = "blogs"
+    name = "Blogs"
+    url = "/blogs"
+    weight = 10
+  [[menu.main]]
+    identifier = "talks"
+    name = "Talks"
+    url = "/talks"
+    weight = 20

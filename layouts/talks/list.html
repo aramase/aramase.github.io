@@ -1,0 +1,70 @@
+{{ define "main" }}
+    <div class="talks-full-container">
+        <div class="header">
+            <h1>Talks</h1>
+        </div>
+        
+        <div class="talks-grid">
+    {{ range (where .Site.RegularPages "Section" "talks").ByDate.Reverse }}
+      <div class="talk-item">
+        {{ $image := "" }}
+        {{ if .Params.images }}
+          {{ $image = index .Params.images 0 }}
+        {{ else if .Params.image }}
+          {{ $image = .Params.image }}
+        {{ end }}
+        
+        {{ if $image }}
+          <div class="talk-image">
+            {{ if .Params.recording }}
+              <a href="{{ .Params.recording }}" target="_blank" rel="noopener">
+                <img src="{{ $image }}" alt="{{ .Title }}" class="talk-thumbnail">
+                <div class="play-button">▶</div>
+              </a>
+            {{ else }}
+              <img src="{{ $image }}" alt="{{ .Title }}" class="talk-thumbnail">
+            {{ end }}
+          </div>
+        {{ end }}
+        
+        <div class="talk-content">
+          <h3 class="talk-title">
+            {{ .Title }}
+            {{ with .Params.subtitle }}
+              <span class="talk-subtitle">{{ . }}</span>
+            {{ end }}
+          </h3>
+          
+          <div class="talk-meta">
+            <span class="talk-date">{{ .Date.Format "January 2, 2006" }}</span>
+            {{ with .Params.venue }}
+              <span class="talk-venue">{{ . }}</span>
+            {{ end }}
+          </div>
+          
+          {{ with .Params.achievement }}
+            <div class="talk-achievement">
+              🏆 {{ . }}
+            </div>
+          {{ end }}
+          
+          <div class="talk-links">
+            {{ with .Params.recording }}
+              <a href="{{ . }}" class="talk-link" target="_blank" rel="noopener">📹 Recording</a>
+            {{ end }}
+            {{ with .Params.slides }}
+              <a href="{{ . }}" class="talk-link" target="_blank" rel="noopener">📊 Slides</a>
+            {{ end }}
+          </div>
+          
+          {{ with .Content }}
+            <div class="talk-description">
+              {{ . }}
+            </div>
+          {{ end }}
+        </div>
+      </div>
+    {{ end }}
+  </div>
+</div>
+{{ end }}

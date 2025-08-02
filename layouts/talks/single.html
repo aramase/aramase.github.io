@@ -1,0 +1,37 @@
+{{ define "main" }}
+<div class="post" role="main">
+    <div class="talks">
+        <div class="talk">
+            <div class="h3 talk-title">
+                {{ if .Draft }}[Draft] {{ end }}{{ .Title }}
+                {{ with .Params.subtitle }}
+                <span class="talk-subtitle">&nbsp;&nbsp;{{ . }}</span>
+                {{ end }}
+            </div>
+            <div>
+                <p class="talk-meta">
+                    {{ .Date.Format "Jan 2, 2006" }}
+                    {{ with .Params.venue }}
+                    &nbsp;&middot;&nbsp;{{ . }}
+                    {{ end }}
+                    {{ with .Params.cospeaker }}
+                    &nbsp;&middot;&nbsp;Co-presented with {{ . }}
+                    {{ end }}
+                </p>
+                <p class="talk-meta">
+                    {{ with .Params.recording }}
+                    <a href="{{ . }}" class="talk-resource">Recording</a>
+                    &nbsp;&middot;&nbsp;
+                    {{ end }}
+                    {{ with .Params.slides }}
+                    <a href="{{ . }}" class="talk-resource">Slides</a>
+                    {{ end }}
+                </p>
+                <article class="talk-abstract">
+                    {{ with .Content }}{{ . }}{{ end }}
+                </article>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}

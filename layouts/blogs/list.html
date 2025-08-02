@@ -1,0 +1,24 @@
+{{ define "main" }}
+<div class="blogs-container">
+  <div class="header">
+    <h1>Blogs</h1>
+  </div>
+  
+  <div class="blogs-grid">
+    {{ range (where .Site.RegularPages "Section" "blogs").ByDate.Reverse }}
+      <article class="blog-card">
+        <h3 class="blog-title">
+          <a href="{{ .Params.link }}" target="_blank" rel="noopener">{{ .Title }}</a>
+        </h3>
+        
+        <div class="blog-meta">
+          <time class="blog-date">{{ .Date.Format "January 2, 2006" }}</time>
+          {{ with .Params.source }}
+            <span class="blog-source">{{ . }}</span>
+          {{ end }}
+        </div>
+      </article>
+    {{ end }}
+  </div>
+</div>
+{{ end }}

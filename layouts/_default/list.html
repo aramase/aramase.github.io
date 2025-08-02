@@ -1,0 +1,33 @@
+{{ define "main" }}
+<div class="posts">
+  {{ $paginator := .Paginate (where .Site.RegularPages "Type" "in" .Site.Params.mainSections).ByDate.Reverse }}
+  {{ range $paginator.Pages }}
+    <div class="post">
+      <div class="post-meta">
+        {{ .Date.Format "January 2, 2006" }}
+      </div>
+      
+      <h2 class="post-title">
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </h2>
+      
+      {{ if .Params.tags }}
+        <div class="post-tags">
+          {{ range .Params.tags }}
+            <a href="/tags/{{ . | urlize }}">#{{ . }}</a>{{ if not (eq . (index $.Params.tags (sub (len $.Params.tags) 1))) }}, {{ end }}
+          {{ end }}
+        </div>
+      {{ end }}
+      
+      <div class="post-content">
+        {{ .Summary }}
+        {{ if .Truncated }}
+          <p><a href="{{ .RelPermalink }}">Read more...</a></p>
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+  
+  {{ template "_internal/pagination.html" . }}
+</div>
+{{ end }}

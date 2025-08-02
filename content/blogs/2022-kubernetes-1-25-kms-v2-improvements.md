@@ -2,7 +2,7 @@
 title: "Kubernetes 1.25: KMS V2 Improvements"
 date: 2022-09-09
 source: "Kubernetes.io"
-url: "https://kubernetes.io/blog/2022/09/09/kms-v2-improvements/"
+link: "https://kubernetes.io/blog/2022/09/09/kms-v2-improvements/"
 year: 2022
 ---
 

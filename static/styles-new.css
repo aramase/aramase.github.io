@@ -1,0 +1,277 @@
+@charset "UTF-8";
+
+/* Typography and Base Styles */
+body {
+    font-family: "Ubuntu", "PT Serif", Georgia, "Times New Roman", serif;
+    background-color: #fafafa;
+    color: #333;
+    font-size: 1.25rem;
+    line-height: 1.8;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Lato", 'Helvetica Neue', Helvetica, sans-serif;
+    font-weight: 900;
+    line-height: 1.2;
+    margin: 0.414em 0 0.5em;
+    color: #333;
+}
+
+h1 { font-size: 3.25rem; }
+h2 { font-size: 2.298rem; }
+h3 { font-size: 1.5rem; }
+
+a {
+    color: #0096cc;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #007199;
+}
+
+/* Layout Structure */
+.site-wrap {
+    background-color: #fff;
+    min-height: 100vh;
+}
+
+.site-header {
+    text-align: center;
+    border-bottom: thin solid #f3f3f3;
+    padding: 2rem 1.5rem;
+}
+
+.site-header .wrap {
+    max-width: 48rem;
+    margin: 0 auto;
+}
+
+.site-title {
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: 300;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.site-nav {
+    margin: 0.5rem 0 0 0;
+}
+
+.site-nav a {
+    font-size: 1rem;
+    color: #666;
+    margin: 0 1em;
+    padding: 0.2em 0;
+}
+
+.site-nav a:hover {
+    color: #444;
+    border-bottom: 2px solid #444;
+}
+
+/* Main Content */
+.post {
+    padding: 2rem 1.5rem;
+    max-width: 48rem;
+    margin: 0 auto;
+}
+
+.post-header {
+    margin-bottom: 2rem;
+}
+
+.post-title {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+hr.small {
+    border-radius: 2px;
+    border: 2px solid black;
+    display: block;
+    height: 0;
+    width: 8em;
+    margin: 1rem auto;
+}
+
+/* Talk Styles */
+.talks {
+    margin: 2rem 0;
+}
+
+.talk {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: thin solid #f3f3f3;
+}
+
+.talk:last-child {
+    border-bottom: none;
+}
+
+.talk-title {
+    color: #333;
+    margin-bottom: 0.2em;
+    font-size: 1.25rem;
+    line-height: 1.5;
+}
+
+.talk-title a {
+    color: #333;
+}
+
+.talk-title a:hover {
+    color: #0096cc;
+}
+
+.talk-subtitle {
+    color: #7a7a7a;
+    font-size: 80%;
+    font-style: italic;
+    font-weight: 300;
+}
+
+.talk-meta {
+    color: #7a7a7a;
+    font-style: italic;
+    font-size: 1rem;
+    font-weight: 300;
+    margin: 0.5rem 0;
+}
+
+.talk-thumb {
+    float: right;
+    padding: 0.5em;
+    width: 12em;
+    margin-left: 1rem;
+}
+
+.talk-thumb img {
+    border: 1px solid #ccc;
+    border-radius: 16px;
+    width: 100%;
+    height: auto;
+}
+
+.talk-abstract {
+    margin-top: 0.5rem;
+    clear: both;
+}
+
+.talk-abstract p {
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+}
+
+.talk-resource {
+    color: #0096cc;
+    margin-right: 1rem;
+}
+
+.talk-resource:hover {
+    color: #007199;
+}
+
+/* About Section */
+.avatar-container {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.avatar-border {
+    display: inline-block;
+    border-radius: 50%;
+    border: 5px solid #fff;
+    box-shadow: 0 0 0 1px #ccc;
+    width: 200px;
+    height: 200px;
+}
+
+.avatar-img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Social Icons */
+.social-icons {
+    text-align: center;
+    padding: 0.5em 0;
+    font-size: 1.25rem;
+}
+
+.social-icons a {
+    color: #666;
+    display: inline-block;
+    margin: 0 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #333;
+}
+
+/* Footer */
+.footer {
+    border-top: thin solid #f3f3f3;
+    margin-top: 3rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    color: #7a7a7a;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, sans-serif;
+    font-weight: 300;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 48em) {
+    body {
+        font-size: 1rem;
+    }
+    
+    h1 { font-size: 2.827rem; }
+    h2 { font-size: 1.999rem; }
+    
+    .site-header {
+        padding: 1rem;
+    }
+    
+    .post {
+        padding: 1rem;
+    }
+    
+    .talk-thumb {
+        float: none;
+        width: 100%;
+        margin: 1rem 0;
+    }
+    
+    .avatar-border {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .site-nav a {
+        display: block;
+        margin: 0.5rem 0;
+    }
+}
+
+@media screen and (min-width: 64em) {
+    h1 { font-size: 3.5rem; }
+    h2 { font-size: 3rem; }
+    
+    .avatar-border {
+        width: 220px;
+        height: 220px;
+    }
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{ .Title }} - {{ .Site.Title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description }}{{ end }}">
+    <meta name="author" content="{{ .Site.Params.author.name }}">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{ .Title }} - {{ .Site.Title }}">
+    <meta property="og:description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description }}{{ end }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ .Permalink }}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ .Title }} - {{ .Site.Title }}">
+    <meta name="twitter:description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description }}{{ end }}">
+
+    <link rel="canonical" href="{{ .Permalink }}">
+    <link rel="stylesheet" href="{{ "/styles.css" | relURL }}">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato:300,900|Ubuntu:400,400i,700,700i&subset=cyrillic,cyrillic-ext">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- RSS -->
+    {{ range .AlternativeOutputFormats -}}
+        <link href="{{ .Permalink }}" rel="{{ .Rel }}" type="{{ .MediaType.Type }}" title="{{ $.Site.Title }}" />
+    {{ end -}}
+</head>
+<body>
+    <div class="site-wrap">
+        <header class="site-header">
+            <div class="wrap">
+                <a href="{{ .Site.BaseURL }}" class="site-title">{{ .Site.Title }}</a>
+                <nav class="site-nav">
+                    <a href="{{ "/talks/" | absURL }}">Talks</a>
+                    <a href="{{ "/blogs/" | absURL }}">Blogs</a>
+                </nav>
+            </div>
+        </header>
+
+        {{ block "main" . }}{{ end }}
+
+        <footer class="footer">
+            <div class="wrap">
+                <div class="social-icons">
+                    {{ with .Site.Params.social.twitter }}
+                    <a href="https://twitter.com/{{.}}" aria-label="twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                    {{ end }}
+                    {{ with .Site.Params.social.github }}
+                    <a href="https://github.com/{{.}}" aria-label="github"><i class="fa fa-github" aria-hidden="true"></i></a>
+                    {{ end }}
+                    {{ with .Site.Params.social.linkedin }}
+                    <a href="{{.}}" aria-label="linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                    {{ end }}
+                    {{ with .Site.Params.social.email }}
+                    <a href="mailto:{{.}}" aria-label="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+                    {{ end }}
+                </div>
+                <small>
+                    &copy;&nbsp;{{ now.Format "2006" }}&nbsp;{{ .Site.Params.author.name }}
+                </small>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
