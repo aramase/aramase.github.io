@@ -14,9 +14,6 @@ canonifyURLs = true
   keywords = ["kubernetes", "security", "cloud-native", "authentication", "microsoft", "cncf", "talks", "blog"]
   showMenuItems = 3
   MenuMore = "Show more"
-  subtitle = "Principal Software Engineer, Kubernetes & Cloud Security"
-  github = "aramase"
-  twitter = "anishramasekar"
   
   [params.social]
     github = "aramase"
