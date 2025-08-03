@@ -13,6 +13,23 @@
     
     <p>My work focuses on cloud-native security and open source leadership. I drive security innovations across the full spectrum—from identity and authentication to secrets management and encryption—while maintaining critical CNCF security projects.</p>
     
+    <!-- Recent Section -->
+    <div class="recent-section">
+      <h2>Recent on my blog</h2>
+      
+      <div class="recent-blog-list">
+        {{ range first 10 (where .Site.RegularPages "Section" "blogs") }}
+        <div class="recent-blog-item">
+          <span class="recent-date">{{ .Date.Format "Jan 2006" }}</span>
+          <a href="{{ .Permalink }}" class="recent-blog-title">{{ .Title }}</a>
+        </div>
+        {{ end }}
+        <div class="recent-blog-item view-all">
+          <a href="/blogs/" class="recent-blog-title">View all posts →</a>
+        </div>
+      </div>
+    </div>
+    
     <p>I share my experience through <a href="/talks/">conference talks</a> and <a href="/blogs/">technical writing</a>, covering practical security implementations and emerging cloud-native technologies. My goal is to make Kubernetes security more accessible and actionable for teams worldwide.</p>
     
     <p>Interested in collaborating on open source security projects or discussing cloud-native best practices? I'd love to connect.</p>
