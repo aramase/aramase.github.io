@@ -1421,10 +1421,10 @@ h4:hover a {
   transition: all 0.2s ease;
   
   &:hover {
-    background: var(--color);
+    background: linear-gradient(135deg, var(--accent), #60a5fa);
     color: white !important;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
     text-decoration: none;
   }
 }
