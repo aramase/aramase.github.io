@@ -32,37 +32,6 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  
-  <!-- Inline theme script to prevent FOUC -->
-  <script>
-    (function() {
-      const STORAGE_KEY = 'theme';
-      const DARK_CLASS = 'dark-theme';
-      const LIGHT_CLASS = 'light-theme';
-      
-      function getTheme() {
-        const theme = localStorage.getItem(STORAGE_KEY);
-        if (theme) {
-          return theme;
-        }
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
-      
-      function setTheme(theme) {
-        const body = document.body;
-        body.classList.remove(DARK_CLASS, LIGHT_CLASS);
-        
-        if (theme === 'dark') {
-          body.classList.add(DARK_CLASS);
-        } else {
-          body.classList.add(LIGHT_CLASS);
-        }
-      }
-      
-      // Set theme immediately
-      setTheme(getTheme());
-    })();
-  </script>
 </head>
 
 <body class="{{ if eq (getenv "HUGO_ENV") "development" }}dev {{ end }}">

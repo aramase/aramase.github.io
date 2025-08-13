@@ -356,16 +356,7 @@ h4:hover a {
       font-size: 1.125rem;
     }
   
-    body.dark-theme & &__cursor {
-      display: inline-block;
-      width: 10px;
-      height: 1rem;
-      background: var(--accent);
-      margin-left: 4px;
-      border-radius: 1px;
-      animation: cursor 1s infinite;
-    }
-    body.light-theme & &__cursor {
+    &__cursor {
       display: inline-block;
       width: 10px;
       height: 1rem;
@@ -435,25 +426,15 @@ h4:hover a {
     font-size: 1.125rem;
     margin-top: 30px;
 
-    body.light-theme & a {
+    a {
       color: var(--accent);
       text-decoration: none;
       font-weight: 600;
-    }
-    body.dark-theme & a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-    } 
-    
-    body.light-theme & a:hover {
-      text-decoration: underline;
-      transition: text-decoration 0.1s;
-    }
-    
-    body.dark-theme & a:hover {
-      text-decoration: underline;
-      transition: text-decoration 0.1s;
+      
+      &:hover {
+        text-decoration: underline;
+        transition: text-decoration 0.1s;
+      }
     }
   }
 
@@ -519,25 +500,6 @@ h4:hover a {
     @media (max-width: 684px) {
       color: var(--color);
     }
-  }
-}
-
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  cursor: pointer;
-  opacity: 0.8;
-  transition: opacity 0.2s ease;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  svg {
-    width: 20px;
-    height: 20px;
   }
 }
 

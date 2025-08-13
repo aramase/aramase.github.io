@@ -1,49 +1,17 @@
-body.light-theme, :root {
-  /* light theme color */
-  --background: #fff;
-  --background-secondary: #eaeaea;
-  --header: #fafafa;
-  --color: #000;
-  --color-secondary: #999;
-  --border-color: #dcdcdc;
+/* Single theme variables - clean dark theme */
+:root {
+  /* Dark theme colors */
+  --background: #111827;
+  --background-secondary: #1f2937;
+  --header: #111827;
+  --color: #f3f4f6;
+  --color-secondary: #9ca3af;
+  --accent: #60a5fa;
+  --border-color: #374151;
 
-  /* variables for js, must be the same as these in @custom-media queries */
+  /* Variables for js, must be the same as these in @custom-media queries */
   --phoneWidth: (max-width: 684px);
   --tabletWidth: (max-width: 900px);
-}
-
-body.dark-theme {
-  /* dark theme colors */
-  --background: #000000;
-  --background-secondary: #3b3d42;
-  --header: #151617;
-  --color: #ffffff;
-  --color-secondary: #73747b;
-  --border-color: #4a4b50;
-}
-
-@media (prefers-color-scheme: light) {
-  body:not(.dark-theme) {
-    /* light theme color */
-    --background: #fff;
-    --background-secondary: #eaeaea;
-    --header: #fafafa;
-    --color: #000;
-    --color-secondary: #999;
-    --border-color: #dcdcdc;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  body:not(.light-theme) {
-    /* dark theme colors */
-    --background: #000000;
-    --background-secondary: #3b3d42;
-    --header: #151617;
-    --color: #ffffff;
-    --color-secondary: #73747b;
-    --border-color: #4a4b50;
-  }
 }
 
 /* MEDIA QUERIES */
