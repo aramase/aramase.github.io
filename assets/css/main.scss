@@ -24,6 +24,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -webkit-overflow-scrolling: touch;
   -webkit-text-size-adjust: 100%;
+  
+  // Smooth transitions for theme changes, but exclude font-size to prevent flickering
+  transition: background-color 0.2s ease, color 0.2s ease;
 
   @media (max-width: 684px) {
     font-size: 1rem;
@@ -440,6 +443,7 @@ h4:hover a {
     body.dark-theme & a {
       color: var(--accent);
       text-decoration: none;
+      font-weight: 600;
     } 
     
     body.light-theme & a:hover {

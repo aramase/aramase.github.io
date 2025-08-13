@@ -14,12 +14,14 @@ function getTheme() {
 function setTheme(theme) {
   const body = document.body;
   
+  // Remove both classes first, then add the correct one
+  // This prevents any intermediate state issues
+  body.classList.remove(DARK_CLASS, LIGHT_CLASS);
+  
   if (theme === 'dark') {
     body.classList.add(DARK_CLASS);
-    body.classList.remove(LIGHT_CLASS);
   } else {
     body.classList.add(LIGHT_CLASS);
-    body.classList.remove(DARK_CLASS);
   }
   
   localStorage.setItem(STORAGE_KEY, theme);
@@ -31,10 +33,8 @@ function toggleTheme() {
   setTheme(newTheme);
 }
 
-// Initialize theme
+// Initialize theme toggle button after DOM loads
 document.addEventListener('DOMContentLoaded', () => {
-  setTheme(getTheme());
-  
   const themeToggle = document.querySelector('.theme-toggle');
   if (themeToggle) {
     themeToggle.addEventListener('click', toggleTheme);
