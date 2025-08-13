@@ -1659,6 +1659,105 @@ a:hover {
   background-clip: text;
 }
 
+// Enhanced talk item animations
+.talk-item {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  &.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .talk-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent, rgba(96, 165, 250, 0.1), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+      z-index: 1;
+    }
+    
+    &:hover::before {
+      transform: translateX(100%);
+    }
+    
+    .talk-thumbnail {
+      transition: transform 0.5s ease;
+    }
+    
+    &:hover .talk-thumbnail {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Enhanced blog card animations
+.blog-card, .post-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  
+  &.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(45deg, transparent, var(--accent), transparent);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  &:hover::after {
+    opacity: 0.3;
+  }
+}
+
+// Enhanced avatar animation
+.about-image {
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  &:hover {
+    transform: scale(1.05) rotate(2deg);
+    box-shadow: 0 20px 40px rgba(96, 165, 250, 0.3);
+  }
+}
+
+// Smooth page transitions
+.content {
+  animation: pageEnter 0.6s ease-out;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ========================================== */
 /* END ANIMATIONS */
 /* ========================================== */
