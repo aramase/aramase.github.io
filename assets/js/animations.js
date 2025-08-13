@@ -108,8 +108,70 @@ document.addEventListener('DOMContentLoaded', function() {
         return preview;
     }
 
+    // Back to Top Button Setup
+    function setupBackToTop() {
+        const backToTopButton = document.getElementById('back-to-top');
+        if (!backToTopButton) return;
+
+        let isVisible = false;
+        let ticking = false;
+
+        function updateButtonVisibility() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const shouldShow = scrollTop > 300; // Show after scrolling 300px
+
+            if (shouldShow && !isVisible) {
+                backToTopButton.classList.add('visible');
+                isVisible = true;
+            } else if (!shouldShow && isVisible) {
+                backToTopButton.classList.remove('visible');
+                isVisible = false;
+            }
+            ticking = false;
+        }
+
+        function onScroll() {
+            if (!ticking) {
+                requestAnimationFrame(updateButtonVisibility);
+                ticking = true;
+            }
+        }
+
+        function smoothScrollToTop() {
+            const startTime = performance.now();
+            const startPosition = window.pageYOffset || document.documentElement.scrollTop;
+            const duration = 800; // 800ms for smooth scroll
+
+            function scrollAnimation(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function for smooth deceleration
+                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                
+                window.scrollTo(0, startPosition * (1 - easeOutQuart));
+
+                if (progress < 1) {
+                    requestAnimationFrame(scrollAnimation);
+                }
+            }
+
+            requestAnimationFrame(scrollAnimation);
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', onScroll, { passive: true });
+        backToTopButton.addEventListener('click', smoothScrollToTop);
+
+        // Initial check
+        updateButtonVisibility();
+    }
+
     // Initialize talk previews
     setupTalkPreviews();
+
+    // Back to Top Button functionality
+    setupBackToTop();
 
     // Typing effect for homepage title
     function typeWriter(element, text, speed = 100) {
