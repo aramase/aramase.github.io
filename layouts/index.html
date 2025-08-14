@@ -21,7 +21,11 @@
         {{ range first 10 (where .Site.RegularPages "Section" "blogs") }}
         <div class="recent-blog-item">
           <span class="recent-date">{{ .Date.Format "Jan 2006" }}</span>
-          <a href="{{ .Permalink }}" class="recent-blog-title">{{ .Title }}</a>
+          {{ if .Params.link }}
+            <a href="{{ .Params.link }}" target="_blank" rel="noopener noreferrer" class="recent-blog-title">{{ .Title }}</a>
+          {{ else }}
+            <a href="{{ .Permalink }}" class="recent-blog-title">{{ .Title }}</a>
+          {{ end }}
         </div>
         {{ end }}
         <div class="recent-blog-item view-all">

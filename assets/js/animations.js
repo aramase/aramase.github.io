@@ -23,16 +23,15 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 
-    // Enhanced hover effects for cards
+    // Enhanced hover effects for cards - less intrusive
     document.querySelectorAll('.talk-item, .blog-card, .post-card').forEach(card => {
         card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px) scale(1.02)';
-            this.style.boxShadow = '0 20px 40px rgba(96, 165, 250, 0.3)';
+            // Use CSS class instead of direct style manipulation
+            this.classList.add('card-hover');
         });
         
         card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-            this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+            this.classList.remove('card-hover');
         });
     });
 

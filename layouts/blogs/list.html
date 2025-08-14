@@ -8,7 +8,11 @@
     {{ range (where .Site.RegularPages "Section" "blogs").ByDate.Reverse }}
       <article class="blog-card">
         <h3 class="blog-title">
-          <a href="{{ .Permalink }}">{{ .Title }}</a>
+          {{ if .Params.link }}
+            <a href="{{ .Params.link }}" target="_blank" rel="noopener noreferrer">{{ .Title }}</a>
+          {{ else }}
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+          {{ end }}
         </h3>
         
         <div class="blog-meta">
@@ -25,7 +29,11 @@
         {{ end }}
         
         <div class="blog-actions">
-          <a href="{{ .Permalink }}" class="read-more">Read more →</a>
+          {{ if .Params.link }}
+            <a href="{{ .Params.link }}" target="_blank" rel="noopener noreferrer" class="read-more">Read on {{ .Params.source | default "external site" }} →</a>
+          {{ else }}
+            <a href="{{ .Permalink }}" class="read-more">Read more →</a>
+          {{ end }}
         </div>
       </article>
     {{ end }}

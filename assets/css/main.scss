@@ -883,11 +883,18 @@ h4:hover a {
   background: var(--background-secondary);
   transition: all 0.3s ease;
   height: 100%;
+  position: relative;
 
-  &:hover {
+  &:hover, &.card-hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     border-color: var(--accent);
+  }
+  
+  // Ensure links are clickable
+  a {
+    position: relative;
+    z-index: 2;
   }
 }
 
@@ -1297,11 +1304,18 @@ h4:hover a {
   padding: 1.25rem;
   border: 1px solid var(--border);
   transition: all 0.3s ease;
+  position: relative;
   
-  &:hover {
+  &:hover, &.card-hover {
     border-color: var(--accent);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  // Ensure links are clickable
+  a {
+    position: relative;
+    z-index: 2;
   }
 }
 
