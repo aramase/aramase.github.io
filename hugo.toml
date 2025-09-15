@@ -21,7 +21,7 @@ canonifyURLs = true
     linkedin = "anishramasekar"
     bluesky = "aramase.bsky.social"
     youtube = "anishramasekar"
-    email = "anish.ramasekar@gmail.com"
+    email = "contact@anishram.com"
 
 [markup]
   [markup.goldmark]
