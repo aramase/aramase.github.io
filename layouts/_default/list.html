@@ -12,9 +12,10 @@
       </h2>
       
       {{ if .Params.tags }}
+        {{ $page := . }}
         <div class="post-tags">
-          {{ range .Params.tags }}
-            <a href="/tags/{{ . | urlize }}">#{{ . }}</a>{{ if not (eq . (index $.Params.tags (sub (len $.Params.tags) 1))) }}, {{ end }}
+          {{ range $index, $tag := .Params.tags }}
+            <a href="/tags/{{ $tag | urlize }}">#{{ $tag }}</a>{{ if ne $index (sub (len $page.Params.tags) 1) }}, {{ end }}
           {{ end }}
         </div>
       {{ end }}
