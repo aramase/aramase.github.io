@@ -6,16 +6,22 @@
         
         <!-- Year Navigation -->
         <nav class="year-nav">
+          {{ $talks := (where .Site.RegularPages "Section" "talks") }}
           {{ $yearsMap := dict }}
-          {{ range (where .Site.RegularPages "Section" "talks") }}
-            {{ $yearsMap = merge $yearsMap (dict (string .Date.Year) true) }}
+          {{ range $talks }}
+            {{ $year := string .Date.Year }}
+            {{ $count := 0 }}
+            {{ if isset $yearsMap $year }}
+              {{ $count = index $yearsMap $year }}
+            {{ end }}
+            {{ $yearsMap = merge $yearsMap (dict $year (add $count 1)) }}
           {{ end }}
           {{ $years := slice }}
-          {{ range $year, $_ := $yearsMap }}
-            {{ $years = $years | append (int $year) }}
+          {{ range $year, $count := $yearsMap }}
+            {{ $years = $years | append (dict "year" (int $year) "count" $count) }}
           {{ end }}
-          {{ range sort $years "value" "desc" }}
-            <a href="#year-{{ . }}" class="year-link">{{ . }}</a>
+          {{ range sort $years "year" "desc" }}
+            <a href="#year-{{ .year }}" class="year-link">{{ .year }} <span class="year-count">({{ .count }})</span></a>
           {{ end }}
         </nav>
         
