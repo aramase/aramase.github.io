@@ -1186,38 +1186,43 @@ h4:hover a {
 
 .year-nav {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+  background: var(--background-secondary);
+  border-radius: 0.5rem;
+  justify-content: center;
   
   @media (max-width: 768px) {
-    flex-direction: row;
-    flex-wrap: wrap;
     gap: 0.75rem;
+    padding: 1rem;
   }
 }
 
 .year-link {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 0.75rem;
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
   border-radius: 0.375rem;
-  background: var(--background-secondary);
+  background: var(--background);
   color: var(--color);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 1.1rem;
   transition: all 0.2s ease;
+  border: 2px solid transparent;
   
-  &:hover,
-  &.active {
+  &:hover {
     background: var(--accent);
     color: var(--background);
-    transform: translateX(4px);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   @media (max-width: 768px) {
-    flex: 0 0 auto;
-    min-width: 80px;
+    padding: 0.4rem 1rem;
+    font-size: 1rem;
   }
 }
 
@@ -1241,7 +1246,7 @@ h4:hover a {
   }
 }
 
-.year-heading {
+.year-heading, .year-header {
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--accent);

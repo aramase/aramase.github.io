@@ -4,8 +4,35 @@
             <h1>Talks</h1>
         </div>
         
+        <!-- Year Navigation -->
+        <nav class="year-nav">
+          {{ $yearsMap := dict }}
+          {{ range (where .Site.RegularPages "Section" "talks") }}
+            {{ $yearsMap = merge $yearsMap (dict (string .Date.Year) true) }}
+          {{ end }}
+          {{ $years := slice }}
+          {{ range $year, $_ := $yearsMap }}
+            {{ $years = $years | append (int $year) }}
+          {{ end }}
+          {{ range sort $years "value" "desc" }}
+            <a href="#year-{{ . }}" class="year-link">{{ . }}</a>
+          {{ end }}
+        </nav>
+        
+    {{ $talks := (where .Site.RegularPages "Section" "talks").ByDate.Reverse }}
+    {{ $currentYear := 0 }}
+    {{ range $talks }}
+      {{ $talkYear := .Date.Year }}
+      {{ if ne $talkYear $currentYear }}
+        {{ if ne $currentYear 0 }}
+          </div> <!-- Close previous year's grid -->
+        {{ end }}
+        <div class="year-section" id="year-{{ $talkYear }}">
+          <h2 class="year-header">{{ $talkYear }}</h2>
+        </div>
         <div class="talks-grid">
-    {{ range (where .Site.RegularPages "Section" "talks").ByDate.Reverse }}
+        {{ $currentYear = $talkYear }}
+      {{ end }}
       <div class="talk-item">
         {{ $image := "" }}
         {{ if .Params.images }}
@@ -65,6 +92,7 @@
         </div>
       </div>
     {{ end }}
+    </div> <!-- Close final year's grid -->
   </div>
 </div>
 {{ end }}
