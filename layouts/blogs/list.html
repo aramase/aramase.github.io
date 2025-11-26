@@ -4,8 +4,41 @@
     <h1>Blogs</h1>
   </div>
   
-  <div class="blogs-grid">
-    {{ range (where .Site.RegularPages "Section" "blogs").ByDate.Reverse }}
+  <!-- Year Navigation -->
+  <nav class="year-nav">
+    {{ $blogs := (where .Site.RegularPages "Section" "blogs") }}
+    {{ $yearsMap := dict }}
+    {{ range $blogs }}
+      {{ $year := string .Date.Year }}
+      {{ $count := 0 }}
+      {{ if isset $yearsMap $year }}
+        {{ $count = index $yearsMap $year }}
+      {{ end }}
+      {{ $yearsMap = merge $yearsMap (dict $year (add $count 1)) }}
+    {{ end }}
+    {{ $years := slice }}
+    {{ range $year, $count := $yearsMap }}
+      {{ $years = $years | append (dict "year" (int $year) "count" $count) }}
+    {{ end }}
+    {{ range sort $years "year" "desc" }}
+      <a href="#year-{{ .year }}" class="year-link">{{ .year }} <span class="year-count">({{ .count }})</span></a>
+    {{ end }}
+  </nav>
+  
+  {{ $blogs := (where .Site.RegularPages "Section" "blogs").ByDate.Reverse }}
+  {{ $currentYear := 0 }}
+  {{ range $blogs }}
+    {{ $blogYear := .Date.Year }}
+    {{ if ne $blogYear $currentYear }}
+      {{ if ne $currentYear 0 }}
+        </div> <!-- Close previous year's grid -->
+      {{ end }}
+      <div class="year-section" id="year-{{ $blogYear }}">
+        <h2 class="year-header">{{ $blogYear }}</h2>
+      </div>
+      <div class="blogs-grid">
+      {{ $currentYear = $blogYear }}
+    {{ end }}
       <article class="blog-card">
         <h3 class="blog-title">
           {{ if .Params.link }}
@@ -37,6 +70,6 @@
         </div>
       </article>
     {{ end }}
-  </div>
+    </div> <!-- Close final year's grid -->
 </div>
 {{ end }}
