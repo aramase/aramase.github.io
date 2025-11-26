@@ -1032,8 +1032,42 @@ h4:hover a {
 }
 
 .talk-venue {
-  color: var(--accent);
-  font-weight: 500;
+  color: white;
+  background: var(--accent);
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 0.75rem;
+  
+  // KubeCon badge - orange/red
+  &[data-venue*="KubeCon"] {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+  }
+  
+  // CNCF badge - blue
+  &[data-venue*="CNCF"] {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+  }
+  
+  // Microsoft badge - green/teal
+  &[data-venue*="Microsoft"] {
+    background: linear-gradient(135deg, #10b981, #059669);
+  }
+  
+  // Azure badge - blue
+  &[data-venue*="Azure"] {
+    background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  }
+  
+  // Default for other venues
+  &:not([data-venue*="KubeCon"]):not([data-venue*="CNCF"]):not([data-venue*="Microsoft"]):not([data-venue*="Azure"]) {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  }
 }
 
 .talk-achievement {
@@ -1627,6 +1661,7 @@ h4:hover a {
 // Smooth scroll behavior
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
 }
 
 // Fade in animation
