@@ -1930,3 +1930,28 @@ a:hover {
 /* ========================================== */
 /* END ANIMATIONS */
 /* ========================================== */
+
+/* ========================================== */
+/* REDUCED MOTION */
+/* ========================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .about-image {
+    animation: none;
+  }
+
+  .logo__cursor {
+    animation: none;
+    opacity: 1;
+  }
+
+  .stat-number {
+    animation: none;
+  }
+}
