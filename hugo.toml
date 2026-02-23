@@ -1,7 +1,6 @@
 baseURL = 'https://anishram.com'
 languageCode = 'en-us'
 title = 'Anish Ramasekar'
-copyright = "© 2025 Anish Ramasekar"
 enableInlineShortcodes = true
 buildDrafts = false
 buildFuture = false
