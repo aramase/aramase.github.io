@@ -208,31 +208,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add hover effects to cards
-    document.querySelectorAll('.talk, .blog-post').forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
-            this.style.boxShadow = '0 10px 30px rgba(59, 130, 246, 0.2)';
-        });
-
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = 'none';
-        });
-    });
-
-    // Parallax effect for profile image
-    const profileImage = document.querySelector('.about-image');
-    if (profileImage) {
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const rate = scrolled * -0.2;
-            profileImage.style.transform = `translateY(${rate}px)`;
-        });
-    }
-
-    // Add loading animation
-    document.body.classList.add('loaded');
 });
 
 // CSS class for enhanced scroll animations and interactive elements
@@ -329,16 +304,6 @@ style.textContent = `
     .preview-duration {
         font-size: 12px;
         opacity: 0.8;
-    }
-
-    /* Smooth loading animation */
-    body {
-        opacity: 0;
-        transition: opacity 0.5s ease;
-    }
-
-    body.loaded {
-        opacity: 1;
     }
 
     /* Subtle glow effect for interactive elements */
