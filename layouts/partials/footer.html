@@ -71,5 +71,6 @@
 {{ $menu := resources.Get "js/menu.js" | js.Build }}
 {{ $copyCode := resources.Get "js/copy-code.js" | js.Build }}
 {{ $animations := resources.Get "js/animations.js" | js.Build }}
-{{ $bundle := slice $menu $copyCode $animations | resources.Concat "bundle.js" | resources.Minify }}
+{{ $theme := resources.Get "js/theme.js" | js.Build }}
+{{ $bundle := slice $menu $copyCode $animations $theme | resources.Concat "bundle.js" | resources.Minify }}
 <script type="text/javascript" src="{{ $bundle.RelPermalink }}"></script>

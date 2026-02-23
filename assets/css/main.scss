@@ -169,7 +169,7 @@ code, kbd {
 
 pre {
   font-feature-settings: normal;
-  background: #212020;
+  background: var(--code-bg);
   padding: 20px;
   border-radius: 8px;
   font-size: 1.0rem;
@@ -183,7 +183,7 @@ pre {
   code {
     font-feature-settings: normal;
     background: none !important;
-    color: #ccc;
+    color: var(--code-color);
     margin: 0;
     padding: 0;
     font-size: inherit;
@@ -502,6 +502,7 @@ h4:hover a {
   max-width: 800px;
   background: var(--header);
   border-radius: 8px;
+  border: 1px solid var(--border-color);
 
   &__inner {
     display: flex;
@@ -520,6 +521,59 @@ h4:hover a {
     @media (max-width: 684px) {
       color: var(--color);
     }
+  }
+}
+
+// Theme toggle
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  margin-right: 8px;
+  color: var(--color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: color 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    color: var(--accent);
+    background: var(--background-secondary);
+  }
+
+  .theme-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  // In dark mode: show sun (to switch to light), hide moon
+  .sun { display: inline-block; }
+  .moon { display: none; }
+}
+
+// Light theme: show moon (to switch to dark), hide sun
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    .theme-toggle {
+      .sun { display: none; }
+      .moon { display: inline-block; }
+    }
+  }
+}
+
+:root[data-theme="light"] {
+  .theme-toggle {
+    .sun { display: none; }
+    .moon { display: inline-block; }
+  }
+}
+
+:root[data-theme="dark"] {
+  .theme-toggle {
+    .sun { display: inline-block; }
+    .moon { display: none; }
   }
 }
 
@@ -1677,7 +1731,7 @@ a:hover {
   justify-content: center;
   box-shadow: 0 4px 20px rgba(96, 165, 250, 0.3);
   backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--border-color);
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   z-index: 1000;
   
