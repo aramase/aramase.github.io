@@ -49,14 +49,9 @@
         
         {{ if $image }}
           <div class="talk-image">
-            {{ if .Params.recording }}
-              <a href="{{ .Params.recording }}" target="_blank" rel="noopener">
-                <img src="{{ $image }}" alt="{{ .Title }}" class="talk-thumbnail">
-                <div class="play-button">▶</div>
-              </a>
-            {{ else }}
+            <a href="{{ .Permalink }}">
               <img src="{{ $image }}" alt="{{ .Title }}" class="talk-thumbnail">
-            {{ end }}
+            </a>
           </div>
         {{ end }}
         
