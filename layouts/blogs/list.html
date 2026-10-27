@@ -1,75 +1,32 @@
 {{ define "main" }}
-<div class="blogs-container">
-  <div class="header">
-    <h1>Blogs</h1>
-  </div>
-  
-  <!-- Year Navigation -->
-  <nav class="year-nav">
-    {{ $blogs := (where .Site.RegularPages "Section" "blogs") }}
-    {{ $yearsMap := dict }}
-    {{ range $blogs }}
-      {{ $year := string .Date.Year }}
-      {{ $count := 0 }}
-      {{ if isset $yearsMap $year }}
-        {{ $count = index $yearsMap $year }}
-      {{ end }}
-      {{ $yearsMap = merge $yearsMap (dict $year (add $count 1)) }}
-    {{ end }}
-    {{ $years := slice }}
-    {{ range $year, $count := $yearsMap }}
-      {{ $years = $years | append (dict "year" (int $year) "count" $count) }}
-    {{ end }}
-    {{ range sort $years "year" "desc" }}
-      <a href="#year-{{ .year }}" class="year-link">{{ .year }} <span class="year-count">({{ .count }})</span></a>
-    {{ end }}
-  </nav>
-  
-  {{ $blogs := (where .Site.RegularPages "Section" "blogs").ByDate.Reverse }}
-  {{ $currentYear := 0 }}
-  {{ range $blogs }}
-    {{ $blogYear := .Date.Year }}
-    {{ if ne $blogYear $currentYear }}
-      {{ if ne $currentYear 0 }}
-        </div> <!-- Close previous year's grid -->
-      {{ end }}
-      <div class="year-section" id="year-{{ $blogYear }}">
-        <h2 class="year-header">{{ $blogYear }}</h2>
-      </div>
-      <div class="blogs-grid">
-      {{ $currentYear = $blogYear }}
-    {{ end }}
-      <article class="blog-card">
-        <h3 class="blog-title">
-          {{ if .Params.link }}
-            <a href="{{ .Params.link }}" target="_blank" rel="noopener noreferrer">{{ .Title }}</a>
-          {{ else }}
-            <a href="{{ .Permalink }}">{{ .Title }}</a>
-          {{ end }}
-        </h3>
-        
-        <div class="blog-meta">
-          <time class="blog-date">{{ .Date.Format "January 2, 2006" }}</time>
-          {{ with .Params.source }}
-            <span class="blog-source">{{ . }}</span>
-          {{ end }}
+{{- $refs := partialCached "ledger/refs.html" . }}
+{{- $posts := .Pages.ByDate.Reverse }}
+<div class="wrap">
+  <header class="page-head">
+    <h1>{{ .Title | default "Posts" }}</h1>
+    <p><span class="num">{{ len $posts }}</span> posts, newest first. Each one is published on Kubernetes.io or Microsoft Open Source.</p>
+  </header>
+
+  {{- range $posts.GroupByDate "2006" }}
+  <section class="year" aria-labelledby="posts-{{ .Key }}">
+    <h2 class="year__num" id="posts-{{ .Key }}">{{ .Key }}</h2>
+    <ol class="rows">
+      {{- range .Pages }}
+      {{- $r := index $refs .Path }}
+      <li class="row">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+        <div>
+          <h3 class="row__title"><a href="{{ .Params.link | default .RelPermalink }}">{{ .Title }}</a></h3>
+          {{- with .Summary }}<p class="row__summary">{{ . | plainify }}</p>{{ end }}
         </div>
-        
-        {{ with .Summary }}
-        <div class="blog-summary">
-          {{ . }}
+        <div class="row__aside">
+          {{- with .Params.source }}<span>{{ . }}</span>{{ end }}
+          {{- range $r }}<br><span class="stage-tag stage-tag--{{ .stage }}">KEP-{{ .kep }} {{ partial "ledger/stage-label.html" . }}</span>{{ end }}
         </div>
-        {{ end }}
-        
-        <div class="blog-actions">
-          {{ if .Params.link }}
-            <a href="{{ .Params.link }}" target="_blank" rel="noopener noreferrer" class="read-more">Read on {{ .Params.source | default "external site" }} →</a>
-          {{ else }}
-            <a href="{{ .Permalink }}" class="read-more">Read more →</a>
-          {{ end }}
-        </div>
-      </article>
-    {{ end }}
-    </div> <!-- Close final year's grid -->
+      </li>
+      {{- end }}
+    </ol>
+  </section>
+  {{- end }}
 </div>
 {{ end }}

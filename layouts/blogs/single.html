@@ -1,52 +1,31 @@
 {{ define "main" }}
-<div class="main-container">
-  <article class="post-single">
-    <header class="post-header">
-      <h1>{{ .Title }}</h1>
-      <div class="post-meta">
-        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
-        {{ if .Params.tags }}
-        <div class="post-tags">
-          {{ range .Params.tags }}
-          <span class="tag">{{ . }}</span>
-          {{ end }}
-        </div>
-        {{ end }}
-      </div>
-    </header>
-
-    <div class="post-content">
+{{- $refs := index (partialCached "ledger/refs.html" .) .Path }}
+<div class="wrap">
+  <article class="doc">
+    <a class="doc__back" href="/blogs/">All posts</a>
+    <h1>{{ .Title }}</h1>
+    <p class="doc__meta">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+      {{- with .Params.source }}<span>{{ . }}</span>{{ end }}
+      {{- with .Params.tags }}<span>{{ range $i, $t := . }}{{ if $i }}, {{ end }}<a href="{{ ($t | urlize | printf "/tags/%s/") }}">{{ $t }}</a>{{ end }}</span>{{ end }}
+    </p>
+    <div class="doc__body">
       {{ .Content }}
-      
-      {{ if .Params.link }}
-      <div class="external-link-section">
-        <a href="{{ .Params.link }}" target="_blank" rel="noopener" class="external-link-button">
-          Read full article on {{ .Params.source | default "external site" }} →
-        </a>
-      </div>
-      {{ end }}
     </div>
-
-    <footer class="post-footer">
-      <nav class="post-nav">
-        {{ with .NextInSection }}
-        <a class="post-nav-prev" href="{{ .Permalink }}">
-          <span class="post-nav-label">← Previous</span>
-          <span class="post-nav-title">{{ .Title }}</span>
-        </a>
-        {{ end }}
-        {{ with .PrevInSection }}
-        <a class="post-nav-next" href="{{ .Permalink }}">
-          <span class="post-nav-label">Next →</span>
-          <span class="post-nav-title">{{ .Title }}</span>
-        </a>
-        {{ end }}
-      </nav>
-      
-      <div class="post-back">
-        <a href="/blogs/">← Back to all blogs</a>
-      </div>
-    </footer>
+    {{- with .Params.link }}
+    <ul class="doc__actions">
+      <li><a href="{{ . }}">Read the full post on {{ $.Params.source | default "the publisher's site" }}</a></li>
+    </ul>
+    {{- end }}
+    {{- partial "ledger-note.html" $refs }}
+    <nav class="pager" aria-label="More posts">
+      {{- with .NextInSection }}
+      <a href="{{ .RelPermalink }}"><span>Newer</span><span class="pager__t">{{ .Title }}</span></a>
+      {{- end }}
+      {{- with .PrevInSection }}
+      <a class="pager__next" href="{{ .RelPermalink }}"><span>Older</span><span class="pager__t">{{ .Title }}</span></a>
+      {{- end }}
+    </nav>
   </article>
 </div>
 {{ end }}

@@ -57,7 +57,7 @@ canonifyURLs = true
     weight = 5
   [[menu.main]]
     identifier = "blogs"
-    name = "Blogs"
+    name = "Posts"
     url = "/blogs/"
     weight = 10
   [[menu.main]]

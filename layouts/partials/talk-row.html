@@ -1,0 +1,18 @@
+{{- $fmt := .dateFormat }}
+{{- with .page }}
+<li class="row">
+  <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format $fmt }}</time>
+  <div>
+    <h3 class="row__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ with .Params.venue }}<span class="row__sub">{{ . }}</span>{{ end }}</h3>
+    {{- with .Params.achievement }}
+    <p class="credential">{{ . }}</p>
+    {{- end }}
+  </div>
+  <div class="row__aside">
+    <ul aria-label="{{ .Title }} links">
+      {{- with .Params.recording }}<li><a href="{{ . }}">Recording<span class="visually-hidden">: {{ $.page.Title }}</span></a></li>{{ end }}
+      {{- with .Params.slides }}<li><a href="{{ . }}">Slides<span class="visually-hidden">: {{ $.page.Title }}</span></a></li>{{ end }}
+    </ul>
+  </div>
+</li>
+{{- end }}

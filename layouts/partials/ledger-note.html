@@ -1,0 +1,10 @@
+{{- with . }}
+<aside class="doc__ledger" aria-labelledby="on-ledger">
+  <h2 id="on-ledger">On the ledger</h2>
+  <ul>
+    {{- range . }}
+    <li><span class="line line--{{ if .target }}target{{ else }}{{ .stage }}{{ end }}" aria-hidden="true"></span><span><a href="/work/#{{ .id }}">{{ .name }}</a>, <span class="stage-tag stage-tag--{{ .stage }}">{{ partial "ledger/stage-label.html" . }}</span> at <span class="num">v1.{{ .release }}</span> (KEP-{{ .kep }})</span></li>
+    {{- end }}
+  </ul>
+</aside>
+{{- end }}
