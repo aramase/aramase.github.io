@@ -534,13 +534,9 @@
         "displayName": "Year numeral",
         "purpose": "Year headings on the Posts and Talks lists."
       },
-      "version-numeral": {
-        "displayName": "Version numeral",
-        "purpose": "Agent-platform release tags."
-      },
       "feature-name": {
         "displayName": "Feature name",
-        "purpose": "Ledger row names; dated-row titles at 600."
+        "purpose": "Ledger row names and /work/ area entry names; dated-row titles at 600."
       },
       "wordmark": {
         "displayName": "Wordmark",
@@ -810,12 +806,12 @@
       "css": ".ds-doc { font-family: \"DM Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; max-width: 48rem; background: var(--ground, #f2f9f6); color: var(--ink, #032728); font-size: 1.0625rem; line-height: 1.55; } .ds-doc a { color: inherit; text-decoration-thickness: 1px; text-decoration-color: color-mix(in oklch, var(--accent, #8f520d) 70%, transparent); text-underline-offset: 0.22em; } .ds-doc a:hover { text-decoration-thickness: 2px; text-decoration-color: var(--accent, #8f520d); } .ds-doc a:focus-visible { outline: 2px solid var(--accent, #8f520d); outline-offset: 3px; border-radius: 1px; } .ds-doc__back { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 1rem; font-size: 0.8125rem; font-weight: 600; color: var(--ink-2, #314e4d) !important; } .ds-doc h1 { margin: 0; font-size: clamp(2rem, 1.4rem + 2.6vw, 3rem); font-weight: 500; letter-spacing: -0.02em; line-height: 1.08; text-wrap: balance; } .ds-doc__meta { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; margin: 1.5rem 0; padding-block: 0.75rem; border-block: 1px solid var(--rule, #c7d9d5); font-size: 0.8125rem; color: var(--ink-2, #314e4d); font-variant-numeric: tabular-nums; } .ds-doc__actions { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin: 0 0 2rem; padding: 0; list-style: none; } .ds-doc__actions a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 650; } .ds-doc__ledger { margin-top: 2rem; padding-top: 1rem; border-top: 2px solid var(--ink, #032728); font-size: 0.8125rem; color: var(--ink-2, #314e4d); } .ds-doc__ledger h2 { margin: 0 0 0.5rem; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; } .ds-doc__ledger ul { margin: 0; padding: 0; list-style: none; } .ds-doc__ledger li { display: flex; align-items: center; gap: 0.75rem; padding-block: 0.25rem; } .ds-beta { font-weight: 650; color: var(--beta, #676815); } .ds-line { display: inline-block; width: 1.75rem; flex: none; } .ds-line--alpha { border-top: 2px dashed var(--alpha, #9f422b); } .ds-line--beta { border-top: 3px solid var(--beta, #676815); } .ds-line--ga { height: 0.5rem; background: var(--ga, #005e63); } .ds-line--target { height: 0.5rem; border: 1.5px dashed var(--ga, #005e63); } .ds-doc h1, .ds-doc__ledger h2 { font-family: Jost, Futura, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; }"
     },
     {
-      "name": "Agent release strip",
+      "name": "Area entry",
       "kind": "custom",
-      "refersTo": "version-numeral",
-      "description": "Agent-platform releases drawn in ink: light version numerals with their month, separated by rule ticks under a 1px ink rule.",
-      "html": "<ol class=\"ds-releases\" aria-label=\"agent-primitives/sessions releases\"><li><a href=\"#\">v0.1.0</a><time datetime=\"2026-09-01\">Sep 2026</time></li><li><a href=\"#\">v0.2.0</a><time datetime=\"2026-10-01\">Oct 2026</time></li><li><a href=\"#\">v0.3.0</a><time datetime=\"2026-10-20\">Oct 2026</time></li></ol>",
-      "css": ".ds-releases { font-family: \"DM Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; display: grid; grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr)); margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--ink, #032728); background: var(--ground, #f2f9f6); color: var(--ink, #032728); } .ds-releases li { padding: 0.75rem 0 0 0.75rem; border-left: 1px solid var(--rule, #c7d9d5); } .ds-releases li:first-child { border-left-color: var(--ink, #032728); } .ds-releases a { display: inline-block; font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem); font-weight: 300; font-variant-numeric: tabular-nums; line-height: 1.15; letter-spacing: -0.02em; color: var(--ink, #032728); text-decoration-thickness: 1px; text-decoration-color: color-mix(in oklch, var(--accent, #8f520d) 70%, transparent); text-underline-offset: 0.22em; } .ds-releases a:hover { text-decoration-thickness: 2px; text-decoration-color: var(--accent, #8f520d); } .ds-releases a:focus-visible { outline: 2px solid var(--accent, #8f520d); outline-offset: 3px; border-radius: 1px; } .ds-releases time { display: block; margin-top: 0.25rem; font-size: 0.8125rem; color: var(--ink-3, #4a6363); font-variant-numeric: tabular-nums; } .ds-releases a { font-family: Jost, Futura, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; }"
+      "refersTo": "area-entry",
+      "description": "A /work/ area entry: project name linked in the label column with its role below, then one line in ink 2, between 1px rules. No timelines.",
+      "html": "<ul class=\"ds-area\"><li><div><h3><a href=\"#\">Secrets Store CSI Driver</a></h3><p class=\"ds-area__meta\">Maintainer &middot; <a href=\"#\">KEP-2907</a>, <span class=\"ds-ga\">GA</span> at v1.22</p></div><p class=\"ds-area__line\">Mounts secrets from external stores into pods through a CSI volume.</p></li><li><div><h3><a href=\"#\">agent-primitives/sessions</a></h3><p class=\"ds-area__meta\">Creator</p></div><p class=\"ds-area__line\">A neutral contract and Go reference implementation for durable agent sessions.</p></li></ul>",
+      "css": ".ds-area { font-family: \"DM Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; margin: 0; padding: 0; list-style: none; background: var(--ground, #f2f9f6); color: var(--ink, #032728); font-size: 1.0625rem; line-height: 1.55; } .ds-area li { display: grid; grid-template-columns: minmax(14rem, 19rem) minmax(0, 1fr); align-items: baseline; padding-block: 1rem; border-top: 1px solid var(--rule, #c7d9d5); } .ds-area li:last-child { border-bottom: 1px solid var(--rule, #c7d9d5); } .ds-area h3 { margin: 0; font-family: Jost, Futura, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; font-size: 1.0625rem; font-weight: 650; line-height: 1.15; } .ds-area a { color: inherit; text-decoration-thickness: 1px; text-decoration-color: color-mix(in oklch, var(--accent, #8f520d) 70%, transparent); text-underline-offset: 0.22em; } .ds-area a:hover { text-decoration-thickness: 2px; text-decoration-color: var(--accent, #8f520d); } .ds-area a:focus-visible { outline: 2px solid var(--accent, #8f520d); outline-offset: 3px; border-radius: 1px; } .ds-area__meta { margin: 0.25rem 1.5rem 0 0; font-size: 0.8125rem; color: var(--ink-2, #314e4d); line-height: 1.45; } .ds-ga { font-weight: 650; color: var(--ga, #005e63); } .ds-area__line { margin: 0; max-width: 62ch; color: var(--ink-2, #314e4d); } @media (max-width: 56rem) { .ds-area li { grid-template-columns: minmax(0, 1fr); row-gap: 0.25rem; } }"
     },
     {
       "name": "Footer",
@@ -869,7 +865,7 @@
       },
       {
         "name": "The Light Numeral Rule",
-        "body": "Numerals that index the record (release axis, years, agent versions) are set large at Jost 300; words that name things are set at 500 to 650. Weight separates index from content.",
+        "body": "Numerals that index the record (release axis, years) are set large at Jost 300; words that name things are set at 500 to 650. Weight separates index from content.",
         "section": "typography"
       },
       {

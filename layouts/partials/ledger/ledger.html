@@ -2,6 +2,11 @@
 {{- $first := int $k8s.first }}
 {{- $last := int $k8s.last }}
 {{- $cols := add (sub $last $first) 1 }}
+{{- /* Columns come from the data, so a new release needs no template change; a stage
+       outside them means data/ledger.yaml is inconsistent. */}}
+{{- range $k8s.features }}{{ $f := . }}{{ range .stages }}
+  {{- if or (lt (int .release) $first) (gt (int .release) $last) }}{{ errorf "data/ledger.yaml: %s %s at v1.%d is outside v1.%d to v1.%d" $f.id .stage .release $first $last }}{{ end }}
+{{- end }}{{ end }}
 {{- /* Short stage-link label per post source; unknown sources show their own name. */}}
 {{- $sourceLabels := dict "Kubernetes.io" "k8s.io" "Microsoft Open Source" "Microsoft" }}
 {{- /* The legend and note explain the target box only when a stage uses it. */}}
@@ -9,7 +14,7 @@
 {{- range $k8s.features }}{{ range .stages }}{{ if .target }}{{ $hasTarget = true }}{{ end }}{{ end }}{{ end }}
 <section class="ledger" aria-labelledby="ledger-title" data-ledger>
   <div class="ledger__head">
-    <h2 class="section-title" id="ledger-title">Kubernetes, v1.{{ $first }} to v1.{{ $last }}</h2>
+    <h3 class="ledger__title" id="ledger-title">Features I've shipped, v1.{{ $first }} to v1.{{ $last }}</h3>
     <ul class="legend" aria-label="Stage key">
       <li><span class="line line--alpha" aria-hidden="true"></span>alpha</li>
       <li><span class="line line--beta" aria-hidden="true"></span>beta</li>
@@ -36,7 +41,7 @@
       {{- range $stages }}{{ range .prs }}{{ $prs = $prs | append . }}{{ end }}{{ end }}
       <li class="feature" id="{{ $f.id }}" data-feature="{{ $f.id }}">
         <div class="feature__label">
-          <h3 class="feature__name">{{ $f.name }}</h3>
+          <h4 class="feature__name">{{ $f.name }}</h4>
           <p class="feature__meta">
             <a href="https://github.com/kubernetes/enhancements/tree/master/keps/{{ $f.path }}">KEP-{{ $f.kep }}</a> &middot; {{ $f.sig }}<br>
             {{- if $f.coauthors }}
@@ -83,53 +88,5 @@
     </ol>
   </div>
 
-  {{- range $sp := hugo.Data.ledger.subprojects }}
-  <div class="ledger-row" id="{{ $sp.id }}" data-feature="{{ $sp.id }}">
-    <div class="feature__label">
-      <h3 class="feature__name">{{ $sp.name }}</h3>
-      <p class="feature__meta">
-        <a href="https://github.com/kubernetes/enhancements/tree/master/keps/{{ $sp.path }}">KEP-{{ $sp.kep }}</a> &middot; {{ $sp.sig }} subproject<br>
-        Co-author with {{ range $i, $a := $sp.coauthors }}{{ if $i }}, {{ end }}<a href="https://github.com/{{ $a }}">@{{ $a }}</a>{{ end }}
-      </p>
-      <a class="feature__cue" href="#record-title" hidden></a>
-    </div>
-    <div class="ledger-row__body">
-      <p class="ledger-row__stage"><span class="line line--ga" aria-hidden="true"></span><span><strong>GA</strong> at v1.{{ $sp.release }}, as recorded in the KEP. Out-of-tree driver.</span></p>
-      <ul class="talk-refs" aria-label="{{ $sp.name }} talks">
-        {{- range $sp.talks }}
-        {{- with site.GetPage . }}
-        <li><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006" }}</time><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
-        {{- else }}
-        {{- errorf "data/ledger.yaml: %s talk %q is not a page" $sp.id . }}
-        {{- end }}
-        {{- end }}
-      </ul>
-    </div>
-  </div>
-  {{- end }}
-
   <p class="ledger__note">Stages and releases from each KEP's kep.yaml in kubernetes/enhancements. v1.{{ $k8s.inDevelopment }} is in development{{ if $hasTarget }}; a dashed GA box marks a release the KEP is tracked for{{ end }}.</p>
 </section>
-
-{{- with hugo.Data.ledger.agents }}
-<section class="ledger" aria-labelledby="agents-title">
-  <div class="ledger__head">
-    <h2 class="section-title" id="agents-title">Agent platform</h2>
-  </div>
-  {{- range . }}
-  <div class="ledger-row" id="{{ .id }}">
-    <div class="feature__label">
-      <h3 class="feature__name"><a href="{{ .repo }}">{{ .name }}</a></h3>
-      <p class="agent-summary">{{ .summary }}</p>
-    </div>
-    <ol class="releases" aria-label="{{ .name }} releases">
-      {{- $repo := .repo }}
-      {{- range .releases }}
-      {{- $d := time.AsTime .date }}
-      <li><a href="{{ $repo }}/releases/tag/{{ .tag }}">{{ .tag }}</a><time datetime="{{ $d.Format "2006-01-02" }}">{{ $d.Format "Jan 2006" }}</time></li>
-      {{- end }}
-    </ol>
-  </div>
-  {{- end }}
-</section>
-{{- end }}

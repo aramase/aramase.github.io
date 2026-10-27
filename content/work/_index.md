@@ -1,5 +1,5 @@
 ---
-title: "Features I've shipped"
-description: "Kubernetes features Anish Ramasekar carried from alpha to GA, release by release, with the KEP, posts and talks behind each stage, and his agent-platform releases."
+title: "Work"
+description: "Anish Ramasekar's work by area: Kubernetes identity and security, with the features he carried through releases; secrets and workload identity; and agent infrastructure."
 outputs: ["html"]
 ---

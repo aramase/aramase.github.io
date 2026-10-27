@@ -14,12 +14,12 @@ Audience: conference organizers, peers and maintainers looking Anish up, most of
 the individual Kubernetes features.
 Job: learn who he is and what he works on in plain language, pick a talk or post, get in touch.
 Proof: the bio (Anish's text, verbatim), selected talks and posts already on the site, links to
-the work page, the Secrets Store CSI Driver and agent-primitives/sessions.
+the matching areas on the work page (`/work/#kubernetes`, `#secrets`, `#agents`).
 Constraints: no timelines and no KEP numbers here (they live on `/work/`); bio verbatim; only
-agent-primitives/sessions named on the agent side; permalinks kept.
+agent-primitives/sessions and kontxt named on the agent side; permalinks kept.
 
 FIRST VIEWPORT: Top bar: name, Work, Posts, Talks, Email, theme toggle. Headshot, the name as
-the h1, the bio. Below: "What I work on" (Kubernetes identity and security, secrets management,
+the h1, the bio. Below: "What I work on" (Kubernetes identity and security, secrets and workload identity,
 infrastructure for AI agents, one line and one link each), selected talks and posts (three each,
 from `data/home.yaml`), and contact (email and profiles).
 

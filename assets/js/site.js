@@ -60,13 +60,12 @@
     });
   }
 
-  // Focusing or hovering a feature row quiets the other rows and the unrelated
-  // entries in the record, so its posts and talks step forward.
+  // Focusing or hovering a ledger feature, or an area entry with a KEP, quiets the
+  // other rows and the unrelated entries in the record, so its posts and talks step forward.
   function setupLedger() {
-    var ledger = document.querySelector("[data-ledger]");
-    if (!ledger) return;
+    if (!document.querySelector("[data-ledger]")) return;
     var scope = document.querySelector("[data-ledger-scope]") || document.body;
-    var features = ledger.querySelectorAll(".feature[data-feature], .ledger-row[data-feature]");
+    var features = scope.querySelectorAll(".feature[data-feature], .area-entry[data-feature]");
     var entries = scope.querySelectorAll(".entry[data-features]");
     var active = null;
 
@@ -89,7 +88,7 @@
         e.classList.toggle("is-related", related);
         if (related) counts[e.getAttribute("data-kind")] += 1;
       });
-      ledger.querySelectorAll(".feature__cue").forEach(function (cue) {
+      scope.querySelectorAll(".feature__cue").forEach(function (cue) {
         var mine = !!feature && feature.contains(cue);
         var parts = [];
         if (counts.post) parts.push(counts.post + (counts.post === 1 ? " post" : " posts"));

@@ -68,13 +68,6 @@ typography:
     lineHeight: 1
     letterSpacing: "-0.03em"
     fontFeature: "tnum"
-  version-numeral:
-    fontFamily: "Jost, Futura, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif"
-    fontSize: "clamp(1.5rem, 1.2rem + 1.2vw, 2rem)"
-    fontWeight: 300
-    lineHeight: 1.15
-    letterSpacing: "-0.02em"
-    fontFeature: "tnum"
   feature-name:
     fontFamily: "Jost, Futura, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif"
     fontSize: "1.0625rem"
@@ -210,6 +203,10 @@ components:
   doc-action:
     textColor: "{colors.ink}"
     height: "44px"
+  area-entry:
+    textColor: "{colors.ink-2}"
+    typography: "{typography.body}"
+    padding: "1rem 0"
   focus-row:
     textColor: "{colors.ink-2}"
     typography: "{typography.body}"
@@ -231,7 +228,7 @@ components:
 
 The home page introduces Anish to people looking him up: photo, name, bio, three plain-language focus areas, a few selected talks and posts, and contact. Its first screen is a deep spruce band that runs full width behind the header and the hero; a short saffron bar under the name is the one bright mark. Below the band the page is a pale spruce-tinted ground with dark spruce ink, and saffron returns only where something can be acted on: link underlines, action links, focus rings, text selection.
 
-The full record lives on `/work/` ("Features I've shipped"). There, features advance across a fixed grid of Kubernetes releases, read the way release notes and enhancement tracking read: hairline rules, numerals set large and light. Three stage hues say what stage a feature reached, and every stage is also drawn in a distinct line weight, so the ledger still reads in greyscale. The one interaction lights a feature's posts and talks in the record and unlights the rest.
+The full record lives on `/work/` ("Work"), in three areas: Kubernetes identity and security, secrets and workload identity, and agent infrastructure. Each area opens on its title and a one- or two-line lede, then short entries (name, role, one line, link). The Kubernetes area carries the release ledger, where features advance across a fixed grid of Kubernetes releases, read the way release notes and enhancement tracking read: hairline rules, numerals set large and light. Three stage hues say what stage a feature reached, and every stage is also drawn in a distinct line weight, so the ledger still reads in greyscale. The one interaction lights a feature's posts and talks in the record and unlights the rest.
 
 **Key Characteristics:**
 - Two tones carry the identity: spruce (the band) and saffron (action and focus). Stage hues appear only on stages.
@@ -286,7 +283,7 @@ The CSS custom properties in `assets/css/site.css` are the source of truth, writ
 
 ## Typography
 
-**Voice font:** Jost (variable, weight 100 to 900, self-hosted from `/fonts/jost-latin.woff2`, licence `/fonts/Jost-OFL.txt`) with `Futura, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif`. Wordmark, nav and theme toggle, every h1 to h3, the contact email, and the index numerals (release axis, years, agent versions).
+**Voice font:** Jost (variable, weight 100 to 900, self-hosted from `/fonts/jost-latin.woff2`, licence `/fonts/Jost-OFL.txt`) with `Futura, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif`. Wordmark, nav and theme toggle, every h1 to h4, the contact email, and the index numerals (release axis, years).
 **Text font:** DM Sans (variable, weight and optical size, self-hosted from `/fonts/dm-sans-latin.woff2`, licence `/fonts/DMSans-OFL.txt`) with `ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif`. Body, bio, meta lines, links, labels that are not headings.
 Both are latin subsets, preloaded, `font-display: swap`. There is no monospace anywhere.
 
@@ -295,33 +292,33 @@ Both are latin subsets, preloaded, `font-display: swap`. There is no monospace a
 ### Hierarchy
 - **Display** (Jost 500, `clamp(2.75rem, 1.4rem + 5.6vw, 5.5rem)`, line-height 0.95, tracking -0.02em): the name on the home page, followed by the saffron bar.
 - **Headline** (Jost 500, `clamp(2rem, 1.4rem + 2.6vw, 3rem)`, tracking -0.02em): list and detail page titles (detail pages at line-height 1.08).
-- **Section title** (Jost 500, 1.625rem, tracking -0.01em): "What I work on", "Selected talks", "Kubernetes, v1.25 to v1.38", "Agent platform".
+- **Section title** (Jost 500, 1.625rem, tracking -0.01em): "What I work on", "Selected talks", and the area titles on `/work/` ("Kubernetes identity and security", "Agent infrastructure"). The ledger title inside its area ("Features I've shipped, v1.25 to v1.38") is Jost 500 at the focus-name size.
 - **Focus name** (Jost 500, 1.25rem): the three area names on the home page.
 - **Release numeral** (Jost 300, `clamp(1.5rem, 0.9rem + 1.6vw, 2.5rem)`, line-height 1, tabular): the ledger axis. The `v1.` prefix sits small in ink 3 at the left of the axis.
 - **Year numeral** (Jost 300, headline size, tabular): year headings on the Posts and Talks lists; sticky beside its rows on wide screens.
-- **Version numeral** (Jost 300, `clamp(1.5rem, 1.2rem + 1.2vw, 2rem)`, tabular): agent-platform release tags.
-- **Feature name** (Jost 650, 1.0625rem): ledger row names; dated-row titles at 600.
+- **Feature name** (Jost 650, 1.0625rem): ledger row names and area entry names; dated-row titles at 600.
 - **Bio** (DM Sans 400, `clamp(1.125rem, 1rem + 0.5vw, 1.3125rem)`, line-height 1.55, max 36em): the home bio, at every width.
 - **Body** (DM Sans 400, 1.0625rem, line-height 1.55): paragraphs, capped at 60ch; row summaries cap at 62ch.
 - **Small** (DM Sans 400 to 650, 0.8125rem): meta lines, stage labels, legend, dates, footer, notes, action links (600).
 - **Label** (Jost 700, 0.8125rem, 0.06em tracking, uppercase): headings that name a list: "Posts", "Talks", "Pinned", "On the ledger".
 - **Wordmark** (Jost 600, 1.125rem) and **Nav** (Jost 500, 0.9375rem, 0.01em tracking, sentence case): the header.
-- Headings h1 to h3 default to Jost 650, line-height 1.15, `text-wrap: balance`; paragraphs use `text-wrap: pretty`.
+- Headings h1 to h4 default to Jost 650, line-height 1.15, `text-wrap: balance`; paragraphs use `text-wrap: pretty`.
 
 ### Named Rules
 **The Two Faces Rule.** Jost names things, DM Sans says things. No third face.
 
 **The Tabular Rule.** Every date, version and release number is set with tabular figures, so columns of numerals align without a monospace face.
 
-**The Light Numeral Rule.** Numerals that index the record (release axis, years, agent versions) are set large at Jost 300; words that name things are set at 500 to 650. Weight separates index from content.
+**The Light Numeral Rule.** Numerals that index the record (release axis, years) are set large at Jost 300; words that name things are set at 500 to 650. Weight separates index from content.
 
 ## Layout
 
 - **Container:** max width 76rem, centred, side gutter `clamp(1.25rem, 4vw, 3rem)`.
 - **Spacing scale:** nine steps from 0.25rem to 6rem (space-1 to space-9). Rows pad 1rem above and 1.5rem below; page heads pad 4rem above; the footer sits 6rem below content.
-- **Section openers:** home sections and the work page's ledger and record open on their title alone, with space instead of a rule. Dated lists (`.rows`) and the doc "On the ledger" note open on a 2px ink rule; the agent release strip on a 1px ink rule. Rows inside are separated by 1px rule hairlines.
+- **Section openers:** home sections, the work page's areas, its ledger and its record open on their title alone, with space instead of a rule. Dated lists (`.rows`) and the doc "On the ledger" note open on a 2px ink rule. Rows inside are separated by 1px rule hairlines.
 - **Ledger grid:** a label column of `minmax(14rem, 19rem)` then one equal column per release (`--cols`, set from the data: v1.25 to v1.38 gives 14). The axis, feature list and each feature row share it through subgrid, so every stage aligns to its release numeral.
-- **Shared label column:** subproject and agent rows reuse the 14rem to 19rem label column with a single fluid body column.
+- **Shared label column:** area entries reuse the 14rem to 19rem label column with a single fluid line column, so entry names align with the ledger's feature names.
+- **Areas:** each `/work/` area is a section with 4rem below it; the ledger sits 3rem under the Kubernetes area's entries.
 - **Home band:** the header and a `.band` wrapper around the hero share the band colour and run the full viewport width; the hero sits in the normal 76rem container inside it. A 13rem square headshot spans two rows beside the name and the bio; 4rem padding above and below; 4rem of ground before "What I work on".
 - **Home sections:** focus rows use the shared label column, a fluid line column and a link column, divided by 1px rules; selected talks and posts sit in two equal columns with a 3rem gap, each list opening on a 1px rule.
 - **Record:** two equal columns (Posts, Talks) with 3rem gaps; each entry is a 5.5rem date column plus title.
@@ -329,7 +326,7 @@ Both are latin subsets, preloaded, `font-display: swap`. There is no monospace a
 - **Doc pages:** single column, max 48rem, body capped at 60ch.
 
 ### Responsive
-- **56rem, the fold:** home focus rows stack name, line and link. The ledger grid folds flat. The axis and ghost cells are hidden; each feature becomes a stacked stage list in the same order: release label (now visible, 650 weight, 4.25rem column), a 2.25rem line sample, the stage name, then links right-aligned. Stage rows are divided by ghost-tone hairlines. Subproject and agent rows stack label over body.
+- **56rem, the fold:** home focus rows stack name, line and link. The ledger grid folds flat. The axis and ghost cells are hidden; each feature becomes a stacked stage list in the same order: release label (now visible, 650 weight, 4.25rem column), a 2.25rem line sample, the stage name, then links right-aligned. Stage rows are divided by ghost-tone hairlines. Area entries stack name and role over the line.
 - **48rem:** the record and the home selected talks and posts drop to one column; year and pinned grids stack the year above its rows and the year loses its sticky position; dated rows become a single column; row links grow to 44px targets.
 - **40rem:** the header nav moves to its own full-width row under a hairline (band rule on the home band) with links spread edge to edge; the home hero puts a 5.5rem photo beside the name and runs the bio full width; the contact email drops to 1.5rem to 2rem; the doc pager becomes one column.
 - **22.5rem:** the home name drops to 2.25rem so "Ramasekar" fits beside the photo at 320px.
@@ -367,7 +364,7 @@ Flat. There are no shadows and no raised panels. The spruce band is the one fill
 
 ### Home hero, focus rows, selected work, contact
 - Hero (inside the band): square headshot, the name as the display h1 in band ink with a 3.5rem by 0.375rem saffron bar under it, the bio as one paragraph in band ink 2. No role line; the bio carries the role.
-- Focus rows ("What I work on"): area name (h3, focus name style), one plain-language line in ink 2, and one action link in accent at small 600 weight (the work page, the Secrets Store CSI Driver repo, agent-primitives/sessions). No KEP numbers on the home page.
+- Focus rows ("What I work on"): area name (h3, focus name style), one plain-language line in ink 2, and one action link in accent at small 600 weight to the matching `/work/` area (`#kubernetes`, `#secrets`, `#agents`). No KEP numbers on the home page.
 - Selected talks and posts: section title, then three entries each from `data/home.yaml` between 1px rules: title (600 link), a small meta line (date, then venue or source when the page has one) and, for a talk with one, its achievement line. An "All 14 talks" or "All 9 posts" action link in accent closes each column.
 - Contact: the email address in Jost 500 at headline size with a 3px saffron underline, then the profile links and RSS at 600 weight, 44px tall.
 
@@ -395,11 +392,13 @@ Flat. There are no shadows and no raised panels. The spruce band is the one fill
 - 0.5rem tall, 1px rule left tick, 1px rule baseline at mid-height; one per release per feature. Decorative and `aria-hidden`.
 
 ### Legend
-- Small type in ink 2: a 1.75rem line sample for alpha, beta and GA (and GA target, only when a stage is a target) followed by its name. The same line samples reappear in the subproject row and the doc ledger note.
+- Small type in ink 2: a 1.75rem line sample for alpha, beta and GA (and GA target, only when a stage is a target) followed by its name. The same line samples reappear in the doc ledger note.
 
-### Subproject and agent rows
-- Subproject: GA line sample and "GA at v1.22" sentence, then talk references in two columns (year in ink 3, title).
-- Agent platform: a release strip under a 1px ink rule; each release is a Jost 300 version numeral link with its month below, separated by rule ticks, first tick in ink. Drawn in ink, outside the stage vocabulary.
+### Work page head and area entries
+- Page head: "Work", one line, then an index of the three areas as accent links at small 600 weight, 44px tall.
+- Area: section title, a lede of one or two lines in ink 2, then entries between 1px rules.
+- Entry: name (h3, feature-name style, linked to the project), role in the small meta line, and one line in ink 2 capped at 62ch. No timelines, no release lists.
+- An entry with a KEP outside the release grid (the Secrets Store CSI Driver, a subproject in `data/ledger.yaml`) adds the KEP link and its stage tag ("GA at v1.22") to the meta line and joins the cross-highlight, lighting its talks in the record.
 
 ### Record entry
 - Date (small, ink 3, tabular) beside the title (550 weight link) and a meta line: source or venue, then one stage tag per ledger reference ("KEP-4412 beta" in the beta hue).
@@ -419,7 +418,7 @@ Flat. There are no shadows and no raised panels. The spruce band is the one fill
 - Post pages end with a Newer/Older pager under a 1px rule, its titles underlined like links; 404 reuses the doc layout with links home, to the work page, to Posts and to Talks.
 
 ### Signature interaction: the ledger cross-highlight
-- Hovering a feature row with a mouse, or moving focus into it, lights that feature and its related record entries and unlights the other features, the subproject and agent rows, and unrelated entries.
+- Hovering a feature row or an area entry with a KEP with a mouse, or moving focus into it, lights it and its related record entries and unlights the other features, the other area entries, and unrelated entries.
 - Touch does not trigger it; it ends on pointer leave (unless focus is inside), on focus leaving the row, or on Escape.
 - Motion: colour, background colour, border colour and underline colour transition over 160ms with `cubic-bezier(0.16, 1, 0.3, 1)`. Nothing moves, scales or fades. Under `prefers-reduced-motion: reduce` all transitions and animations are removed. A theme change never transitions: `site.js` holds `.theme-switching` on the root across the switch so text and ground change in the same frame.
 - Without JavaScript the ledger and record render fully lit; the site does not depend on the script.

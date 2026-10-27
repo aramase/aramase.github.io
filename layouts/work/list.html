@@ -1,12 +1,35 @@
 {{ define "main" }}
 {{- $refs := partialCached "ledger/refs.html" . }}
+{{- $areas := hugo.Data.work.areas }}
 <div class="wrap" data-ledger-scope>
   <header class="page-head">
     <h1>{{ .Title }}</h1>
-    <p>Kubernetes features I wrote or co-wrote the KEP for, release by release, with the posts and talks for each stage.</p>
+    <p>What I build and the roles I hold, by area, with the posts and talks behind them.</p>
+    <nav class="area-index" aria-label="Areas">
+      <ul>
+        {{- range $areas }}
+        <li><a href="#{{ .id }}">{{ .name }}</a></li>
+        {{- end }}
+      </ul>
+    </nav>
   </header>
 
-  {{ partial "ledger/ledger.html" . }}
+  {{- range $areas }}
+  <section class="area" id="{{ .id }}" aria-labelledby="{{ .id }}-title">
+    <div class="area__head">
+      <h2 class="section-title" id="{{ .id }}-title">{{ .name }}</h2>
+      <p>{{ .lede }}</p>
+    </div>
+    <ul class="area__entries">
+      {{- range .entries }}
+      {{ partial "work-entry.html" . }}
+      {{- end }}
+    </ul>
+    {{- if .ledger }}
+    {{ partial "ledger/ledger.html" $ }}
+    {{- end }}
+  </section>
+  {{- end }}
 
   <section class="record" aria-labelledby="record-title">
     <h2 class="visually-hidden" id="record-title">Posts and talks</h2>

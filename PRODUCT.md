@@ -20,8 +20,9 @@ web
 
 anishram.com is Anish Ramasekar's personal site. The home page says who he is and what he works
 on in plain language, with a few selected talks and posts and his contact links. The work page
-(`/work/`, "Features I've shipped") holds the full record: Kubernetes features he carried through
-releases, the posts and talks for each stage, and his agent-platform releases. Success is a
+(`/work/`, "Work") holds the full record by area: Kubernetes identity and security (the SIG Auth
+co-chair role and the release ledger of features he carried through releases), secrets and
+workload identity, and agent infrastructure, then the dated posts and talks. Success is a
 visitor understanding who he is and what he works on, then reaching the talk, post, KEP or
 contact they came for.
 
@@ -41,7 +42,8 @@ stage backed by a KEP, a release blog post or a talk. No template personal site 
 - Existing permalinks (`/blogs/<slug>/`, `/talks/<slug>/`, `/tags/`, `/categories/`) must keep working.
 - No timelines or KEP numbers on the home page; those live on `/work/`.
 - Light and dark themes, following the OS by default with a manual toggle (inferred: plan recommendation, incumbent behaviour).
-- Agent-platform work names only agent-primitives/sessions. Nothing internal, and no other agent project, is named or linked.
+- Agent work names only agent-primitives/sessions and aramase/kontxt, both under Agent infrastructure (owner, 2026-10-27). Nothing internal, and no other agent project, is named or linked.
+- Roles appear only with a public source (OWNERS, CODEOWNERS, the SIG README, commit history), noted in `data/work.yaml`. No IETF authorship or standards-body role is claimed.
 
 ## Brand Commitments
 
@@ -54,7 +56,7 @@ stage backed by a KEP, a release blog post or a talk. No template personal site 
 - 9 blog entries (7 kubernetes.io release posts, 2 Microsoft Open Source posts).
 - 14 talks with recordings; 8 with slides; KubeCon EU 2021 talk ranked in the top 10 (CNCF transparency report, linked from the talk page).
 - KEPs authored or co-authored: 2907, 3299, 3331, 4412, 5538, 5793 (kep.yaml authors).
-- agent-primitives/sessions releases v0.1.0, v0.2.0, v0.3.0.
+- Roles (checked 2026-10-27): SIG Auth co-chair (kubernetes/community sig-auth README); Secrets Store CSI Driver approver (OWNERS); `*` code owner of the Azure Key Vault provider and Azure Workload Identity (CODEOWNERS); creator of agent-primitives/sessions and aramase/kontxt (initial commits).
 - Absent, must not be fabricated: 2026 talks, speaker kit, testimonials.
 
 ## Product Principles
