@@ -1,0 +1,34 @@
+{{ define "main" }}
+{{- $refs := partialCached "ledger/refs.html" . }}
+<div class="wrap" data-ledger-scope>
+  <header class="page-head">
+    <h1>{{ .Title }}</h1>
+    <p>Kubernetes features I wrote or co-wrote the KEP for, release by release, with the posts and talks for each stage.</p>
+  </header>
+
+  {{ partial "ledger/ledger.html" . }}
+
+  <section class="record" aria-labelledby="record-title">
+    <h2 class="visually-hidden" id="record-title">Posts and talks</h2>
+    <div>
+      <h3>Posts</h3>
+      <ol>
+        {{- range (where site.RegularPages "Section" "blogs").ByDate.Reverse }}
+        {{ partial "entry.html" (dict "page" . "refs" (index $refs .Path)) }}
+        {{- end }}
+      </ol>
+      <a class="record__more" href="/blogs/">All posts</a>
+    </div>
+    <div>
+      <h3>Talks</h3>
+      {{- $talks := (where site.RegularPages "Section" "talks").ByDate.Reverse }}
+      <ol>
+        {{- range first 6 $talks }}
+        {{ partial "entry.html" (dict "page" . "refs" (index $refs .Path)) }}
+        {{- end }}
+      </ol>
+      <a class="record__more" href="/talks/">All {{ len $talks }} talks</a>
+    </div>
+  </section>
+</div>
+{{ end }}

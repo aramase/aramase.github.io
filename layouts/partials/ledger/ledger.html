@@ -1,0 +1,135 @@
+{{- $k8s := hugo.Data.ledger.kubernetes }}
+{{- $first := int $k8s.first }}
+{{- $last := int $k8s.last }}
+{{- $cols := add (sub $last $first) 1 }}
+{{- /* Short stage-link label per post source; unknown sources show their own name. */}}
+{{- $sourceLabels := dict "Kubernetes.io" "k8s.io" "Microsoft Open Source" "Microsoft" }}
+{{- /* The legend and note explain the target box only when a stage uses it. */}}
+{{- $hasTarget := false }}
+{{- range $k8s.features }}{{ range .stages }}{{ if .target }}{{ $hasTarget = true }}{{ end }}{{ end }}{{ end }}
+<section class="ledger" aria-labelledby="ledger-title" data-ledger>
+  <div class="ledger__head">
+    <h2 class="section-title" id="ledger-title">Kubernetes, v1.{{ $first }} to v1.{{ $last }}</h2>
+    <ul class="legend" aria-label="Stage key">
+      <li><span class="line line--alpha" aria-hidden="true"></span>alpha</li>
+      <li><span class="line line--beta" aria-hidden="true"></span>beta</li>
+      <li><span class="line line--ga" aria-hidden="true"></span>GA</li>
+      {{- if $hasTarget }}
+      <li><span class="line line--target" aria-hidden="true"></span>GA target</li>
+      {{- end }}
+    </ul>
+  </div>
+
+  <div class="ledger__grid" style="--cols: {{ $cols }}">
+    <div class="axis" aria-hidden="true">
+      <span class="axis__prefix">v1.</span>
+      {{- range $r := seq $first $last }}
+      <span class="axis__num{{ if eq $r (int $k8s.inDevelopment) }} axis__num--dev{{ end }}">{{ $r }}{{ if eq $r (int $k8s.inDevelopment) }}<small>in dev</small>{{ end }}</span>
+      {{- end }}
+    </div>
+
+    <ol class="features">
+      {{- range $f := $k8s.features }}
+      {{- $stages := $f.stages }}
+      {{- $n := len $stages }}
+      {{- $prs := slice }}
+      {{- range $stages }}{{ range .prs }}{{ $prs = $prs | append . }}{{ end }}{{ end }}
+      <li class="feature" id="{{ $f.id }}" data-feature="{{ $f.id }}">
+        <div class="feature__label">
+          <h3 class="feature__name">{{ $f.name }}</h3>
+          <p class="feature__meta">
+            <a href="https://github.com/kubernetes/enhancements/tree/master/keps/{{ $f.path }}">KEP-{{ $f.kep }}</a> &middot; {{ $f.sig }}<br>
+            {{- if $f.coauthors }}
+            Co-author with {{ range $i, $a := $f.coauthors }}{{ if $i }}, {{ end }}<a href="https://github.com/{{ $a }}">@{{ $a }}</a>{{ end }}
+            {{- else }}
+            Author
+            {{- end }}
+            {{- with $prs }}<br>
+            Implementation {{ range $i, $pr := . }}{{ if $i }}, {{ end }}<a href="https://github.com/kubernetes/kubernetes/pull/{{ $pr }}">#{{ $pr }}</a>{{ end }}
+            {{- end }}
+          </p>
+          <a class="feature__cue" href="#record-title" hidden></a>
+        </div>
+        <ol class="track" aria-label="{{ $f.name }} releases">
+          {{- range $r := seq $first $last }}
+          <li class="track__cell" aria-hidden="true" style="grid-column: {{ add (sub $r $first) 1 }}"></li>
+          {{- end }}
+          {{- range $i, $s := $stages }}
+          {{- $from := add (sub (int $s.release) $first) 1 }}
+          {{- $isLast := eq (add $i 1) $n }}
+          {{- $open := and $isLast (ne $s.stage "ga") }}
+          {{- $to := add $from 1 }}
+          {{- if not $isLast }}{{ $to = add (sub (int (index $stages (add $i 1)).release) $first) 1 }}{{ end }}
+          {{- if $open }}{{ $to = add $cols 1 }}{{ end }}
+          {{- $label := partial "ledger/stage-label.html" $s }}
+          <li class="stage stage--{{ $s.stage }}{{ if $s.target }} stage--target{{ end }}{{ if $open }} stage--open{{ end }}" style="--from: {{ $from }}; --to: {{ $to }}">
+            <span class="stage__rel visually-hidden">v1.{{ $s.release }}</span>
+            <span class="stage__name">{{ $label }}</span>
+            {{- $links := slice }}
+            {{- range $s.posts }}{{ with site.GetPage . }}{{ $src := .Params.source | default "Post" }}{{ $links = $links | append (dict "href" (.Params.link | default .RelPermalink) "text" (index $sourceLabels $src | default $src) "title" .Title) }}{{ else }}{{ errorf "data/ledger.yaml: %s %s post %q is not a page" $f.id $s.stage . }}{{ end }}{{ end }}
+            {{- range $s.talks }}{{ with site.GetPage . }}{{ $links = $links | append (dict "href" .RelPermalink "text" "Talk" "title" .Title) }}{{ else }}{{ errorf "data/ledger.yaml: %s %s talk %q is not a page" $f.id $s.stage . }}{{ end }}{{ end }}
+            {{- with $links }}
+            <ul class="stage__links">
+              {{- range . }}
+              <li><a href="{{ .href }}">{{ .text }}<span class="visually-hidden">: {{ .title }}</span></a></li>
+              {{- end }}
+            </ul>
+            {{- end }}
+          </li>
+          {{- end }}
+        </ol>
+      </li>
+      {{- end }}
+    </ol>
+  </div>
+
+  {{- range $sp := hugo.Data.ledger.subprojects }}
+  <div class="ledger-row" id="{{ $sp.id }}" data-feature="{{ $sp.id }}">
+    <div class="feature__label">
+      <h3 class="feature__name">{{ $sp.name }}</h3>
+      <p class="feature__meta">
+        <a href="https://github.com/kubernetes/enhancements/tree/master/keps/{{ $sp.path }}">KEP-{{ $sp.kep }}</a> &middot; {{ $sp.sig }} subproject<br>
+        Co-author with {{ range $i, $a := $sp.coauthors }}{{ if $i }}, {{ end }}<a href="https://github.com/{{ $a }}">@{{ $a }}</a>{{ end }}
+      </p>
+      <a class="feature__cue" href="#record-title" hidden></a>
+    </div>
+    <div class="ledger-row__body">
+      <p class="ledger-row__stage"><span class="line line--ga" aria-hidden="true"></span><span><strong>GA</strong> at v1.{{ $sp.release }}, as recorded in the KEP. Out-of-tree driver.</span></p>
+      <ul class="talk-refs" aria-label="{{ $sp.name }} talks">
+        {{- range $sp.talks }}
+        {{- with site.GetPage . }}
+        <li><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006" }}</time><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+        {{- else }}
+        {{- errorf "data/ledger.yaml: %s talk %q is not a page" $sp.id . }}
+        {{- end }}
+        {{- end }}
+      </ul>
+    </div>
+  </div>
+  {{- end }}
+
+  <p class="ledger__note">Stages and releases from each KEP's kep.yaml in kubernetes/enhancements. v1.{{ $k8s.inDevelopment }} is in development{{ if $hasTarget }}; a dashed GA box marks a release the KEP is tracked for{{ end }}.</p>
+</section>
+
+{{- with hugo.Data.ledger.agents }}
+<section class="ledger" aria-labelledby="agents-title">
+  <div class="ledger__head">
+    <h2 class="section-title" id="agents-title">Agent platform</h2>
+  </div>
+  {{- range . }}
+  <div class="ledger-row" id="{{ .id }}">
+    <div class="feature__label">
+      <h3 class="feature__name"><a href="{{ .repo }}">{{ .name }}</a></h3>
+      <p class="agent-summary">{{ .summary }}</p>
+    </div>
+    <ol class="releases" aria-label="{{ .name }} releases">
+      {{- $repo := .repo }}
+      {{- range .releases }}
+      {{- $d := time.AsTime .date }}
+      <li><a href="{{ $repo }}/releases/tag/{{ .tag }}">{{ .tag }}</a><time datetime="{{ $d.Format "2006-01-02" }}">{{ $d.Format "Jan 2006" }}</time></li>
+      {{- end }}
+    </ol>
+  </div>
+  {{- end }}
+</section>
+{{- end }}

@@ -1,0 +1,21 @@
+{{- /* A dated record entry. Input: page, refs (ledger references or nil). */ -}}
+{{- $p := .page }}
+{{- $ids := slice }}
+{{- range .refs }}{{ $ids = $ids | append .id }}{{ end }}
+<li class="entry" data-kind="{{ cond (eq $p.Section "blogs") "post" "talk" }}"{{ with $ids }} data-features="{{ delimit (uniq .) " " }}"{{ end }}>
+  <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "Jan 2006" }}</time>
+  <div>
+    {{- if eq $p.Section "blogs" }}
+    <a class="entry__title" href="{{ $p.Params.link | default $p.RelPermalink }}">{{ $p.Title }}</a>
+    {{- else }}
+    <a class="entry__title" href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>
+    {{- end }}
+    <span class="entry__meta">
+      {{- with $p.Params.source }}{{ . }}{{ end }}
+      {{- with $p.Params.venue }}{{ . }}{{ end }}
+      {{- range .refs }}
+      &middot; <span class="stage-tag stage-tag--{{ .stage }}">KEP-{{ .kep }} {{ partial "ledger/stage-label.html" . }}</span>
+      {{- end }}
+    </span>
+  </div>
+</li>

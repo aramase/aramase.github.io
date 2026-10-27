@@ -51,6 +51,11 @@ canonifyURLs = true
 
 [menu]
   [[menu.main]]
+    identifier = "work"
+    name = "Work"
+    url = "/work/"
+    weight = 5
+  [[menu.main]]
     identifier = "blogs"
     name = "Blogs"
     url = "/blogs/"
