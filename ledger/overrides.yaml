@@ -1,0 +1,63 @@
+# Hand-maintained facts tools/ledger merges into data/ledger.yaml: what kep.yaml does not record.
+# Keyed by KEP number. Verify each addition against its source before adding it:
+# - prs: merged kubernetes/kubernetes PRs authored by @aramase, from the KEP's Implementation
+#   History or `gh search prs --author aramase`;
+# - posts, talks: pages on this site, attached to the stage that was current when they were
+#   published (the build fails if a path is not a page);
+# - exclude: a kep.yaml milestone that is not true, with the reason. kep.yaml keeps a target
+#   after the release drops the KEP, so check the KEP issue's milestone and lead-opted-in label.
+# Every KEP in ledger/keps.yaml is in kubernetes/enhancements, so no entry is maintained by hand.
+
+3299:
+  alpha:
+    prs: [111126]
+    posts: ["/blogs/2022-kubernetes-1-25-kms-v2-improvements"]
+  beta:
+    prs: [115123]
+    posts: ["/blogs/2023-kubernetes-1-27-kms-v2-beta"]
+
+3331:
+  alpha:
+    prs: [119142, 121078]
+  beta:
+    posts:
+      - "/blogs/2024-kubernetes-1-30-structured-auth-beta"
+      - "/blogs/jwt-kubernetes-structured-authentication"
+
+4412:
+  alpha:
+    prs: [128372]
+    posts: ["/blogs/2025-kubernetes-1-33-workload-identity-image-pulls"]
+  beta:
+    prs: [133017]
+    posts: ["/blogs/2025-kubernetes-v1-34-sa-tokens-image-pulls-beta"]
+    talks: ["/talks/2025-kubecon-na-sig-auth-update"]
+  exclude:
+    - stage: ga
+      release: 38
+      note: >-
+        No GA target: kep.yaml still lists stable: v1.38, but v1.38 dropped the KEP
+        at its readiness deadline. On 2026-10-26 the KEP issue had no milestone and
+        no lead-opted-in label.
+
+5538:
+  beta:
+    prs: [134826]
+    posts: ["/blogs/2026-kubernetes-v1-35-csi-sa-tokens-secrets-field-beta"]
+  ga:
+    prs: [136596]
+
+5793:
+  alpha:
+    prs: [137346]
+    posts: ["/blogs/2026-kubernetes-v1-36-manifest-based-admission-control"]
+
+2907:
+  ga:
+    talks:
+      - "/talks/2021-kubecon-eu-secrets-store-csi"
+      - "/talks/2022-cncf-webinar-secrets-store-csi"
+      - "/talks/2023-enlightning-secrets-store-csi"
+      - "/talks/2024-you-choose-secrets-management-tools"
+      - "/talks/2024-kubecon-na-sig-auth-storage-secrets"
+      - "/talks/2025-microsoft-developer-secrets-store-csi"

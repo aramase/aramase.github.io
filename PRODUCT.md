@@ -36,6 +36,8 @@ stage backed by a KEP, a release blog post or a talk. No template personal site 
 - Hugo static site on GitHub Pages at anishram.com, rebuilt daily for future-dated posts.
 - Content lives in `content/blogs/` (each entry links to an external post) and `content/talks/`.
 - Ledger facts come from kubernetes/enhancements kep.yaml and KEP READMEs, never from memory.
+- `tools/ledger` generates `data/ledger.yaml` from the KEPs in `ledger/keps.yaml` and the facts in
+  `ledger/overrides.yaml` (`make ledger`).
 
 ## Capabilities and Constraints
 
