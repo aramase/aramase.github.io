@@ -1,88 +1,49 @@
 <!DOCTYPE html>
 <html lang="{{ site.Language.Locale | default "en" }}">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="author" content="{{ .Site.Params.author }}">
-  <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description | default .Summary }}{{ end }}">
-  <meta name="keywords" content="{{ if .Keywords }}{{ delimit .Keywords ", " }}{{ else }}{{ .Site.Params.keywords }}{{ end }}">
-  
-  <!-- Canonical URL -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{- $title := cond .IsHome site.Title (printf "%s | %s" .Title site.Title) }}
+  {{- $desc := cond .IsHome site.Params.description (.Description | default (.Summary | plainify | truncate 200)) }}
+  {{- $desc = $desc | default site.Params.description }}
+  <title>{{ $title }}</title>
+  <meta name="description" content="{{ $desc }}">
+  <meta name="author" content="{{ site.Params.author }}">
   <link rel="canonical" href="{{ .Permalink }}">
-  
-  <!-- Open Graph -->
-  <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
-  <meta property="og:description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description | default .Summary }}{{ end }}">
-  <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
-  <meta property="og:url" content="{{ .Permalink }}">
-  {{ if .IsHome }}
-  <meta property="og:image" content="{{ .Site.BaseURL }}images/aramase-profile.jpg">
-  {{ end }}
-  <meta property="og:site_name" content="{{ .Site.Title }}">
-  
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
-  <meta name="twitter:description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description | default .Summary }}{{ end }}">
-  {{ with .Site.Params.social.twitter }}
-  <meta name="twitter:site" content="@{{ . }}">
-  <meta name="twitter:creator" content="@{{ . }}">
-  {{ end }}
-  
-  {{ hugo.Generator }}
-  
-  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
-  
-  <!-- CSS -->
-  {{ $options := (dict "targetPath" "css/style.css" "outputStyle" "compressed") }}
-  {{ $style := resources.Get "css/main.scss" | css.Sass $options | resources.Minify | resources.Fingerprint }}
-  <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
-  
-  <!-- Preload fonts -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;500;600;700&display=swap"></noscript>
-  
-  <!-- RSS -->
-  {{ range .AlternativeOutputFormats -}}
-    {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .RelPermalink $.Site.Title | safeHTML }}
-  {{ end -}}
-  
-  <!-- Theme (inline to prevent flash) -->
+  <meta name="theme-color" content="#f2f9f6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#041b1d" media="(prefers-color-scheme: dark)">
+
+  {{- partial "social-meta.html" (dict "page" . "title" $title "description" $desc) }}
+
   <script>
-    (function() {
-      var saved = localStorage.getItem('theme');
-      if (saved) {
-        document.documentElement.setAttribute('data-theme', saved);
-      }
+    (function () {
+      try {
+        var saved = localStorage.getItem("theme");
+        if (saved === "light" || saved === "dark") document.documentElement.setAttribute("data-theme", saved);
+      } catch (e) {}
     })();
   </script>
-
-  <!-- Favicons -->
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
+  {{- $css := resources.Get "css/site.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+  {{- range .AlternativeOutputFormats }}
+  <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ site.Title }}">
+  {{- end }}
+  <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
+  {{ hugo.Generator }}
 </head>
-
-<body class="{{ if eq (getenv "HUGO_ENV") "development" }}dev {{ end }}">
-  <a href="#main-content" class="skip-to-content">Skip to content</a>
-  <div class="container">
-    {{ partial "header.html" . }}
-    
-    <div class="content" id="main-content">
-      {{ block "main" . }}{{ end }}
-    </div>
-    
-    {{ partial "footer.html" . }}
-  </div>
-  
-  <!-- Back to Top Button -->
-  <button id="back-to-top" class="back-to-top" aria-label="Back to top">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="18,15 12,9 6,15"></polyline>
-    </svg>
-  </button>
+<body>
+  <a class="skip-link{{ if .IsHome }} skip-link--band{{ end }}" href="#main">Skip to content</a>
+  {{ partial "header.html" . }}
+  <main id="main" tabindex="-1">
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "footer.html" . }}
+  {{- $js := resources.Get "js/site.js" | js.Build (dict "minify" true) | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 </body>
 </html>

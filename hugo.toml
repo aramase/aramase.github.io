@@ -17,8 +17,6 @@ canonifyURLs = true
   author = "Anish Ramasekar"
   description = "Principal Software Engineer at Microsoft, Kubernetes SIG Auth Co-Chair, and Secrets Store CSI Driver Maintainer. Expert in cloud-native security, Kubernetes authentication, and open source leadership."
   keywords = ["kubernetes", "security", "cloud-native", "authentication", "microsoft", "cncf", "talks", "blog"]
-  showMenuItems = 3
-  MenuMore = "Show more"
   
   [params.social]
     github = "aramase"
@@ -55,10 +53,10 @@ canonifyURLs = true
   [[menu.main]]
     identifier = "blogs"
     name = "Blogs"
-    url = "/blogs"
+    url = "/blogs/"
     weight = 10
   [[menu.main]]
     identifier = "talks"
     name = "Talks"
-    url = "/talks"
+    url = "/talks/"
     weight = 20
