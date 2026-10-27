@@ -1,23 +1,13 @@
 {{ define "main" }}
-<div class="post">
-    {{ if not (eq .Type "page") }}
-    <div class="post-meta">
-      {{ .Date.Format "January 2, 2006" }}
-    </div>
-    {{ end }}
-    
-    <h1 class="post-title">{{ .Title }}</h1>
-    
-    {{ if .Params.tags }}
-      <div class="post-tags">
-        {{ range .Params.tags }}
-          <a href="/tags/{{ . | urlize }}">#{{ . }}</a>{{ if not (eq . (index $.Params.tags (sub (len $.Params.tags) 1))) }}, {{ end }}
-        {{ end }}
-      </div>
-    {{ end }}
-    
-    <div class="post-content">
+<div class="wrap">
+  <article class="doc">
+    <h1>{{ .Title }}</h1>
+    {{- if ne .Type "page" }}
+    <p class="doc__meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time></p>
+    {{- end }}
+    <div class="doc__body">
       {{ .Content }}
     </div>
+  </article>
 </div>
 {{ end }}
