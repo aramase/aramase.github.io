@@ -14,5 +14,10 @@ Regenerate with `make ledger` (reads GitHub; set `GITHUB_TOKEN` if the anonymous
 limit runs out), or `make ledger ENHANCEMENTS=$HOME/go/src/k8s.io/enhancements`
 for a local clone (read as checked out). `make ledger-test` runs the generator's tests.
 
+`.github/workflows/ledger.yml` runs the generator on the 1st of each month and on demand,
+and opens a pull request from `ledger/update` when the ledger changed (manual runs on other
+branches only generate it). It rebuilds that branch on each run, and fails rather than
+overwrite a commit someone else pushed to it; put corrections in `overrides.yaml` instead.
+
 To track a KEP, add its line to `keps.yaml`, its PRs, posts and talks to `overrides.yaml`,
 and run `make ledger`.

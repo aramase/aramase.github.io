@@ -1,0 +1,146 @@
+name: Update release ledger
+
+# Regenerates data/ledger.yaml from kubernetes/enhancements and opens a pull request
+# when it changed. Pull requests opened with GITHUB_TOKEN start no workflows, so
+# review the diff (new stages especially) before merging; the merge deploys the site.
+#
+# The generate job runs the generator with a read-only token and hands the ledger to
+# the pull-request job as an artifact; only that job can write to the repository.
+
+on:
+  schedule:
+    - cron: "23 9 1 * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ledger
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.compare.outputs.changed }}
+      enhancements-sha: ${{ steps.fetch.outputs.sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: tools/ledger/go.mod
+          cache-dependency-path: tools/ledger/go.sum
+
+      - name: Fetch kubernetes/enhancements
+        id: fetch
+        run: |
+          git clone --quiet --depth 1 --filter=blob:none --sparse \
+            https://github.com/kubernetes/enhancements "$RUNNER_TEMP/enhancements"
+          git -C "$RUNNER_TEMP/enhancements" sparse-checkout set keps
+          echo "sha=$(git -C "$RUNNER_TEMP/enhancements" rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Generate the ledger
+        working-directory: tools/ledger
+        env:
+          # Reads the KEP issue milestone and labels for a GA target.
+          GITHUB_TOKEN: ${{ github.token }}
+        run: go run . -root ../.. -enhancements "$RUNNER_TEMP/enhancements"
+
+      - name: Compare with the checked-out ledger
+        id: compare
+        run: |
+          if git diff --quiet -- data/ledger.yaml; then
+            echo "data/ledger.yaml is up to date."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git diff --stat -- data/ledger.yaml
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload the ledger
+        if: steps.compare.outputs.changed == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ledger
+          path: data/ledger.yaml
+          if-no-files-found: error
+          retention-days: 7
+
+  pull-request:
+    needs: generate
+    # Only default-branch runs may update ledger/update; scheduled runs always use the default branch.
+    if: >-
+      needs.generate.outputs.changed == 'true' &&
+      (github.event_name == 'schedule' ||
+      github.ref == format('refs/heads/{0}', github.event.repository.default_branch))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      BRANCH: ledger/update
+      BASE: ${{ github.ref_name }}
+      BOT_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+      TITLE: "chore: update the release ledger from kep.yaml"
+      ENHANCEMENTS_SHA: ${{ needs.generate.outputs.enhancements-sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Full history and all branches, to inspect an existing ledger/update branch.
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Download the ledger
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ledger
+          path: data
+
+      - name: Push the branch and open the pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          remote=$(git rev-parse --verify --quiet "refs/remotes/origin/$BRANCH" || true)
+          if [ -n "$remote" ] && git diff --quiet "$remote" -- data/ledger.yaml; then
+            echo "$BRANCH already has this ledger."
+          else
+            # The workflow owns $BRANCH and rebuilds it as one commit on the base each
+            # run. It resets the branch only when every commit on it is the bot's, so a
+            # commit someone added to the pull request is never overwritten: the run
+            # fails instead. Corrections belong in ledger/overrides.yaml on the base.
+            if [ -n "$remote" ]; then
+              others=$(git log --format='%h %ae %ce' "HEAD..$remote" |
+                awk -v bot="$BOT_EMAIL" '$2 != bot || $3 != bot')
+              if [ -n "$others" ]; then
+                echo "::error::$BRANCH has commits not made by this workflow. Merge or close its pull request and delete the branch, then rerun."
+                echo "$others"
+                exit 1
+              fi
+            fi
+            git config user.name "github-actions[bot]"
+            git config user.email "$BOT_EMAIL"
+            git switch --create "$BRANCH"
+            git add data/ledger.yaml
+            git commit --signoff --message "$TITLE"
+            gh auth setup-git
+            # With $remote empty, the lease requires that the branch still not exist.
+            git push --force-with-lease="refs/heads/$BRANCH:$remote" origin "HEAD:refs/heads/$BRANCH"
+          fi
+          if [ "$(gh pr list --head "$BRANCH" --base "$BASE" --state open --json number --jq length)" = "0" ]; then
+            gh pr create --base "$BASE" --head "$BRANCH" --title "$TITLE" \
+              --body "Regenerated data/ledger.yaml from kubernetes/enhancements at ${ENHANCEMENTS_SHA}. Check each new or changed stage against its KEP issue before merging."
+          else
+            echo "A pull request from $BRANCH is already open."
+          fi
