@@ -1,0 +1,16 @@
+{{- /* A selected talk or post on the home page. Input: a content path. */ -}}
+{{- with site.GetPage . }}
+<li class="pick">
+  {{- if eq .Section "blogs" }}
+  <a class="pick__title" href="{{ .Params.link | default .RelPermalink }}">{{ .Title }}</a>
+  {{- else }}
+  <a class="pick__title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+  {{- end }}
+  <span class="pick__meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2006" }}</time>{{ with .Params.venue | default .Params.source }} &middot; {{ . }}{{ end }}</span>
+  {{- with .Params.achievement }}
+  <span class="pick__credential">{{ . }}</span>
+  {{- end }}
+</li>
+{{- else }}
+{{- errorf "data/home.yaml: %q is not a page" . }}
+{{- end }}

@@ -1,4 +1,4 @@
-<header class="site-header">
+<header class="site-header{{ if .IsHome }} site-header--band{{ end }}">
   <div class="wrap">
     <a class="wordmark" href="/"{{ if .IsHome }} aria-current="page"{{ end }}>{{ site.Title }}</a>
     <nav class="site-nav" aria-label="Primary">

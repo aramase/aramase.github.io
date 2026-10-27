@@ -1,0 +1,29 @@
+# Home page content beyond the bio. The bio itself is in layouts/index.html.
+#
+# focus: plain-language areas for visitors who don't know the individual
+# features; no KEP numbers here, the ledger on /work/ carries those.
+# talks, posts: content paths, newest or most significant first; the build
+# fails if one is not a page.
+focus:
+  - name: Kubernetes identity and security
+    line: How a cluster decides who a person or workload is and what it may do, from authentication to service account tokens.
+    href: /work/
+    text: Features I've shipped
+  - name: Secrets management
+    line: Encrypting Kubernetes secrets at rest with KMS, and mounting secrets from external stores into pods with the Secrets Store CSI Driver.
+    href: https://github.com/kubernetes-sigs/secrets-store-csi-driver
+    text: Secrets Store CSI Driver
+  - name: Infrastructure for AI agents
+    line: Open building blocks for running AI agents, starting with a neutral contract for durable agent sessions.
+    href: https://github.com/agent-primitives/sessions
+    text: agent-primitives/sessions
+
+talks:
+  - /talks/2025-kubecon-na-sig-auth-update
+  - /talks/2024-kubecon-na-authorization-cel-rbac
+  - /talks/2021-kubecon-eu-secrets-store-csi
+
+posts:
+  - /blogs/2026-kubernetes-v1-36-manifest-based-admission-control
+  - /blogs/2025-kubernetes-v1-34-sa-tokens-image-pulls-beta
+  - /blogs/jwt-kubernetes-structured-authentication

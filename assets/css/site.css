@@ -46,7 +46,7 @@
   --step-1: 1.25rem;
   --step-2: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
   --step-3: clamp(2rem, 1.4rem + 2.6vw, 3rem);
-  --step-4: clamp(2.25rem, 1.5rem + 3.6vw, 4rem);
+  --step-4: clamp(2.75rem, 1.4rem + 5.6vw, 5.5rem);
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -405,79 +405,255 @@ main:focus {
   letter-spacing: -0.01em;
 }
 
-/* ---------- Home: intro ---------- */
+/* ---------- Home ---------- */
 
-.intro {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--space-5) var(--space-6);
-  align-items: start;
-  padding-block: var(--space-6);
+/* The spruce field: on the home page the header and the hero share one
+   full-bleed band; saffron marks the name, hover and focus inside it. */
+.site-header--band,
+.band {
+  background: var(--band);
+  color: var(--band-ink);
 }
 
-.intro__photo {
-  width: clamp(5rem, 9vw, 7.5rem);
+.site-header--band {
+  border-bottom-color: var(--band-rule);
+}
+
+.site-header--band .site-nav {
+  border-top-color: var(--band-rule);
+}
+
+.site-header--band .site-nav a,
+.site-header--band .theme-toggle {
+  color: var(--band-ink-2);
+}
+
+.site-header--band .site-nav a:hover,
+.site-header--band .site-nav a[aria-current="page"],
+.site-header--band .theme-toggle:hover {
+  color: var(--band-ink);
+  text-decoration-color: var(--saffron);
+}
+
+.site-header--band :focus-visible,
+.band :focus-visible {
+  outline-color: var(--saffron);
+}
+
+.band {
+  margin-bottom: var(--space-8);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 13rem minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  column-gap: var(--space-7);
+  row-gap: var(--space-5);
+  padding-block: var(--space-8) var(--space-8);
+}
+
+.hero picture {
+  grid-row: 1 / span 2;
+}
+
+.hero__photo {
+  width: 13rem;
   aspect-ratio: 1;
   object-fit: cover;
+  outline: 1px solid var(--band-rule);
 }
 
-.intro h1 {
+.hero h1 {
+  align-self: end;
   font-size: var(--step-4);
-  font-weight: 700;
-  font-stretch: 112%;
-  letter-spacing: -0.03em;
-  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
 }
 
-.intro__role {
-  margin: var(--space-3) 0 var(--space-5);
-  font-size: var(--step-1);
-  color: var(--ink-2);
+.hero h1::after {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 0.375rem;
+  margin-top: 0.3em;
+  background: var(--saffron);
 }
 
-.intro__bio {
-  columns: 2 22rem;
+.hero__bio {
+  margin: 0;
+  max-width: 36em;
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.3125rem);
+  line-height: 1.55;
+  color: var(--band-ink-2);
+}
+
+.focus {
+  padding-bottom: var(--space-8);
+}
+
+.focus .section-title,
+.picks .section-title,
+.contact .section-title {
+  margin-bottom: var(--space-5);
+}
+
+.focus__item {
+  display: grid;
+  grid-template-columns: var(--label-col) minmax(0, 1fr) auto;
   column-gap: var(--space-6);
-  max-width: none;
+  align-items: baseline;
+  padding-block: var(--space-4);
+  border-top: 1px solid var(--rule);
+}
+
+.focus__item h3 {
+  font-size: var(--step-1);
+  font-weight: 500;
+}
+
+.focus__item p {
+  margin: 0;
   color: var(--ink-2);
 }
 
-.intro__bio p {
-  margin: 0 0 var(--space-3);
-  break-inside: avoid;
+.focus__item a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--step--1);
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--accent);
+}
+
+.picks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6) var(--space-7);
+  padding-bottom: var(--space-8);
+}
+
+.pick {
+  display: grid;
+  gap: var(--space-1);
+  padding-block: var(--space-4);
+  border-bottom: 1px solid var(--rule);
+}
+
+.pick:first-child {
+  border-top: 1px solid var(--rule);
+}
+
+.pick__title {
+  font-weight: 600;
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+.pick__meta {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.pick__credential {
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.picks__more {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: var(--space-2);
+  font-size: var(--step--1);
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.contact {
+  padding-bottom: var(--space-4);
+}
+
+.contact__email {
+  display: inline-block;
+  font-family: var(--font-voice);
+  font-size: var(--step-3);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  text-decoration-color: var(--saffron);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.15em;
+  overflow-wrap: break-word;
+}
+
+.contact__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-5);
+  margin-top: var(--space-4);
+}
+
+.contact__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+}
+
+@media (max-width: 56rem) {
+  .focus__item {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-1);
+  }
+}
+
+@media (max-width: 48rem) {
+  .picks {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @media (max-width: 40rem) {
-  .intro {
-    grid-template-columns: auto minmax(0, 1fr);
+  .hero {
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    grid-template-rows: auto;
     column-gap: var(--space-4);
-    padding-block: var(--space-5);
+    padding-block: var(--space-6) var(--space-7);
   }
 
-  .intro__photo {
-    width: 4.5rem;
+  .hero picture {
+    grid-row: auto;
   }
 
-  .intro__text {
-    display: contents;
+  .hero__photo {
+    width: 5.5rem;
   }
 
-  .intro h1 {
-    grid-column: 2;
+  .hero h1 {
     align-self: center;
   }
 
-  .intro__role,
-  .intro__bio {
+  .hero__bio {
     grid-column: 1 / -1;
   }
 
-  .intro__role {
-    margin: 0;
+  .contact__email {
+    font-size: var(--step-2);
   }
 }
 
-/* ---------- Home: ledger ---------- */
+/* Below 22.5rem, "Ramasekar" at the 2.75rem floor of --step-4 is wider than the
+   column beside the photo and scrolls the page sideways. */
+@media (max-width: 22.5rem) {
+  .hero h1 {
+    font-size: 2.25rem;
+  }
+}
+
+/* ---------- Work: release ledger ---------- */
 
 .ledger {
   padding-bottom: var(--space-7);
@@ -925,12 +1101,6 @@ main:focus {
   gap: var(--space-7) var(--space-7);
 }
 
-.record__intro {
-  grid-column: 1 / -1;
-  margin: 0;
-  color: var(--ink-2);
-}
-
 .record h3 {
   font-size: var(--step--1);
   font-weight: 700;
@@ -990,11 +1160,6 @@ main:focus {
   margin-top: var(--space-2);
   font-size: var(--step--1);
   font-weight: 600;
-}
-
-.closing {
-  margin-top: var(--space-7);
-  color: var(--ink-2);
 }
 
 @media (max-width: 48rem) {

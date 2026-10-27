@@ -1,5 +1,7 @@
 <footer class="site-footer">
   <div class="wrap">
+    {{- /* Home lists these links in its Contact section. */}}
+    {{- if not .IsHome }}
     <nav aria-label="Elsewhere">
       <ul>
         {{- with site.Params.social }}
@@ -13,6 +15,7 @@
         <li><a href="/index.xml">RSS</a></li>
       </ul>
     </nav>
+    {{- end }}
     <p>&copy; {{ now.Year }} {{ site.Params.author }}</p>
   </div>
 </footer>
