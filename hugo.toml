@@ -1,11 +1,17 @@
 baseURL = 'https://anishram.com'
-languageCode = 'en-us'
+locale = 'en-US'
 title = 'Anish Ramasekar'
 enableInlineShortcodes = true
 buildDrafts = false
 buildFuture = false
 enableRobotsTXT = true
 canonifyURLs = true
+
+# Matches HUGO_VERSION in .github/workflows/hugo.yml.
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = '0.168.0'
 
 [params]
   author = "Anish Ramasekar"
