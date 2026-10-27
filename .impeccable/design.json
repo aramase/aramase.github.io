@@ -1,0 +1,916 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-27T08:06:22+00:00",
+  "title": "Design System: anishram.com",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Ground (light theme)",
+        "canonical": "oklch(0.975 0.008 170)",
+        "hexApprox": "#f2f9f6",
+        "cssVariable": "--ground",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.150 0.008 170)",
+          "oklch(0.264 0.008 170)",
+          "oklch(0.379 0.008 170)",
+          "oklch(0.493 0.008 170)",
+          "oklch(0.607 0.008 170)",
+          "oklch(0.721 0.008 170)",
+          "oklch(0.836 0.008 170)",
+          "oklch(0.950 0.008 170)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink (light theme)",
+        "canonical": "oklch(0.25 0.04 195)",
+        "hexApprox": "#032728",
+        "cssVariable": "--ink",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.150 0.04 195)",
+          "oklch(0.264 0.04 195)",
+          "oklch(0.379 0.04 195)",
+          "oklch(0.493 0.04 195)",
+          "oklch(0.607 0.04 195)",
+          "oklch(0.721 0.04 195)",
+          "oklch(0.836 0.04 195)",
+          "oklch(0.950 0.04 195)"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink 2 (light theme)",
+        "canonical": "oklch(0.4 0.035 195)",
+        "hexApprox": "#314e4d",
+        "cssVariable": "--ink-2",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.150 0.035 195)",
+          "oklch(0.264 0.035 195)",
+          "oklch(0.379 0.035 195)",
+          "oklch(0.493 0.035 195)",
+          "oklch(0.607 0.035 195)",
+          "oklch(0.721 0.035 195)",
+          "oklch(0.836 0.035 195)",
+          "oklch(0.950 0.035 195)"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink 3 (light theme)",
+        "canonical": "oklch(0.48 0.03 195)",
+        "hexApprox": "#4a6363",
+        "cssVariable": "--ink-3",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.150 0.03 195)",
+          "oklch(0.264 0.03 195)",
+          "oklch(0.379 0.03 195)",
+          "oklch(0.493 0.03 195)",
+          "oklch(0.607 0.03 195)",
+          "oklch(0.721 0.03 195)",
+          "oklch(0.836 0.03 195)",
+          "oklch(0.950 0.03 195)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule (light theme)",
+        "canonical": "oklch(0.87 0.02 180)",
+        "hexApprox": "#c7d9d5",
+        "cssVariable": "--rule",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.150 0.02 180)",
+          "oklch(0.264 0.02 180)",
+          "oklch(0.379 0.02 180)",
+          "oklch(0.493 0.02 180)",
+          "oklch(0.607 0.02 180)",
+          "oklch(0.721 0.02 180)",
+          "oklch(0.836 0.02 180)",
+          "oklch(0.950 0.02 180)"
+        ]
+      },
+      "ghost": {
+        "role": "neutral",
+        "displayName": "Ghost (light theme)",
+        "canonical": "oklch(0.93 0.014 175)",
+        "hexApprox": "#dfebe7",
+        "cssVariable": "--ghost",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.150 0.014 175)",
+          "oklch(0.264 0.014 175)",
+          "oklch(0.379 0.014 175)",
+          "oklch(0.493 0.014 175)",
+          "oklch(0.607 0.014 175)",
+          "oklch(0.721 0.014 175)",
+          "oklch(0.836 0.014 175)",
+          "oklch(0.950 0.014 175)"
+        ]
+      },
+      "band": {
+        "role": "primary",
+        "displayName": "Spruce band (light theme)",
+        "canonical": "oklch(0.31 0.055 190)",
+        "hexApprox": "#003936 (clipped to sRGB)",
+        "cssVariable": "--band",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.150 0.055 190)",
+          "oklch(0.264 0.055 190)",
+          "oklch(0.379 0.055 190)",
+          "oklch(0.493 0.055 190)",
+          "oklch(0.607 0.055 190)",
+          "oklch(0.721 0.055 190)",
+          "oklch(0.836 0.055 190)",
+          "oklch(0.950 0.055 190)"
+        ]
+      },
+      "band-ink": {
+        "role": "neutral",
+        "displayName": "Band ink (both themes)",
+        "canonical": "oklch(0.97 0.012 160)",
+        "hexApprox": "#eff8f2",
+        "cssVariable": "--band-ink",
+        "theme": "both",
+        "tonalRamp": [
+          "oklch(0.150 0.012 160)",
+          "oklch(0.264 0.012 160)",
+          "oklch(0.379 0.012 160)",
+          "oklch(0.493 0.012 160)",
+          "oklch(0.607 0.012 160)",
+          "oklch(0.721 0.012 160)",
+          "oklch(0.836 0.012 160)",
+          "oklch(0.950 0.012 160)"
+        ]
+      },
+      "band-ink-2": {
+        "role": "neutral",
+        "displayName": "Band ink 2 (both themes)",
+        "canonical": "oklch(0.86 0.03 170)",
+        "hexApprox": "#bfd8ce",
+        "cssVariable": "--band-ink-2",
+        "theme": "both",
+        "tonalRamp": [
+          "oklch(0.150 0.03 170)",
+          "oklch(0.264 0.03 170)",
+          "oklch(0.379 0.03 170)",
+          "oklch(0.493 0.03 170)",
+          "oklch(0.607 0.03 170)",
+          "oklch(0.721 0.03 170)",
+          "oklch(0.836 0.03 170)",
+          "oklch(0.950 0.03 170)"
+        ]
+      },
+      "band-rule": {
+        "role": "neutral",
+        "displayName": "Band rule (light theme)",
+        "canonical": "oklch(0.42 0.05 190)",
+        "hexApprox": "#295653",
+        "cssVariable": "--band-rule",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.150 0.05 190)",
+          "oklch(0.264 0.05 190)",
+          "oklch(0.379 0.05 190)",
+          "oklch(0.493 0.05 190)",
+          "oklch(0.607 0.05 190)",
+          "oklch(0.721 0.05 190)",
+          "oklch(0.836 0.05 190)",
+          "oklch(0.950 0.05 190)"
+        ]
+      },
+      "saffron": {
+        "role": "secondary",
+        "displayName": "Saffron (both themes)",
+        "canonical": "oklch(0.83 0.14 78)",
+        "hexApprox": "#f9bb51",
+        "cssVariable": "--saffron",
+        "theme": "both",
+        "tonalRamp": [
+          "oklch(0.150 0.14 78)",
+          "oklch(0.264 0.14 78)",
+          "oklch(0.379 0.14 78)",
+          "oklch(0.493 0.14 78)",
+          "oklch(0.607 0.14 78)",
+          "oklch(0.721 0.14 78)",
+          "oklch(0.836 0.14 78)",
+          "oklch(0.950 0.14 78)"
+        ]
+      },
+      "accent": {
+        "role": "secondary",
+        "displayName": "Accent (saffron as text) (light theme)",
+        "canonical": "oklch(0.5 0.11 62)",
+        "hexApprox": "#8f520d",
+        "cssVariable": "--accent",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.150 0.11 62)",
+          "oklch(0.264 0.11 62)",
+          "oklch(0.379 0.11 62)",
+          "oklch(0.493 0.11 62)",
+          "oklch(0.607 0.11 62)",
+          "oklch(0.721 0.11 62)",
+          "oklch(0.836 0.11 62)",
+          "oklch(0.950 0.11 62)"
+        ]
+      },
+      "on-saffron": {
+        "role": "neutral",
+        "displayName": "Text on saffron (both themes)",
+        "canonical": "oklch(0.25 0.04 195)",
+        "hexApprox": "#032728",
+        "cssVariable": "--on-saffron",
+        "theme": "both",
+        "tonalRamp": [
+          "oklch(0.150 0.04 195)",
+          "oklch(0.264 0.04 195)",
+          "oklch(0.379 0.04 195)",
+          "oklch(0.493 0.04 195)",
+          "oklch(0.607 0.04 195)",
+          "oklch(0.721 0.04 195)",
+          "oklch(0.836 0.04 195)",
+          "oklch(0.950 0.04 195)"
+        ]
+      },
+      "alpha": {
+        "role": "tertiary",
+        "displayName": "Alpha rust (light theme)",
+        "canonical": "oklch(0.5 0.13 35)",
+        "hexApprox": "#9f422b",
+        "cssVariable": "--alpha",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.150 0.13 35)",
+          "oklch(0.264 0.13 35)",
+          "oklch(0.379 0.13 35)",
+          "oklch(0.493 0.13 35)",
+          "oklch(0.607 0.13 35)",
+          "oklch(0.721 0.13 35)",
+          "oklch(0.836 0.13 35)",
+          "oklch(0.950 0.13 35)"
+        ]
+      },
+      "beta": {
+        "role": "tertiary",
+        "displayName": "Beta olive (light theme)",
+        "canonical": "oklch(0.5 0.1 110)",
+        "hexApprox": "#676815",
+        "cssVariable": "--beta",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.150 0.1 110)",
+          "oklch(0.264 0.1 110)",
+          "oklch(0.379 0.1 110)",
+          "oklch(0.493 0.1 110)",
+          "oklch(0.607 0.1 110)",
+          "oklch(0.721 0.1 110)",
+          "oklch(0.836 0.1 110)",
+          "oklch(0.950 0.1 110)"
+        ]
+      },
+      "ga": {
+        "role": "tertiary",
+        "displayName": "GA teal (light theme)",
+        "canonical": "oklch(0.43 0.09 200)",
+        "hexApprox": "#005e63 (clipped to sRGB)",
+        "cssVariable": "--ga",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.150 0.09 200)",
+          "oklch(0.264 0.09 200)",
+          "oklch(0.379 0.09 200)",
+          "oklch(0.493 0.09 200)",
+          "oklch(0.607 0.09 200)",
+          "oklch(0.721 0.09 200)",
+          "oklch(0.836 0.09 200)",
+          "oklch(0.950 0.09 200)"
+        ]
+      },
+      "ground-dark": {
+        "role": "neutral",
+        "displayName": "Ground (dark theme)",
+        "canonical": "oklch(0.205 0.03 200)",
+        "hexApprox": "#041b1d",
+        "cssVariable": "--ground",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.150 0.03 200)",
+          "oklch(0.264 0.03 200)",
+          "oklch(0.379 0.03 200)",
+          "oklch(0.493 0.03 200)",
+          "oklch(0.607 0.03 200)",
+          "oklch(0.721 0.03 200)",
+          "oklch(0.836 0.03 200)",
+          "oklch(0.950 0.03 200)"
+        ]
+      },
+      "ink-dark": {
+        "role": "neutral",
+        "displayName": "Ink (dark theme)",
+        "canonical": "oklch(0.95 0.012 165)",
+        "hexApprox": "#e8f1ec",
+        "cssVariable": "--ink",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.150 0.012 165)",
+          "oklch(0.264 0.012 165)",
+          "oklch(0.379 0.012 165)",
+          "oklch(0.493 0.012 165)",
+          "oklch(0.607 0.012 165)",
+          "oklch(0.721 0.012 165)",
+          "oklch(0.836 0.012 165)",
+          "oklch(0.950 0.012 165)"
+        ]
+      },
+      "ink-2-dark": {
+        "role": "neutral",
+        "displayName": "Ink 2 (dark theme)",
+        "canonical": "oklch(0.83 0.02 175)",
+        "hexApprox": "#bbccc6",
+        "cssVariable": "--ink-2",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.150 0.02 175)",
+          "oklch(0.264 0.02 175)",
+          "oklch(0.379 0.02 175)",
+          "oklch(0.493 0.02 175)",
+          "oklch(0.607 0.02 175)",
+          "oklch(0.721 0.02 175)",
+          "oklch(0.836 0.02 175)",
+          "oklch(0.950 0.02 175)"
+        ]
+      },
+      "ink-3-dark": {
+        "role": "neutral",
+        "displayName": "Ink 3 (dark theme)",
+        "canonical": "oklch(0.71 0.025 185)",
+        "hexApprox": "#91a7a3",
+        "cssVariable": "--ink-3",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.150 0.025 185)",
+          "oklch(0.264 0.025 185)",
+          "oklch(0.379 0.025 185)",
+          "oklch(0.493 0.025 185)",
+          "oklch(0.607 0.025 185)",
+          "oklch(0.721 0.025 185)",
+          "oklch(0.836 0.025 185)",
+          "oklch(0.950 0.025 185)"
+        ]
+      },
+      "rule-dark": {
+        "role": "neutral",
+        "displayName": "Rule (dark theme)",
+        "canonical": "oklch(0.34 0.035 195)",
+        "hexApprox": "#213e3d",
+        "cssVariable": "--rule",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.150 0.035 195)",
+          "oklch(0.264 0.035 195)",
+          "oklch(0.379 0.035 195)",
+          "oklch(0.493 0.035 195)",
+          "oklch(0.607 0.035 195)",
+          "oklch(0.721 0.035 195)",
+          "oklch(0.836 0.035 195)",
+          "oklch(0.950 0.035 195)"
+        ]
+      },
+      "ghost-dark": {
+        "role": "neutral",
+        "displayName": "Ghost (dark theme)",
+        "canonical": "oklch(0.27 0.03 197)",
+        "hexApprox": "#132b2b",
+        "cssVariable": "--ghost",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.150 0.03 197)",
+          "oklch(0.264 0.03 197)",
+          "oklch(0.379 0.03 197)",
+          "oklch(0.493 0.03 197)",
+          "oklch(0.607 0.03 197)",
+          "oklch(0.721 0.03 197)",
+          "oklch(0.836 0.03 197)",
+          "oklch(0.950 0.03 197)"
+        ]
+      },
+      "band-dark": {
+        "role": "primary",
+        "displayName": "Spruce band (dark theme)",
+        "canonical": "oklch(0.285 0.05 190)",
+        "hexApprox": "#003230 (clipped to sRGB)",
+        "cssVariable": "--band",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.150 0.05 190)",
+          "oklch(0.264 0.05 190)",
+          "oklch(0.379 0.05 190)",
+          "oklch(0.493 0.05 190)",
+          "oklch(0.607 0.05 190)",
+          "oklch(0.721 0.05 190)",
+          "oklch(0.836 0.05 190)",
+          "oklch(0.950 0.05 190)"
+        ]
+      },
+      "band-rule-dark": {
+        "role": "neutral",
+        "displayName": "Band rule (dark theme)",
+        "canonical": "oklch(0.4 0.05 190)",
+        "hexApprox": "#23504e",
+        "cssVariable": "--band-rule",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.150 0.05 190)",
+          "oklch(0.264 0.05 190)",
+          "oklch(0.379 0.05 190)",
+          "oklch(0.493 0.05 190)",
+          "oklch(0.607 0.05 190)",
+          "oklch(0.721 0.05 190)",
+          "oklch(0.836 0.05 190)",
+          "oklch(0.950 0.05 190)"
+        ]
+      },
+      "accent-dark": {
+        "role": "secondary",
+        "displayName": "Accent (saffron as text) (dark theme)",
+        "canonical": "oklch(0.83 0.14 78)",
+        "hexApprox": "#f9bb51",
+        "cssVariable": "--accent",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.150 0.14 78)",
+          "oklch(0.264 0.14 78)",
+          "oklch(0.379 0.14 78)",
+          "oklch(0.493 0.14 78)",
+          "oklch(0.607 0.14 78)",
+          "oklch(0.721 0.14 78)",
+          "oklch(0.836 0.14 78)",
+          "oklch(0.950 0.14 78)"
+        ]
+      },
+      "alpha-dark": {
+        "role": "tertiary",
+        "displayName": "Alpha rust (dark theme)",
+        "canonical": "oklch(0.77 0.12 40)",
+        "hexApprox": "#f59979",
+        "cssVariable": "--alpha",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.150 0.12 40)",
+          "oklch(0.264 0.12 40)",
+          "oklch(0.379 0.12 40)",
+          "oklch(0.493 0.12 40)",
+          "oklch(0.607 0.12 40)",
+          "oklch(0.721 0.12 40)",
+          "oklch(0.836 0.12 40)",
+          "oklch(0.950 0.12 40)"
+        ]
+      },
+      "beta-dark": {
+        "role": "tertiary",
+        "displayName": "Beta olive (dark theme)",
+        "canonical": "oklch(0.82 0.12 115)",
+        "hexApprox": "#c2cd6f",
+        "cssVariable": "--beta",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.150 0.12 115)",
+          "oklch(0.264 0.12 115)",
+          "oklch(0.379 0.12 115)",
+          "oklch(0.493 0.12 115)",
+          "oklch(0.607 0.12 115)",
+          "oklch(0.721 0.12 115)",
+          "oklch(0.836 0.12 115)",
+          "oklch(0.950 0.12 115)"
+        ]
+      },
+      "ga-dark": {
+        "role": "tertiary",
+        "displayName": "GA teal (dark theme)",
+        "canonical": "oklch(0.8 0.09 190)",
+        "hexApprox": "#73d1ca",
+        "cssVariable": "--ga",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.150 0.09 190)",
+          "oklch(0.264 0.09 190)",
+          "oklch(0.379 0.09 190)",
+          "oklch(0.493 0.09 190)",
+          "oklch(0.607 0.09 190)",
+          "oklch(0.721 0.09 190)",
+          "oklch(0.836 0.09 190)",
+          "oklch(0.950 0.09 190)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The name on the home page, in band ink over the spruce band, with the saffron bar under it."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "List and detail page titles (detail pages at line-height 1.08)."
+      },
+      "section-title": {
+        "displayName": "Section title",
+        "purpose": "Home and work section titles."
+      },
+      "focus-name": {
+        "displayName": "Focus name",
+        "purpose": "The three area names in \"What I work on\"."
+      },
+      "release-numeral": {
+        "displayName": "Release numeral",
+        "purpose": "Ledger axis numerals, light and tabular."
+      },
+      "year-numeral": {
+        "displayName": "Year numeral",
+        "purpose": "Year headings on the Posts and Talks lists."
+      },
+      "version-numeral": {
+        "displayName": "Version numeral",
+        "purpose": "Agent-platform release tags."
+      },
+      "feature-name": {
+        "displayName": "Feature name",
+        "purpose": "Ledger row names; dated-row titles at 600."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "Site title in the header."
+      },
+      "nav": {
+        "displayName": "Nav",
+        "purpose": "Sentence-case header links and the theme toggle."
+      },
+      "bio": {
+        "displayName": "Bio",
+        "purpose": "The home bio on the band, band ink 2."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Paragraphs, capped at 60ch."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Meta lines, stage labels, legend, dates, footer, notes, action links."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase headings that name a list: Posts, Talks, Pinned, On the ledger."
+      }
+    },
+    "themes": [
+      {
+        "name": "light",
+        "selector": ":root",
+        "default": true
+      },
+      {
+        "name": "dark",
+        "selector": ":root[data-theme=\"dark\"], and :root:not([data-theme=\"light\"]) under prefers-color-scheme: dark"
+      }
+    ],
+    "stageCoding": [
+      {
+        "stage": "alpha",
+        "color": "alpha",
+        "stroke": "2px dashed",
+        "css": "border-top: 2px dashed var(--alpha)"
+      },
+      {
+        "stage": "beta",
+        "color": "beta",
+        "stroke": "3px solid",
+        "css": "border-top: 3px solid var(--beta)"
+      },
+      {
+        "stage": "ga",
+        "color": "ga",
+        "stroke": "0.5rem solid block",
+        "css": "height: 0.5rem; background: var(--ga)"
+      },
+      {
+        "stage": "ga-target",
+        "color": "ga",
+        "stroke": "0.5rem box, 1.5px dashed outline",
+        "css": "height: 0.5rem; border: 1.5px dashed var(--ga)"
+      }
+    ],
+    "rules": [
+      {
+        "name": "section-rule",
+        "value": "2px solid var(--ink)",
+        "purpose": "Opens dated lists (Posts, Talks, tag pages) and the doc ledger note. Home and work sections open on their title and space instead."
+      },
+      {
+        "name": "ink-hairline",
+        "value": "1px solid var(--ink)",
+        "purpose": "Top of the agent release strip."
+      },
+      {
+        "name": "hairline",
+        "value": "1px solid var(--rule)",
+        "purpose": "Divides rows, focus rows, picks, header, footer, meta strip and pager."
+      },
+      {
+        "name": "band-hairline",
+        "value": "1px solid var(--band-rule)",
+        "purpose": "Header rule and headshot outline on the home band."
+      },
+      {
+        "name": "ghost-hairline",
+        "value": "1px solid var(--ghost)",
+        "purpose": "Divides stacked stage rows in the folded ledger."
+      },
+      {
+        "name": "ghost-cell",
+        "value": "0.5rem tall; 1px var(--rule) left tick and mid-height baseline",
+        "purpose": "Every release cell in every feature row."
+      },
+      {
+        "name": "name-bar",
+        "value": "3.5rem x 0.375rem var(--saffron), 0.3em under the name",
+        "purpose": "The one bright mark in the hero."
+      }
+    ],
+    "focus": {
+      "outline": "2px solid var(--accent); var(--saffron) on the band",
+      "outlineOffset": "3px",
+      "borderRadius": "1px",
+      "selection": "background var(--saffron), text var(--on-saffron)"
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "ease-ledger",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Easing for the cross-highlight colour change."
+      },
+      {
+        "name": "duration-ledger",
+        "value": "160ms",
+        "purpose": "Duration of colour, background-color, border-color and text-decoration-color transitions on feature rows, ledger rows and record entries."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition: none; animation: none; scroll-behavior: auto",
+        "purpose": "Applied to everything under prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "fold",
+        "value": "56rem",
+        "query": "max-width",
+        "purpose": "Ledger grid folds flat into stacked stage lists; axis and ghost cells hidden."
+      },
+      {
+        "name": "single-column",
+        "value": "48rem",
+        "query": "max-width",
+        "purpose": "Record, year and pinned grids and dated rows collapse to one column."
+      },
+      {
+        "name": "narrow",
+        "value": "40rem",
+        "query": "max-width",
+        "purpose": "Header nav gets its own row (band-rule hairline on the home band); the home photo shrinks to 5.5rem; pager stacks."
+      }
+    ],
+    "layout": {
+      "page": "76rem",
+      "gutter": "clamp(1.25rem, 4vw, 3rem)",
+      "measure": "60ch",
+      "labelColumn": "minmax(14rem, 19rem)",
+      "releaseColumns": "repeat(var(--cols), minmax(0, 1fr)), --cols = last - first + 1",
+      "doc": "48rem",
+      "entryDateColumn": "5.5rem",
+      "rowColumns": "5rem minmax(0, 1fr) minmax(9rem, 12rem)",
+      "yearColumn": "9rem",
+      "heroPhoto": "13rem; 5.5rem under 40rem",
+      "foldedStageColumns": "4.25rem 2.25rem auto minmax(0, 1fr)",
+      "band": "header and hero share --band, full viewport width; hero content in the 76rem container",
+      "heroBio": "36em max, clamp(1.125rem, 1rem + 0.5vw, 1.3125rem) at every width"
+    },
+    "font": {
+      "voice": {
+        "family": "Jost",
+        "source": "/fonts/jost-latin.woff2",
+        "license": "/fonts/Jost-OFL.txt",
+        "weightRange": "100 900",
+        "display": "swap",
+        "preload": true,
+        "weightsUsed": [
+          300,
+          500,
+          600,
+          650,
+          700
+        ],
+        "usedFor": "wordmark, nav, theme toggle, h1 to h3, contact email, release axis, years, agent versions"
+      },
+      "text": {
+        "family": "DM Sans",
+        "source": "/fonts/dm-sans-latin.woff2",
+        "license": "/fonts/DMSans-OFL.txt",
+        "weightRange": "100 1000",
+        "axes": "wght, opsz",
+        "display": "swap",
+        "preload": true,
+        "weightsUsed": [
+          400,
+          550,
+          600,
+          650,
+          700
+        ],
+        "usedFor": "body, bio, meta lines, links, non-heading labels"
+      }
+    }
+  },
+  "components": [
+    {
+      "name": "Header and nav",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Wordmark left; sentence-case nav links and the theme toggle right; 1px rule below.",
+      "html": "<header class=\"ds-header\"><a class=\"ds-wordmark\" href=\"#\">Anish Ramasekar</a><nav aria-label=\"Primary\"><ul class=\"ds-nav\"><li><a href=\"#\" aria-current=\"page\">Posts</a></li><li><a href=\"#\">Talks</a></li><li><a href=\"#\">Email</a></li></ul></nav><button class=\"ds-toggle\" type=\"button\" aria-pressed=\"false\"><span class=\"ds-toggle__box\" aria-hidden=\"true\"></span>Dark</button></header>",
+      "css": ".ds-header { font-family: \"DM Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; display: flex; flex-wrap: wrap; align-items: center; column-gap: 1.5rem; border-bottom: 1px solid var(--rule, #c7d9d5); background: var(--ground, #f2f9f6); color: var(--ink, #032728); padding-inline: 1.25rem; } .ds-wordmark { margin-right: auto; min-height: 44px; display: inline-flex; align-items: center; font-weight: 600; font-size: 1.125rem; color: inherit; text-decoration: none; } .ds-nav { display: flex; column-gap: 1.5rem; margin: 0; padding: 0; list-style: none; } .ds-nav a, .ds-toggle { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding-inline: 0.25rem; font-size: 0.9375rem; font-weight: 500; letter-spacing: 0.01em; text-decoration: none; color: var(--ink-2, #314e4d); } .ds-nav a:hover, .ds-nav a[aria-current=\"page\"] { color: var(--ink, #032728); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.5em; } .ds-toggle { border: 0; background: none; cursor: pointer; } .ds-toggle:hover { color: var(--ink, #032728); } .ds-toggle__box { width: 0.75rem; height: 0.75rem; border: 1.5px solid currentColor; } .ds-toggle[aria-pressed=\"true\"] .ds-toggle__box { background: currentColor; } .ds-header :focus-visible { outline: 2px solid var(--accent, #8f520d); outline-offset: 3px; border-radius: 1px; } .ds-wordmark, .ds-nav a, .ds-toggle { font-family: Jost, Futura, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; }"
+    },
+    {
+      "name": "Home band and hero",
+      "kind": "hero",
+      "refersTo": "band",
+      "description": "Full-bleed spruce band behind the header and hero on the home page: headshot, the name in Jost 500 with a saffron bar, the bio in band ink 2; saffron underlines and focus inside the band.",
+      "html": "<div class=\"ds-band\"><header class=\"ds-band__header\"><a class=\"ds-band__wordmark\" href=\"#\" aria-current=\"page\">Anish Ramasekar</a><ul class=\"ds-band__nav\"><li><a href=\"#\">Work</a></li><li><a href=\"#\">Talks</a></li></ul></header><section class=\"ds-hero\"><div class=\"ds-hero__photo\" role=\"img\" aria-label=\"Headshot\"></div><h1>Anish Ramasekar</h1><p>I'm a principal software engineer at Microsoft working on Kubernetes security and on infrastructure for running AI agents.</p></section></div>",
+      "css": ".ds-band { background: var(--band, #003936); color: var(--band-ink, #eff8f2); font-family: \"DM Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; padding-inline: 1.25rem; } .ds-band__header { display: flex; align-items: center; column-gap: 1.5rem; border-bottom: 1px solid var(--band-rule, #295653); } .ds-band__wordmark { margin-right: auto; min-height: 44px; display: inline-flex; align-items: center; font-family: Jost, Futura, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; font-weight: 600; font-size: 1.125rem; color: inherit; text-decoration: none; } .ds-band__nav { display: flex; column-gap: 1.5rem; margin: 0; padding: 0; list-style: none; } .ds-band__nav a { display: inline-flex; align-items: center; min-height: 44px; font-family: Jost, Futura, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; font-size: 0.9375rem; font-weight: 500; letter-spacing: 0.01em; color: var(--band-ink-2, #bfd8ce); text-decoration: none; } .ds-band__nav a:hover { color: var(--band-ink, #eff8f2); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.5em; text-decoration-color: var(--saffron, #f9bb51); } .ds-band :focus-visible { outline: 2px solid var(--saffron, #f9bb51); outline-offset: 3px; border-radius: 1px; } .ds-hero { display: grid; grid-template-columns: 6rem minmax(0, 1fr); grid-template-rows: auto 1fr; column-gap: 1.5rem; row-gap: 1rem; padding-block: 2rem; } .ds-hero__photo { grid-row: 1 / span 2; width: 6rem; aspect-ratio: 1; background: var(--band-rule, #295653); outline: 1px solid var(--band-rule, #295653); } .ds-hero h1 { align-self: end; margin: 0; font-family: Jost, Futura, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; font-size: 2.75rem; font-weight: 500; letter-spacing: -0.02em; line-height: 0.95; } .ds-hero h1::after { content: \"\"; display: block; width: 3.5rem; height: 0.375rem; margin-top: 0.3em; background: var(--saffron, #f9bb51); } .ds-hero p { margin: 0; max-width: 36em; font-size: 1.125rem; line-height: 1.55; color: var(--band-ink-2, #bfd8ce); }"
+    },
+    {
+      "name": "Focus row and selected pick",
+      "kind": "list",
+      "refersTo": "focus-row",
+      "description": "Home \"What I work on\" row (name, plain-language line, accent action link) and a selected talk or post with its meta line.",
+      "html": "<div class=\"ds-home\"><div class=\"ds-focus\"><h3>Secrets management</h3><p>Encrypting Kubernetes secrets at rest with KMS.</p><a href=\"#\">Secrets Store CSI Driver</a></div><ol class=\"ds-picks\"><li><a class=\"ds-pick__title\" href=\"#\">Secrets Store CSI Driver: Keeping Secrets Secret</a><span class=\"ds-pick__meta\"><time>May 2021</time> &middot; KubeCon EU 2021</span></li></ol><a class=\"ds-more\" href=\"#\">All 14 talks</a></div>",
+      "css": ".ds-home { font-family: \"DM Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; background: var(--ground, #f2f9f6); color: var(--ink, #032728); font-size: 1.0625rem; line-height: 1.55; } .ds-home a { color: inherit; text-decoration-thickness: 1px; text-decoration-color: color-mix(in oklch, var(--accent, #8f520d) 70%, transparent); text-underline-offset: 0.22em; } .ds-home a:hover { text-decoration-thickness: 2px; text-decoration-color: var(--accent, #8f520d); } .ds-home a:focus-visible { outline: 2px solid var(--accent, #8f520d); outline-offset: 3px; border-radius: 1px; } .ds-focus { display: grid; grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr) auto; column-gap: 2rem; align-items: baseline; padding-block: 1rem; border-top: 1px solid var(--rule, #c7d9d5); } .ds-focus h3 { margin: 0; font-family: Jost, Futura, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; font-size: 1.25rem; font-weight: 500; line-height: 1.15; } .ds-focus p { margin: 0; color: var(--ink-2, #314e4d); } .ds-focus a, .ds-home .ds-more { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.8125rem; font-weight: 600; white-space: nowrap; color: var(--accent, #8f520d); } .ds-picks { margin: 0; padding: 0; list-style: none; } .ds-picks li { display: grid; gap: 0.25rem; padding-block: 1rem; border-block: 1px solid var(--rule, #c7d9d5); } .ds-pick__title { font-weight: 600; line-height: 1.35; } .ds-pick__meta { font-size: 0.8125rem; color: var(--ink-2, #314e4d); }"
+    },
+    {
+      "name": "Stage legend",
+      "kind": "custom",
+      "refersTo": "line-ga",
+      "description": "Stage key: hue plus line weight plus written name for alpha, beta, GA and GA target.",
+      "html": "<ul class=\"ds-legend\" aria-label=\"Stage key\"><li><span class=\"ds-line ds-line--alpha\" aria-hidden=\"true\"></span>alpha</li><li><span class=\"ds-line ds-line--beta\" aria-hidden=\"true\"></span>beta</li><li><span class=\"ds-line ds-line--ga\" aria-hidden=\"true\"></span>GA</li><li><span class=\"ds-line ds-line--target\" aria-hidden=\"true\"></span>GA target</li></ul>",
+      "css": ".ds-legend { font-family: \"DM Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin: 0; padding: 0; list-style: none; font-size: 0.8125rem; color: var(--ink-2, #314e4d); background: var(--ground, #f2f9f6); } .ds-legend li { display: inline-flex; align-items: center; gap: 0.5rem; } .ds-line { display: inline-block; width: 1.75rem; flex: none; } .ds-line--alpha { border-top: 2px dashed var(--alpha, #9f422b); } .ds-line--beta { border-top: 3px solid var(--beta, #676815); } .ds-line--ga { height: 0.5rem; background: var(--ga, #005e63); } .ds-line--target { height: 0.5rem; border: 1.5px dashed var(--ga, #005e63); }"
+    },
+    {
+      "name": "Ledger feature row",
+      "kind": "custom",
+      "refersTo": "feature-row",
+      "description": "Release axis over a feature row: label column, ghost cells for every release, stages laid over them by hue and line weight.",
+      "html": "<div class=\"ds-ledger\"><div class=\"ds-axis\" aria-hidden=\"true\"><span class=\"ds-axis__prefix\">v1.</span><span>25</span><span>26</span><span>27</span><span>28</span><span>29</span><span class=\"ds-axis__dev\">30<small>in dev</small></span></div><div class=\"ds-feature\"><div class=\"ds-feature__label\"><h3>KMS v2</h3><p><a href=\"#\">KEP-3299</a> &middot; SIG Auth<br>Co-author with <a href=\"#\">@ritazh</a></p></div><ol class=\"ds-track\" aria-label=\"KMS v2 releases\"><li class=\"ds-cell\" aria-hidden=\"true\" style=\"grid-column: 1\"></li><li class=\"ds-cell\" aria-hidden=\"true\" style=\"grid-column: 2\"></li><li class=\"ds-cell\" aria-hidden=\"true\" style=\"grid-column: 3\"></li><li class=\"ds-cell\" aria-hidden=\"true\" style=\"grid-column: 4\"></li><li class=\"ds-cell\" aria-hidden=\"true\" style=\"grid-column: 5\"></li><li class=\"ds-cell\" aria-hidden=\"true\" style=\"grid-column: 6\"></li><li class=\"ds-stage ds-stage--alpha\" style=\"grid-column: 1 / 3\"><span class=\"ds-stage__name\">alpha</span><a href=\"#\">k8s.io</a></li><li class=\"ds-stage ds-stage--beta\" style=\"grid-column: 3 / 5\"><span class=\"ds-stage__name\">beta</span><a href=\"#\">k8s.io</a></li><li class=\"ds-stage ds-stage--ga\" style=\"grid-column: 5 / 6\"><span class=\"ds-stage__name\">GA</span></li><li class=\"ds-stage ds-stage--target\" style=\"grid-column: 6 / 7\"><span class=\"ds-stage__name\">GA target</span></li></ol></div></div>",
+      "css": ".ds-ledger { font-family: \"DM Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; display: grid; grid-template-columns: minmax(10rem, 14rem) repeat(6, minmax(0, 1fr)); background: var(--ground, #f2f9f6); color: var(--ink, #032728); } .ds-axis, .ds-feature { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; } .ds-axis { align-items: end; padding-bottom: 0.75rem; border-bottom: 1px solid var(--rule, #c7d9d5); font-size: clamp(1.5rem, 0.9rem + 1.6vw, 2.5rem); font-weight: 300; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--ink-2, #314e4d); } .ds-axis__prefix { font-size: 0.8125rem; color: var(--ink-3, #4a6363); text-align: right; padding-right: 0.5rem; padding-bottom: 0.3em; } .ds-axis__dev { color: var(--ink-3, #4a6363); } .ds-axis__dev small { display: block; margin-top: 0.25rem; font-size: 0.625rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; } .ds-feature { padding-block: 1rem 1.5rem; border-bottom: 1px solid var(--rule, #c7d9d5); transition: color 160ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-feature__label { grid-column: 1; padding-right: 1.5rem; } .ds-feature__label h3 { margin: 0; font-size: 1.0625rem; font-weight: 650; line-height: 1.15; } .ds-feature__label p { margin: 0.25rem 0 0; font-size: 0.8125rem; line-height: 1.45; color: var(--ink-2, #314e4d); } .ds-feature a { color: inherit; text-decoration-thickness: 1px; text-decoration-color: color-mix(in oklch, var(--accent, #8f520d) 70%, transparent); text-underline-offset: 0.22em; transition: text-decoration-color 160ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-feature a:hover { text-decoration-thickness: 2px; text-decoration-color: var(--accent, #8f520d); } .ds-feature a:focus-visible { outline: 2px solid var(--accent, #8f520d); outline-offset: 3px; border-radius: 1px; } .ds-track { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-content: start; margin: 0; padding: 0.45rem 0 0; list-style: none; } .ds-cell { grid-row: 1; height: 0.5rem; margin-top: -0.25rem; position: relative; border-left: 1px solid var(--rule, #c7d9d5); } .ds-cell::after { content: \"\"; position: absolute; inset: 50% 0 auto; border-top: 1px solid var(--rule, #c7d9d5); } .ds-stage { grid-row: 1; position: relative; background: var(--ground, #f2f9f6); min-width: 0; padding-right: 0.5rem; font-size: 0.8125rem; line-height: 1.35; } .ds-stage::before { content: \"\"; display: block; margin-bottom: 0.5rem; } .ds-stage--alpha::before { margin-top: -1px; border-top: 2px dashed var(--alpha, #9f422b); } .ds-stage--beta::before { margin-top: -1.5px; border-top: 3px solid var(--beta, #676815); } .ds-stage--ga::before { margin-top: -0.25rem; height: 0.5rem; background: var(--ga, #005e63); } .ds-stage--target::before { margin-top: -0.25rem; height: 0.5rem; border: 1.5px dashed var(--ga, #005e63); } .ds-stage__name { display: block; font-weight: 650; } .ds-stage--alpha .ds-stage__name { color: var(--alpha, #9f422b); } .ds-stage--beta .ds-stage__name { color: var(--beta, #676815); } .ds-stage--ga .ds-stage__name, .ds-stage--target .ds-stage__name { color: var(--ga, #005e63); } .ds-axis, .ds-feature__label h3 { font-family: Jost, Futura, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; }"
+    },
+    {
+      "name": "Folded stage list",
+      "kind": "custom",
+      "refersTo": "feature-row",
+      "description": "The feature row under 56rem: stages stacked in order as release, line sample, stage name and right-aligned links, divided by ghost hairlines.",
+      "html": "<ol class=\"ds-fold\"><li><span class=\"ds-fold__rel\">v1.25</span><span class=\"ds-line ds-line--alpha\" aria-hidden=\"true\"></span><span class=\"ds-fold__name ds-alpha\">alpha</span><a href=\"#\">k8s.io</a></li><li><span class=\"ds-fold__rel\">v1.27</span><span class=\"ds-line ds-line--beta\" aria-hidden=\"true\"></span><span class=\"ds-fold__name ds-beta\">beta</span><a href=\"#\">k8s.io</a></li><li><span class=\"ds-fold__rel\">v1.29</span><span class=\"ds-line ds-line--ga\" aria-hidden=\"true\"></span><span class=\"ds-fold__name ds-ga\">GA</span></li></ol>",
+      "css": ".ds-fold { font-family: \"DM Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; margin: 0; padding: 0; list-style: none; background: var(--ground, #f2f9f6); color: var(--ink, #032728); font-size: 0.8125rem; } .ds-fold li { display: grid; grid-template-columns: 4.25rem 2.25rem auto minmax(0, 1fr); column-gap: 0.75rem; align-items: center; padding: 0.5rem 0; border-top: 1px solid var(--ghost, #dfebe7); } .ds-fold__rel { font-size: 1.0625rem; font-weight: 650; font-variant-numeric: tabular-nums; } .ds-fold__name { font-weight: 650; } .ds-alpha { color: var(--alpha, #9f422b); } .ds-beta { color: var(--beta, #676815); } .ds-ga { color: var(--ga, #005e63); } .ds-fold a { justify-self: end; min-height: 44px; display: inline-flex; align-items: center; color: inherit; text-decoration-color: color-mix(in oklch, var(--accent, #8f520d) 70%, transparent); text-underline-offset: 0.22em; } .ds-fold a:hover { text-decoration-thickness: 2px; text-decoration-color: var(--accent, #8f520d); } .ds-fold a:focus-visible { outline: 2px solid var(--accent, #8f520d); outline-offset: 3px; border-radius: 1px; } .ds-line { display: inline-block; width: 1.75rem; flex: none; } .ds-line--alpha { border-top: 2px dashed var(--alpha, #9f422b); } .ds-line--beta { border-top: 3px solid var(--beta, #676815); } .ds-line--ga { height: 0.5rem; background: var(--ga, #005e63); } .ds-line--target { height: 0.5rem; border: 1.5px dashed var(--ga, #005e63); }"
+    },
+    {
+      "name": "Record entry",
+      "kind": "custom",
+      "refersTo": "record-entry",
+      "description": "Dated post or talk with source and stage tags; lit entries gain a 2px underline, unlit entries fall to ink 3.",
+      "html": "<ol class=\"ds-record\"><li class=\"ds-entry ds-entry--lit\"><time datetime=\"2025-09-01\">Sep 2025</time><div><a class=\"ds-entry__title\" href=\"#\">Kubernetes v1.34: Service Account Token Integration for Image Pulls Graduates to Beta</a><span class=\"ds-entry__meta\">Kubernetes.io &middot; <span class=\"ds-beta\">KEP-4412 beta</span></span></div></li><li class=\"ds-entry ds-entry--unlit\"><time datetime=\"2024-04-01\">Apr 2024</time><div><a class=\"ds-entry__title\" href=\"#\">Kubernetes 1.30: Structured Authentication Configuration Moves to Beta</a><span class=\"ds-entry__meta\">Kubernetes.io &middot; <span class=\"ds-beta\">KEP-3331 beta</span></span></div></li></ol>",
+      "css": ".ds-record { font-family: \"DM Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; margin: 0; padding: 0; list-style: none; background: var(--ground, #f2f9f6); color: var(--ink, #032728); font-size: 1.0625rem; line-height: 1.55; } .ds-entry { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); column-gap: 1rem; padding-block: 0.75rem; border-bottom: 1px solid var(--rule, #c7d9d5); transition: color 160ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-entry time { font-size: 0.8125rem; color: var(--ink-3, #4a6363); padding-top: 0.15em; font-variant-numeric: tabular-nums; } .ds-entry__title { font-weight: 550; color: inherit; text-decoration-thickness: 1px; text-decoration-color: color-mix(in oklch, var(--accent, #8f520d) 70%, transparent); text-underline-offset: 0.22em; transition: color 160ms cubic-bezier(0.16, 1, 0.3, 1), text-decoration-color 160ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-entry__title:hover { text-decoration-thickness: 2px; text-decoration-color: var(--accent, #8f520d); } .ds-entry__title:focus-visible { outline: 2px solid var(--accent, #8f520d); outline-offset: 3px; border-radius: 1px; } .ds-entry__meta { display: block; margin-top: 0.25rem; font-size: 0.8125rem; color: var(--ink-2, #314e4d); } .ds-beta { font-weight: 650; color: var(--beta, #676815); } .ds-entry--lit .ds-entry__title { text-decoration-thickness: 2px; } .ds-entry--unlit, .ds-entry--unlit .ds-entry__meta, .ds-entry--unlit .ds-beta { color: var(--ink-3, #4a6363); } .ds-entry--unlit a { text-decoration-color: var(--rule, #c7d9d5); } @media (prefers-reduced-motion: reduce) { .ds-entry, .ds-entry__title { transition: none; } }"
+    },
+    {
+      "name": "Dated row",
+      "kind": "custom",
+      "refersTo": "dated-row",
+      "description": "Posts and Talks list row under a year numeral: date, title with venue, and links or source in an aside column.",
+      "html": "<section class=\"ds-year\"><h2 class=\"ds-year__num\">2025</h2><ol class=\"ds-rows\"><li class=\"ds-row\"><time datetime=\"2025-11-12\">Nov 12</time><div><h3 class=\"ds-row__title\"><a href=\"#\">Strengthening Kubernetes Trust: SIG Auth's Latest Security Enhancements</a><span class=\"ds-row__sub\">KubeCon NA 2025</span></h3></div><div class=\"ds-row__aside\"><a href=\"#\">Recording</a> <a href=\"#\">Slides</a></div></li></ol></section>",
+      "css": ".ds-year { font-family: \"DM Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; display: grid; grid-template-columns: 9rem minmax(0, 1fr); column-gap: 2rem; background: var(--ground, #f2f9f6); color: var(--ink, #032728); } .ds-year__num { margin: 0; font-size: clamp(2rem, 1.4rem + 2.6vw, 3rem); font-weight: 300; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--ink-2, #314e4d); } .ds-rows { margin: 0; padding: 0; list-style: none; border-top: 2px solid var(--ink, #032728); } .ds-row { display: grid; grid-template-columns: 5rem minmax(0, 1fr) minmax(9rem, 12rem); column-gap: 1.5rem; padding-block: 1rem; border-bottom: 1px solid var(--rule, #c7d9d5); } .ds-row time { font-size: 0.8125rem; color: var(--ink-3, #4a6363); padding-top: 0.2em; font-variant-numeric: tabular-nums; } .ds-row__title { margin: 0; font-size: 1.0625rem; font-weight: 600; line-height: 1.35; } .ds-row__title a { color: inherit; text-decoration: none; } .ds-row__title a:hover { text-decoration: underline; } .ds-row__sub { display: block; margin-top: 0.25rem; font-weight: 400; color: var(--ink-2, #314e4d); } .ds-row__aside { display: flex; flex-wrap: wrap; gap: 0 1rem; font-size: 0.8125rem; } .ds-row__aside a { display: inline-flex; align-items: center; min-height: 2rem; font-weight: 600; color: var(--ink, #032728); text-decoration-color: color-mix(in oklch, var(--accent, #8f520d) 70%, transparent); text-underline-offset: 0.22em; } .ds-year a:focus-visible { outline: 2px solid var(--accent, #8f520d); outline-offset: 3px; border-radius: 1px; } .ds-year__num, .ds-row__title { font-family: Jost, Futura, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; }"
+    },
+    {
+      "name": "Doc page head and ledger note",
+      "kind": "custom",
+      "refersTo": "doc-page",
+      "description": "Talk or post detail: back link, headline, meta strip between rules, text actions, and the On the ledger note under a 2px ink rule.",
+      "html": "<article class=\"ds-doc\"><a class=\"ds-doc__back\" href=\"#\">All talks</a><h1>Strengthening Kubernetes Trust</h1><p class=\"ds-doc__meta\"><time datetime=\"2025-11-12\">November 12, 2025</time><span>KubeCon NA 2025</span><span>Atlanta</span></p><ul class=\"ds-doc__actions\"><li><a href=\"#\">Watch the recording</a></li><li><a href=\"#\">Slides</a></li></ul><aside class=\"ds-doc__ledger\"><h2>On the ledger</h2><ul><li><span class=\"ds-line ds-line--beta\" aria-hidden=\"true\"></span><span><a href=\"#\">Service account tokens for image pulls</a>, <span class=\"ds-beta\">beta</span> at v1.34 (KEP-4412)</span></li></ul></aside></article>",
+      "css": ".ds-doc { font-family: \"DM Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; max-width: 48rem; background: var(--ground, #f2f9f6); color: var(--ink, #032728); font-size: 1.0625rem; line-height: 1.55; } .ds-doc a { color: inherit; text-decoration-thickness: 1px; text-decoration-color: color-mix(in oklch, var(--accent, #8f520d) 70%, transparent); text-underline-offset: 0.22em; } .ds-doc a:hover { text-decoration-thickness: 2px; text-decoration-color: var(--accent, #8f520d); } .ds-doc a:focus-visible { outline: 2px solid var(--accent, #8f520d); outline-offset: 3px; border-radius: 1px; } .ds-doc__back { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 1rem; font-size: 0.8125rem; font-weight: 600; color: var(--ink-2, #314e4d) !important; } .ds-doc h1 { margin: 0; font-size: clamp(2rem, 1.4rem + 2.6vw, 3rem); font-weight: 500; letter-spacing: -0.02em; line-height: 1.08; text-wrap: balance; } .ds-doc__meta { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; margin: 1.5rem 0; padding-block: 0.75rem; border-block: 1px solid var(--rule, #c7d9d5); font-size: 0.8125rem; color: var(--ink-2, #314e4d); font-variant-numeric: tabular-nums; } .ds-doc__actions { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin: 0 0 2rem; padding: 0; list-style: none; } .ds-doc__actions a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 650; } .ds-doc__ledger { margin-top: 2rem; padding-top: 1rem; border-top: 2px solid var(--ink, #032728); font-size: 0.8125rem; color: var(--ink-2, #314e4d); } .ds-doc__ledger h2 { margin: 0 0 0.5rem; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; } .ds-doc__ledger ul { margin: 0; padding: 0; list-style: none; } .ds-doc__ledger li { display: flex; align-items: center; gap: 0.75rem; padding-block: 0.25rem; } .ds-beta { font-weight: 650; color: var(--beta, #676815); } .ds-line { display: inline-block; width: 1.75rem; flex: none; } .ds-line--alpha { border-top: 2px dashed var(--alpha, #9f422b); } .ds-line--beta { border-top: 3px solid var(--beta, #676815); } .ds-line--ga { height: 0.5rem; background: var(--ga, #005e63); } .ds-line--target { height: 0.5rem; border: 1.5px dashed var(--ga, #005e63); } .ds-doc h1, .ds-doc__ledger h2 { font-family: Jost, Futura, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; }"
+    },
+    {
+      "name": "Agent release strip",
+      "kind": "custom",
+      "refersTo": "version-numeral",
+      "description": "Agent-platform releases drawn in ink: light version numerals with their month, separated by rule ticks under a 1px ink rule.",
+      "html": "<ol class=\"ds-releases\" aria-label=\"agent-primitives/sessions releases\"><li><a href=\"#\">v0.1.0</a><time datetime=\"2026-09-01\">Sep 2026</time></li><li><a href=\"#\">v0.2.0</a><time datetime=\"2026-10-01\">Oct 2026</time></li><li><a href=\"#\">v0.3.0</a><time datetime=\"2026-10-20\">Oct 2026</time></li></ol>",
+      "css": ".ds-releases { font-family: \"DM Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; display: grid; grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr)); margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--ink, #032728); background: var(--ground, #f2f9f6); color: var(--ink, #032728); } .ds-releases li { padding: 0.75rem 0 0 0.75rem; border-left: 1px solid var(--rule, #c7d9d5); } .ds-releases li:first-child { border-left-color: var(--ink, #032728); } .ds-releases a { display: inline-block; font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem); font-weight: 300; font-variant-numeric: tabular-nums; line-height: 1.15; letter-spacing: -0.02em; color: var(--ink, #032728); text-decoration-thickness: 1px; text-decoration-color: color-mix(in oklch, var(--accent, #8f520d) 70%, transparent); text-underline-offset: 0.22em; } .ds-releases a:hover { text-decoration-thickness: 2px; text-decoration-color: var(--accent, #8f520d); } .ds-releases a:focus-visible { outline: 2px solid var(--accent, #8f520d); outline-offset: 3px; border-radius: 1px; } .ds-releases time { display: block; margin-top: 0.25rem; font-size: 0.8125rem; color: var(--ink-3, #4a6363); font-variant-numeric: tabular-nums; } .ds-releases a { font-family: Jost, Futura, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; }"
+    },
+    {
+      "name": "Footer",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Plain text links to elsewhere and the copyright line, small type in ink 2 under a 1px rule.",
+      "html": "<footer class=\"ds-footer\"><nav aria-label=\"Elsewhere\"><ul><li><a href=\"#\">GitHub</a></li><li><a href=\"#\">LinkedIn</a></li><li><a href=\"#\">Bluesky</a></li><li><a href=\"#\">RSS</a></li></ul></nav><p>&copy; 2026 Anish Ramasekar</p></footer>",
+      "css": ".ds-footer { font-family: \"DM Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; padding-block: 2rem 3rem; border-top: 1px solid var(--rule, #c7d9d5); font-size: 0.8125rem; color: var(--ink-2, #314e4d); background: var(--ground, #f2f9f6); } .ds-footer ul { display: flex; flex-wrap: wrap; gap: 0 1.5rem; margin: 0; padding: 0; list-style: none; } .ds-footer a { display: inline-flex; align-items: center; min-height: 44px; color: inherit; text-decoration-thickness: 1px; text-decoration-color: color-mix(in oklch, var(--accent, #8f520d) 70%, transparent); text-underline-offset: 0.22em; } .ds-footer a:hover { text-decoration-thickness: 2px; text-decoration-color: var(--accent, #8f520d); } .ds-footer a:focus-visible { outline: 2px solid var(--accent, #8f520d); outline-offset: 3px; border-radius: 1px; } .ds-footer p { margin: 0; display: flex; align-items: center; min-height: 44px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Spruce and Saffron",
+    "overview": "The home page introduces Anish to people looking him up: photo, name, bio, three plain-language focus areas, a few selected talks and posts, and contact. Its first screen is a deep spruce band that runs full width behind the header and the hero; a short saffron bar under the name is the one bright mark. Below the band the page is a pale spruce-tinted ground with dark spruce ink, and saffron returns only where something can be acted on: link underlines, action links, focus rings, text selection.\n\nThe full record lives on `/work/` (\"Features I've shipped\"). There, features advance across a fixed grid of Kubernetes releases, read the way release notes and enhancement tracking read: hairline rules, numerals set large and light. Three stage hues say what stage a feature reached, and every stage is also drawn in a distinct line weight, so the ledger still reads in greyscale. The one interaction lights a feature's posts and talks in the record and unlights the rest.",
+    "keyCharacteristics": [
+      "Two tones carry the identity: spruce (the band) and saffron (action and focus). Stage hues appear only on stages.",
+      "Two self-hosted variable faces: Jost (geometric, Futura lineage) names things; DM Sans carries text. Tabular figures for every date and version.",
+      "Hairline rules for rows; no cards, no shadows, no radii. The band is the only filled surface.",
+      "A release axis of large light numerals over a grid of ghost cells.",
+      "Colour-only motion, removed under reduced motion."
+    ],
+    "rules": [
+      {
+        "name": "The Two Tones Rule",
+        "body": "Spruce owns the top of the home page; saffron marks the name, action and focus. No other brand hue, no tints beyond the 70% underline mix, no gradients.",
+        "section": "colors"
+      },
+      {
+        "name": "The Stage Hue Rule",
+        "body": "Alpha rust, beta olive and GA teal appear only where a stage is named or drawn. They never mark links, hover or decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Double Code Rule",
+        "body": "Every stage is coded twice, by hue and by line weight: alpha is a 2px dashed line, beta a 3px solid line, GA a 0.5rem solid block, GA target a 0.5rem box outlined with a 1.5px dashed GA border. The stage name is always written as text beside the line.",
+        "section": "colors"
+      },
+      {
+        "name": "The Unlit Rule",
+        "body": "Quieting is done by reassigning the three stage properties and text colour to ink 3, never by opacity, blur or filter. Unlit content still passes AA.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Faces Rule",
+        "body": "Jost names things, DM Sans says things. No third face.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Rule",
+        "body": "Every date, version and release number is set with tabular figures, so columns of numerals align without a monospace face.",
+        "section": "typography"
+      },
+      {
+        "name": "The Light Numeral Rule",
+        "body": "Numerals that index the record (release axis, years, agent versions) are set large at Jost 300; words that name things are set at 500 to 650. Weight separates index from content.",
+        "section": "typography"
+      },
+      {
+        "name": "The Every Cell Exists Rule",
+        "body": "Each release column in each feature row is drawn as a ghost cell (a 1px rule tick and a 1px rule baseline), whether or not a stage occurred. Stages are laid over the cells; nothing is drawn to fill an empty release.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat Paper Rule",
+        "body": "No `box-shadow`, no elevation, no raised panels. If something needs separating, use a rule or space.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Square Corner Rule",
+        "body": "Nothing is rounded. A corner radius would turn a row into a card.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Colour-Only Motion Rule",
+        "body": "The only motion is a 160ms colour change on the cross-highlight. No transforms, no entrance animation, no scroll effects, and none at all under reduced motion.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do read every colour through the custom properties so both themes and the unlit state work without extra rules.",
+      "Do keep saffron off text on the light ground; use `accent` for saffron-coloured text.",
+      "Do pair every stage hue with its line weight and written name: alpha 2px dashed, beta 3px solid, GA 0.5rem block, GA target 0.5rem dashed box.",
+      "Do draw every release cell for every feature, lit or not.",
+      "Do set dates, versions and release numbers in tabular figures; set index numerals in Jost 300 and names at 500 to 650.",
+      "Do keep interactive text targets at 44px where they stand alone (nav, footer, actions, folded stage links).",
+      "Do quiet by switching to ink 3, and keep that state AA."
+    ],
+    "donts": [
+      "Don't add a brand hue beyond spruce and saffron, or use a stage hue for links, hover or decoration.",
+      "Don't use cards, panels, shadows or rounded corners; the band is the only filled surface.",
+      "Don't use gradients of any kind.",
+      "Don't use icon glyphs (icon fonts, SVG pictograms, emoji, arrows as icons); the drawn line samples, the saffron bar and the toggle's drawn square are the only marks.",
+      "Don't use terminal costume: no monospace, prompt characters, typewriter effects, blinking cursors or window chrome.",
+      "Don't animate position, size or opacity; motion is colour only, and none under reduced motion.",
+      "Don't quiet content with opacity or blur.",
+      "Don't add a third typeface."
+    ]
+  }
+}
