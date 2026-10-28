@@ -1,0 +1,54 @@
+# Areas on /work/, in page order. The home page's "What I work on" links to them by id.
+#
+# Every role has a public source, noted beside it (checked 2026-10-27). Leave a role out
+# until it does. Keep each entry to a name, a role, one line and a link.
+# ledger: the id of a data/ledger.yaml subproject; the entry then shows the KEP and its stage
+# and lights its talks in the record.
+# ledger: true on an area renders the Kubernetes release ledger after its entries.
+areas:
+  - id: kubernetes
+    name: Kubernetes identity and security
+    lede: How a cluster decides who a person or workload is and what it may do. The ledger tracks each feature I wrote or co-wrote the KEP for, release by release.
+    entries:
+      # kubernetes/community sig-auth/README.md, Leadership: Chairs.
+      - name: Kubernetes SIG Auth
+        role: Co-chair
+        line: The special interest group for Kubernetes authentication, authorization and cluster security policy.
+        href: https://github.com/kubernetes/community/tree/master/sig-auth
+    ledger: true
+
+  - id: secrets
+    name: Secrets and workload identity
+    lede: Getting secrets and cloud identities to Kubernetes workloads.
+    entries:
+      # kubernetes-sigs/secrets-store-csi-driver OWNERS: approvers.
+      - name: Secrets Store CSI Driver
+        role: Maintainer
+        line: Mounts secrets from external stores into pods through a CSI volume.
+        href: https://github.com/kubernetes-sigs/secrets-store-csi-driver
+        ledger: secrets-store-csi
+      # Azure/secrets-store-csi-driver-provider-azure CODEOWNERS: `*` owners.
+      - name: Azure Key Vault provider for the Secrets Store CSI Driver
+        role: Maintainer
+        line: Mounts secrets, keys and certificates from Azure Key Vault into pods through the driver.
+        href: https://github.com/Azure/secrets-store-csi-driver-provider-azure
+      # Azure/azure-workload-identity CODEOWNERS: `*` owners.
+      - name: Azure Workload Identity
+        role: Maintainer
+        line: Lets Kubernetes workloads reach Azure resources as a Microsoft Entra identity, based on annotated service accounts.
+        href: https://github.com/Azure/azure-workload-identity
+
+  - id: agents
+    name: Agent infrastructure
+    lede: Open building blocks for running AI agents, and IETF OAuth work like Transaction Tokens brought to Kubernetes.
+    entries:
+      # Initial commit, 2026-07-21 (as aramase/agentsessions, since moved to the org).
+      - name: agent-primitives/sessions
+        role: Creator
+        line: A neutral contract and Go reference implementation for durable agent sessions.
+        href: https://github.com/agent-primitives/sessions
+      # aramase/kontxt: owner, initial commit 2026-04-02.
+      - name: kontxt
+        role: Creator
+        line: "Transaction Tokens for Kubernetes: seals identity, context and authorization across multi-hop agent workflows, through AgentGateway and ext_authz."
+        href: https://github.com/aramase/kontxt

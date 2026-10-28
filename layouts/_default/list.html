@@ -1,34 +1,16 @@
 {{ define "main" }}
-<div class="posts">
-  {{ $paginator := .Paginate (where .Site.RegularPages "Type" "in" .Site.Params.mainSections).ByDate.Reverse }}
-  {{ range $paginator.Pages }}
-    <div class="post">
-      <div class="post-meta">
-        {{ .Date.Format "January 2, 2006" }}
-      </div>
-      
-      <h2 class="post-title">
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-      </h2>
-      
-      {{ if .Params.tags }}
-        {{ $page := . }}
-        <div class="post-tags">
-          {{ range $index, $tag := .Params.tags }}
-            <a href="/tags/{{ $tag | urlize }}">#{{ $tag }}</a>{{ if ne $index (sub (len $page.Params.tags) 1) }}, {{ end }}
-          {{ end }}
-        </div>
-      {{ end }}
-      
-      <div class="post-content">
-        {{ .Summary }}
-        {{ if .Truncated }}
-          <p><a href="{{ .RelPermalink }}">Read more...</a></p>
-        {{ end }}
-      </div>
-    </div>
-  {{ end }}
-  
-  {{ template "_internal/pagination.html" . }}
+<div class="wrap">
+  <header class="page-head">
+    <h1>{{ .Title }}</h1>
+  </header>
+  <ol class="rows">
+    {{- range .Pages.ByDate.Reverse }}
+    <li class="row">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2006" }}</time>
+      <div><h2 class="row__title"><a href="{{ if eq .Section "blogs" }}{{ .Params.link | default .RelPermalink }}{{ else }}{{ .RelPermalink }}{{ end }}">{{ .Title }}</a></h2></div>
+      <div class="row__aside">{{ with .Params.source }}{{ . }}{{ end }}{{ with .Params.venue }}{{ . }}{{ end }}</div>
+    </li>
+    {{- end }}
+  </ol>
 </div>
 {{ end }}

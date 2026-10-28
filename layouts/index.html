@@ -1,42 +1,71 @@
 {{ define "main" }}
-<div class="post">
-  <div class="post-content">
-    <div class="about-header">
-      <img src="/images/aramase-profile.jpg" alt="Anish Ramasekar" class="about-image">
-      <div class="about-intro">
-        <h1>Anish Ramasekar</h1>
-        <p class="about-subtitle">Principal Software Engineer at Microsoft</p>
-      </div>
-    </div>
-    
-    <p>I work on the Azure Container Upstream team building features for Kubernetes upstream and various CNCF projects that power Azure Kubernetes Service. I'm a co-chair of Kubernetes SIG Auth and a maintainer of the Secrets Store CSI Driver project.</p>
-    
-    <p>My work focuses on cloud-native security and open source leadership. I drive security innovations across the full spectrum—from identity and authentication to secrets management and encryption—while maintaining critical CNCF security projects.</p>
-    
-    <!-- Recent Section -->
-    <div class="recent-section">
-      <h2>Recent on my blog</h2>
-      
-      <div class="recent-blog-list">
-        {{ range first 10 (where .Site.RegularPages "Section" "blogs") }}
-        <div class="recent-blog-item">
-          <span class="recent-date">{{ .Date.Format "Jan 2006" }}</span>
-          {{ if .Params.link }}
-            <a href="{{ .Params.link }}" target="_blank" rel="noopener noreferrer" class="recent-blog-title">{{ .Title }}</a>
-          {{ else }}
-            <a href="{{ .Permalink }}" class="recent-blog-title">{{ .Title }}</a>
-          {{ end }}
-        </div>
-        {{ end }}
-        <div class="recent-blog-item view-all">
-          <a href="/blogs/" class="recent-blog-title">View all posts →</a>
-        </div>
-      </div>
-    </div>
-    
-    <p>I share my experience through <a href="/talks/">conference talks</a> and <a href="/blogs/">technical writing</a>, covering practical security implementations and emerging cloud-native technologies. My goal is to make Kubernetes security more accessible and actionable for teams worldwide.</p>
-    
-    <p>Interested in collaborating on open source security projects or discussing cloud-native best practices? I'd love to connect.</p>
+{{- $home := hugo.Data.home }}
+{{- $talks := where site.RegularPages "Section" "talks" }}
+{{- $posts := where site.RegularPages "Section" "blogs" }}
+<div class="band">
+  <div class="wrap">
+    <section class="hero" aria-labelledby="name">
+      {{- with resources.Get "images/anish-ramasekar.png" }}
+      {{- $s1 := .Fill "208x208 webp q80 Center" }}
+      {{- $s2 := .Fill "416x416 webp q78 Center" }}
+      {{- $fallback := .Fill "416x416 jpg q80 Center" }}
+      <picture>
+        <source type="image/webp" srcset="{{ $s1.RelPermalink }} 208w, {{ $s2.RelPermalink }} 416w" sizes="(max-width: 40rem) 5.5rem, 13rem">
+        <img class="hero__photo" src="{{ $fallback.RelPermalink }}" width="208" height="208" alt="Anish Ramasekar smiling outdoors, with mountains behind him">
+      </picture>
+      {{- end }}
+      <h1 id="name">Anish Ramasekar</h1>
+      <p class="hero__bio">I'm a principal software engineer at Microsoft working on identity and security for Kubernetes and for the AI agents that run on it. I co-chair Kubernetes SIG Auth and have taken features from proposal to GA, including KMS v2 encryption and structured authentication configuration, and I maintained the Secrets Store CSI Driver. Lately I'm building open pieces for agents: durable sessions, sandboxed runtimes and transaction tokens.</p>
+    </section>
   </div>
+</div>
+
+<div class="wrap">
+  <section class="focus" aria-labelledby="focus-title">
+    <h2 class="section-title" id="focus-title">What I work on</h2>
+    <ul>
+      {{- range $home.focus }}
+      <li class="focus__item">
+        <h3>{{ .name }}</h3>
+        <p>{{ .line }}</p>
+        <a href="{{ .href }}">{{ .text }}</a>
+      </li>
+      {{- end }}
+    </ul>
+  </section>
+
+  <div class="picks">
+    <section aria-labelledby="talks-title">
+      <h2 class="section-title" id="talks-title">Selected talks</h2>
+      <ol>
+        {{- range $home.talks }}{{ partial "pick.html" . }}{{ end }}
+      </ol>
+      <a class="picks__more" href="/talks/">All {{ len $talks }} talks</a>
+    </section>
+    <section aria-labelledby="posts-title">
+      <h2 class="section-title" id="posts-title">Selected posts</h2>
+      <ol>
+        {{- range $home.posts }}{{ partial "pick.html" . }}{{ end }}
+      </ol>
+      <a class="picks__more" href="/blogs/">All {{ len $posts }} posts</a>
+    </section>
+  </div>
+
+  <section class="contact" aria-labelledby="contact-title">
+    <h2 class="section-title" id="contact-title">Contact</h2>
+    {{- with site.Params.social }}
+    {{- with .email }}
+    <a class="contact__email" href="mailto:{{ . }}">{{ . }}</a>
+    {{- end }}
+    <ul class="contact__links">
+      {{- with .github }}<li><a href="https://github.com/{{ . }}">GitHub</a></li>{{ end }}
+      {{- with .linkedin }}<li><a href="https://www.linkedin.com/in/{{ . }}">LinkedIn</a></li>{{ end }}
+      {{- with .bluesky }}<li><a href="https://bsky.app/profile/{{ . }}">Bluesky</a></li>{{ end }}
+      {{- with .twitter }}<li><a href="https://x.com/{{ . }}">X</a></li>{{ end }}
+      {{- with .youtube }}<li><a href="https://www.youtube.com/@{{ . }}">YouTube</a></li>{{ end }}
+      <li><a href="/index.xml">RSS</a></li>
+    </ul>
+    {{- end }}
+  </section>
 </div>
 {{ end }}

@@ -1,0 +1,5 @@
+{{- /* Stage display name. Input: dict with stage and target. */ -}}
+{{- $names := dict "alpha" "alpha" "beta" "beta" "ga" "GA" }}
+{{- $name := index $names .stage }}
+{{- if .target }}{{ $name = printf "%s target" $name }}{{ end }}
+{{- return $name }}
