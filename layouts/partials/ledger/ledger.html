@@ -1,44 +1,77 @@
 {{- $k8s := hugo.Data.ledger.kubernetes }}
 {{- $first := int $k8s.first }}
 {{- $last := int $k8s.last }}
-{{- $cols := add (sub $last $first) 1 }}
-{{- /* Columns come from the data, so a new release needs no template change; a stage
-       outside them means data/ledger.yaml is inconsistent. */}}
+{{- /* The release in development, set only while a target is drawn; else 0. */}}
+{{- $devData := int ($k8s.inDevelopment | default 0) }}
+{{- /* Columns come from the data, so a new release needs no template change. A released
+       stage outside first..last, or a target anywhere but inDevelopment, means
+       data/ledger.yaml is inconsistent. */}}
+{{- if and $devData (le $devData $last) }}{{ errorf "data/ledger.yaml: inDevelopment v1.%d is not after last v1.%d" $devData $last }}{{ end }}
+{{- $targets := 0 }}
 {{- range $k8s.features }}{{ $f := . }}{{ range .stages }}
-  {{- if or (lt (int .release) $first) (gt (int .release) $last) }}{{ errorf "data/ledger.yaml: %s %s at v1.%d is outside v1.%d to v1.%d" $f.id .stage .release $first $last }}{{ end }}
+  {{- if .target }}
+    {{- $targets = add $targets 1 }}
+    {{- if ne (int .release) $devData }}{{ errorf "data/ledger.yaml: %s %s target at v1.%d is not at inDevelopment" $f.id .stage .release }}{{ end }}
+  {{- else if or (lt (int .release) $first) (gt (int .release) $last) }}{{ errorf "data/ledger.yaml: %s %s at v1.%d is outside v1.%d to v1.%d" $f.id .stage .release $first $last }}{{ end }}
 {{- end }}{{ end }}
+{{- if and $devData (not $targets) }}{{ errorf "data/ledger.yaml: inDevelopment is v1.%d but no stage is a target" $devData }}{{ end }}
+{{- /* Targets are drawn only while ledger/fresh.html vouches for them; otherwise the
+       ledger shows released stages and ends at last. */}}
+{{- $fresh := partialCached "ledger/fresh.html" . }}
+{{- $dev := cond $fresh $devData 0 }}
+{{- $end := cond (gt $dev 0) $dev $last }}
+{{- /* At most $cap columns: past that, the oldest releases fold into the first column,
+       labelled "≤N", and each feature shows only its latest stage from them there. */}}
+{{- $cap := 14 }}
+{{- $base := $first }}
+{{- if gt (add (sub $end $first) 1) $cap }}{{ $base = sub $end (sub $cap 1) }}{{ end }}
+{{- $folded := gt $base $first }}
+{{- $cols := add (sub $end $base) 1 }}
 {{- /* Short stage-link label per post source; unknown sources show their own name. */}}
 {{- $sourceLabels := dict "Kubernetes.io" "k8s.io" "Microsoft Open Source" "Microsoft" }}
-{{- /* The legend and note explain the target box only when a stage uses it. */}}
-{{- $hasTarget := false }}
-{{- range $k8s.features }}{{ range .stages }}{{ if .target }}{{ $hasTarget = true }}{{ end }}{{ end }}{{ end }}
 <section class="ledger" aria-labelledby="ledger-title" data-ledger>
   <div class="ledger__head">
-    <h3 class="ledger__title" id="ledger-title">Features I've shipped, v1.{{ $first }} to v1.{{ $last }}</h3>
+    <h3 class="ledger__title" id="ledger-title">Kubernetes features I've shipped</h3>
     <ul class="legend" aria-label="Stage key">
       <li><span class="line line--alpha" aria-hidden="true"></span>alpha</li>
       <li><span class="line line--beta" aria-hidden="true"></span>beta</li>
       <li><span class="line line--ga" aria-hidden="true"></span>GA</li>
-      {{- if $hasTarget }}
+      {{- if $dev }}
       <li><span class="line line--target" aria-hidden="true"></span>GA target</li>
       {{- end }}
     </ul>
   </div>
 
   <div class="ledger__grid" style="--cols: {{ $cols }}">
-    <div class="axis" aria-hidden="true">
+    {{- /* Hidden from assistive tech: each stage carries its own release text. */}}
+    <div class="axis{{ if $folded }} axis--folded{{ end }}" aria-hidden="true">
       <span class="axis__prefix">v1.</span>
-      {{- range $r := seq $first $last }}
-      <span class="axis__num{{ if eq $r (int $k8s.inDevelopment) }} axis__num--dev{{ end }}">{{ $r }}{{ if eq $r (int $k8s.inDevelopment) }}<small>in dev</small>{{ end }}</span>
+      {{- range $r := seq $base $end }}
+      {{- $isFold := and $folded (eq $r $base) }}
+      <span class="axis__num{{ if eq $r $dev }} axis__num--dev{{ end }}{{ if $isFold }} axis__num--fold{{ end }}">{{ if $isFold }}<span class="axis__le">&le;</span>{{ end }}{{ $r }}{{ if eq $r $dev }}<small>in dev</small>{{ end }}</span>
       {{- end }}
     </div>
 
     <ol class="features">
       {{- range $f := $k8s.features }}
-      {{- $stages := $f.stages }}
+      {{- /* Drawn stages: stale targets dropped, and with the fold, the stages up to $base
+             reduced to the latest of them. */}}
+      {{- $stages := slice }}
+      {{- $head := false }}
+      {{- range $f.stages }}
+        {{- if and .target (not $fresh) }}{{ continue }}{{ end }}
+        {{- if and $folded (le (int .release) $base) }}{{ $head = . }}{{ continue }}{{ end }}
+        {{- with $head }}{{ $stages = $stages | append . }}{{ $head = false }}{{ end }}
+        {{- $stages = $stages | append . }}
+      {{- end }}
+      {{- with $head }}{{ $stages = $stages | append . }}{{ end }}
       {{- $n := len $stages }}
+      {{- /* A feature whose only stage is a stale target has nothing to draw: leave its row
+             out rather than draw an empty track. Not a build error, since staleness comes
+             with time, not with a data change. */}}
+      {{- if not $n }}{{ continue }}{{ end }}
       {{- $prs := slice }}
-      {{- range $stages }}{{ range .prs }}{{ $prs = $prs | append . }}{{ end }}{{ end }}
+      {{- range $f.stages }}{{ range .prs }}{{ $prs = $prs | append . }}{{ end }}{{ end }}
       <li class="feature" id="{{ $f.id }}" data-feature="{{ $f.id }}">
         <div class="feature__label">
           <h4 class="feature__name">{{ $f.name }}</h4>
@@ -56,20 +89,27 @@
           <a class="feature__cue" href="#record-title" hidden></a>
         </div>
         <ol class="track" aria-label="{{ $f.name }} releases">
-          {{- range $r := seq $first $last }}
-          <li class="track__cell" aria-hidden="true" style="grid-column: {{ add (sub $r $first) 1 }}"></li>
+          {{- range $c := seq $cols }}
+          <li class="track__cell" aria-hidden="true" style="grid-column: {{ $c }}"></li>
           {{- end }}
           {{- range $i, $s := $stages }}
-          {{- $from := add (sub (int $s.release) $first) 1 }}
+          {{- $rel := int $s.release }}
+          {{- $from := 1 }}
+          {{- if gt $rel $base }}{{ $from = add (sub $rel $base) 1 }}{{ end }}
           {{- $isLast := eq (add $i 1) $n }}
-          {{- $open := and $isLast (ne $s.stage "ga") }}
+          {{- /* An open stage (the latest, short of GA and not a target) ends at last with an
+                 end-cap and reads "since v1.N", so a quiet stretch is a fact, not a stall. */}}
+          {{- $open := and $isLast (ne $s.stage "ga") (not $s.target) }}
           {{- $to := add $from 1 }}
-          {{- if not $isLast }}{{ $to = add (sub (int (index $stages (add $i 1)).release) $first) 1 }}{{ end }}
-          {{- if $open }}{{ $to = add $cols 1 }}{{ end }}
+          {{- if not $isLast }}{{ $to = add (sub (int (index $stages (add $i 1)).release) $base) 1 }}{{ end }}
+          {{- if $open }}{{ $to = add (sub $last $base) 2 }}{{ end }}
           {{- $label := partial "ledger/stage-label.html" $s }}
           <li class="stage stage--{{ $s.stage }}{{ if $s.target }} stage--target{{ end }}{{ if $open }} stage--open{{ end }}" style="--from: {{ $from }}; --to: {{ $to }}">
-            <span class="stage__rel visually-hidden">v1.{{ $s.release }}</span>
-            <span class="stage__name">{{ $label }}</span>
+            <span class="stage__rel visually-hidden">v1.{{ $rel }}</span>
+            <span class="stage__name">{{ $label }}
+              {{- if $open }}<span class="stage__since" aria-hidden="true"> since v1.{{ $rel }}</span>
+              {{- else if and $folded (le $rel $base) }}<span class="stage__since" aria-hidden="true"> v1.{{ $rel }}</span>
+              {{- end }}</span>
             {{- $links := slice }}
             {{- range $s.posts }}{{ with site.GetPage . }}{{ $src := .Params.source | default "Post" }}{{ $links = $links | append (dict "href" (.Params.link | default .RelPermalink) "text" (index $sourceLabels $src | default $src) "title" .Title) }}{{ else }}{{ errorf "data/ledger.yaml: %s %s post %q is not a page" $f.id $s.stage . }}{{ end }}{{ end }}
             {{- range $s.talks }}{{ with site.GetPage . }}{{ $links = $links | append (dict "href" .RelPermalink "text" "Talk" "title" .Title) }}{{ else }}{{ errorf "data/ledger.yaml: %s %s talk %q is not a page" $f.id $s.stage . }}{{ end }}{{ end }}
@@ -88,5 +128,5 @@
     </ol>
   </div>
 
-  <p class="ledger__note">Stages and releases from each KEP's kep.yaml in kubernetes/enhancements. v1.{{ $k8s.inDevelopment }} is in development{{ if $hasTarget }}; a dashed GA box marks a release the KEP is tracked for{{ end }}.</p>
+  <p class="ledger__note">Stages and releases from each KEP's kep.yaml in kubernetes/enhancements.{{ with $dev }} A dashed GA box marks v1.{{ . }}, in development, which tracks the KEP (checked {{ time.Format "2006-01-02" $k8s.checked }}).{{ end }}</p>
 </section>

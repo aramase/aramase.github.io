@@ -1,0 +1,19 @@
+{{- /* Whether targets in data/ledger.yaml may be drawn: true while inDevelopment is set and
+       checked, the UTC date the generator last confirmed the target, is at most 35 days
+       before today. The bot regenerates the ledger on the 1st of each month, so an older
+       date means its pull request went unmerged and the target may no longer hold; every
+       caller then shows released stages only. Called through partialCached, since it reads
+       only site data.
+
+       Days are counted in UTC: hugo.toml sets no timeZone, so time.AsTime reads checked as
+       midnight UTC and the target stays up through the 35th day after it. Setting a
+       timeZone would shift that boundary by its offset. */ -}}
+{{- $k8s := hugo.Data.ledger.kubernetes }}
+{{- $fresh := false }}
+{{- if $k8s.inDevelopment }}
+  {{- if not $k8s.checked }}
+    {{- errorf "data/ledger.yaml: inDevelopment is v1.%d but checked is missing; run make ledger" (int $k8s.inDevelopment) }}
+  {{- end }}
+  {{- $fresh = now.Before ((time.AsTime $k8s.checked).AddDate 0 0 36) }}
+{{- end }}
+{{- return $fresh }}

@@ -12,6 +12,7 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+	"time"
 
 	"gopkg.in/yaml.v3"
 )
@@ -66,14 +67,17 @@ func TestBuild(t *testing.T) {
 		4: {GA: &annotation{Talks: []string{"/talks/x", "/talks/y"}}},
 	}
 	issues := fakeIssues{3: {Milestone: "v1.38", Labels: []string{"stage/stable", leadOptedIn}}}
-	g := generator{src: src, issues: issues, latest: 37}
+	// 23:30 on 2026-10-01 in UTC-7 is 2026-10-02 in UTC.
+	now := time.Date(2026, 10, 1, 23, 30, 0, 0, time.FixedZone("UTC-7", -7*60*60))
+	g := generator{src: src, issues: issues, latest: 37, now: func() time.Time { return now }}
 
 	got, err := g.build(context.Background(), keps, ov)
 	if err != nil {
 		t.Fatal(err)
 	}
 	want := ledger{
-		First: 25, Last: 38, InDevelopment: 38,
+		// The target is in v1.38 but not released, so the axis still ends at v1.37.
+		First: 25, Last: 37, InDevelopment: 38, Checked: time.Date(2026, 10, 2, 0, 0, 0, 0, time.UTC),
 		Features: []entry{
 			{ID: "one", Name: "One", KEP: 1, Path: "sig-auth/1-test", SIG: "SIG Auth", Coauthors: []string{"ritazh"}, Stages: []stage{
 				{Stage: stageAlpha, Release: 25, annotation: annotation{PRs: []int{10, 11}, Posts: []string{"/blogs/a"}}},
@@ -97,6 +101,97 @@ func TestBuild(t *testing.T) {
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("build:\n got %+v\nwant %+v", got, want)
+	}
+}
+
+// The axis ends at the newest released stage. A release with no new stage adds no column,
+// and the in-development release and checked date exist only while a target does.
+func TestBuildAxisEnd(t *testing.T) {
+	src := fakeSource{
+		1: kep(1, "sig-auth", "stable", "v1.25", "v1.27", "v1.29", "aramase"),
+		2: kep(2, "sig-api-machinery", "beta", "v1.36", "v1.37", "", "aramase"),
+	}
+	keps := []tracked{
+		{KEP: 1, SIG: "sig-auth", ID: "one", Name: "One"},
+		{KEP: 2, SIG: "sig-api-machinery", ID: "two", Name: "Two"},
+	}
+	for _, latest := range []int{37, 38, 41} {
+		g := generator{src: src, issues: fakeIssues{}, latest: latest}
+		l, err := g.build(context.Background(), keps, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if l.First != 25 || l.Last != 37 || l.InDevelopment != 0 || !l.Checked.IsZero() {
+			t.Errorf("latest v1.%d: first %d, last %d, inDevelopment %d, checked %v; want 25, 37, 0, zero", latest, l.First, l.Last, l.InDevelopment, l.Checked)
+		}
+		if out := string(render(l)); strings.Contains(out, "\n  inDevelopment:") || strings.Contains(out, "\n  checked:") {
+			t.Errorf("latest v1.%d: output names a release in development without a target", latest)
+		}
+	}
+}
+
+// A GA milestone in the release in development that is not drawn as a target, because the
+// release does not track the KEP or an exclusion drops it, adds no in-development release,
+// no checked date and no column.
+func TestBuildNoLiveTarget(t *testing.T) {
+	src := fakeSource{
+		1: kep(1, "sig-auth", "stable", "v1.33", "v1.34", "v1.38", "aramase"),
+	}
+	keps := []tracked{{KEP: 1, SIG: "sig-auth", ID: "one", Name: "One"}}
+	cases := []struct {
+		name   string
+		issues fakeIssues
+		ov     map[int]override
+	}{
+		{name: "milestone without lead-opted-in", issues: fakeIssues{1: {Milestone: "v1.38"}}},
+		{name: "lead-opted-in on another milestone", issues: fakeIssues{1: {Milestone: "v1.39", Labels: []string{leadOptedIn}}}},
+		{name: "no milestone", issues: fakeIssues{1: {}}},
+		{
+			name:   "excluded",
+			issues: fakeIssues{1: {Milestone: "v1.38", Labels: []string{leadOptedIn}}},
+			ov:     map[int]override{1: {Exclude: []exclusion{{Stage: stageGA, Release: 38, Note: "dropped"}}}},
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			g := generator{src: src, issues: tc.issues, latest: 37, now: func() time.Time { return time.Date(2026, 10, 1, 9, 0, 0, 0, time.UTC) }}
+			l, err := g.build(context.Background(), keps, tc.ov)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if l.First != 33 || l.Last != 34 || l.InDevelopment != 0 || !l.Checked.IsZero() {
+				t.Errorf("first %d, last %d, inDevelopment %d, checked %v; want 33, 34, 0, zero", l.First, l.Last, l.InDevelopment, l.Checked)
+			}
+		})
+	}
+}
+
+// Without an injected clock the checked date is today's, in UTC.
+func TestBuildCheckedDefaultsToNow(t *testing.T) {
+	src := fakeSource{1: kep(1, "sig-auth", "stable", "", "v1.37", "v1.38", "aramase")}
+	issues := fakeIssues{1: {Milestone: "v1.38", Labels: []string{leadOptedIn}}}
+	g := generator{src: src, issues: issues, latest: 37}
+	before := time.Now().UTC()
+	l, err := g.build(context.Background(), []tracked{{KEP: 1, SIG: "sig-auth", ID: "one", Name: "One"}}, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	after := time.Now().UTC()
+	if l.InDevelopment != 38 || l.Last != 37 || l.Checked.Location() != time.UTC ||
+		l.Checked.After(after) || l.Checked.Before(before.Truncate(24*time.Hour)) {
+		t.Errorf("inDevelopment %d, last %d, checked %v; want 38, 37, today in UTC", l.InDevelopment, l.Last, l.Checked)
+	}
+}
+
+func TestWithoutChecked(t *testing.T) {
+	a := "kubernetes:\n  last: 37\n  inDevelopment: 38   # x\n  checked: 2026-10-01   # y\n  features:\n"
+	b := "kubernetes:\n  last: 37\n  inDevelopment: 38   # x\n  checked: 2026-11-01   # y\n  features:\n"
+	c := "kubernetes:\n  last: 37\n  features:\n"
+	if withoutChecked([]byte(a)) != withoutChecked([]byte(b)) {
+		t.Error("ledgers that differ only in the checked date compare different")
+	}
+	if withoutChecked([]byte(a)) == withoutChecked([]byte(c)) {
+		t.Error("a ledger with a target compares equal to one without")
 	}
 }
 
@@ -311,7 +406,7 @@ func TestKEPNumberQuoted(t *testing.T) {
 
 func TestRender(t *testing.T) {
 	l := ledger{
-		First: 25, Last: 38, InDevelopment: 38,
+		First: 25, Last: 37, InDevelopment: 38, Checked: time.Date(2026, 10, 1, 0, 0, 0, 0, time.UTC),
 		Features: []entry{
 			{ID: "kms-v2", Name: "KMS v2", KEP: 3299, Path: "sig-auth/3299-kms-v2-improvements", SIG: "SIG Auth", Coauthors: []string{"ritazh"}, Stages: []stage{
 				{Stage: stageAlpha, Release: 25, annotation: annotation{PRs: []int{111126}, Posts: []string{"/blogs/a"}}},
@@ -331,8 +426,9 @@ func TestRender(t *testing.T) {
 	want := header + `
 kubernetes:
   first: 25   # v1.25, the first release with a stage on the ledger
-  last: 38    # v1.38, in development (no v1.38.0 tag yet)
-  inDevelopment: 38
+  last: 37    # v1.37, the newest released stage on the ledger
+  inDevelopment: 38   # v1.38, in development: a target is drawn
+  checked: 2026-10-01   # the target was confirmed on this date
   features:
     - id: kms-v2
       name: KMS v2
@@ -384,7 +480,8 @@ subprojects:
 	var doc struct {
 		Kubernetes struct {
 			First, Last   int
-			InDevelopment int `yaml:"inDevelopment"`
+			InDevelopment int       `yaml:"inDevelopment"`
+			Checked       time.Time `yaml:"checked"`
 			Features      []struct {
 				Name      string
 				Coauthors []string
@@ -406,7 +503,7 @@ subprojects:
 		t.Fatal(err)
 	}
 	k := doc.Kubernetes
-	if k.First != 25 || k.Last != 38 || k.InDevelopment != 38 || len(k.Features) != 2 ||
+	if k.First != 25 || k.Last != 37 || k.InDevelopment != 38 || !k.Checked.Equal(l.Checked) || len(k.Features) != 2 ||
 		k.Features[1].Name != "No: plain" || !k.Features[1].Stages[0].Target ||
 		!reflect.DeepEqual(k.Features[0].Stages[1].Posts, []string{"/blogs/b", "/blogs/c"}) ||
 		len(doc.Subprojects) != 1 || doc.Subprojects[0].Talks[0] != "/talks/x" {

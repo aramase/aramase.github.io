@@ -1,9 +1,12 @@
 {{- /* Map of content path -> ledger references, built from data/ledger.yaml.
-       Each reference: id, name, kep, stage, release, target. */ -}}
+       Each reference: id, name, kep, stage, release, target. A target is left out once
+       ledger/fresh.html says it is stale, as on the ledger itself. */ -}}
 {{- $refs := dict }}
 {{- $k8s := hugo.Data.ledger.kubernetes }}
+{{- $fresh := partialCached "ledger/fresh.html" . }}
 {{- range $f := $k8s.features }}
   {{- range $s := $f.stages }}
+    {{- if and $s.target (not $fresh) }}{{ continue }}{{ end }}
     {{- $ref := dict "id" $f.id "name" $f.name "kep" $f.kep "stage" $s.stage "release" $s.release "target" ($s.target | default false) }}
     {{- range $path := (append ($s.posts | default slice) ($s.talks | default slice)) }}
       {{- $refs = merge $refs (dict $path (append (index $refs $path | default slice) (slice $ref))) }}

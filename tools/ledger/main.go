@@ -8,7 +8,8 @@
 //     issue's milestone is that release and it carries lead-opted-in;
 //   - anything later, or past the KEP's current stage, is a plan and is left out.
 //
-// The output carries no dates or source commits, so it only changes when the ledger does.
+// The output carries no source commits, and a date only while a target is drawn, so it
+// changes when the ledger does, and once a run while a target is live.
 package main
 
 import (
@@ -17,6 +18,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"time"
 )
 
@@ -35,7 +37,7 @@ func run() error {
 	enhancements := flag.String("enhancements", "", "local kubernetes/enhancements clone; empty reads kubernetes/enhancements on GitHub")
 	ref := flag.String("ref", "master", "kubernetes/enhancements ref to read when -enhancements is empty")
 	latest := flag.Int("latest-release", 0, "latest released Kubernetes minor (37 for v1.37); 0 reads the kubernetes/kubernetes tags")
-	check := flag.Bool("check", false, "exit non-zero if the output file is not up to date, without writing it")
+	check := flag.Bool("check", false, "exit non-zero if the output file is not up to date, ignoring the checked date, without writing it")
 	flag.Parse()
 
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
@@ -74,10 +76,19 @@ func run() error {
 		if err != nil {
 			return err
 		}
-		if string(cur) != string(data) {
+		if withoutChecked(cur) != withoutChecked(data) {
 			return fmt.Errorf("%s is out of date; run make ledger", *out)
 		}
 		return nil
 	}
 	return os.WriteFile(path, data, 0o644)
+}
+
+// checkedRE matches the line render writes for the checked date.
+var checkedRE = regexp.MustCompile(`(?m)^  checked: .*\n`)
+
+// withoutChecked drops the checked date, which changes on every run while a target is
+// drawn, so -check compares only what the ledger says.
+func withoutChecked(b []byte) string {
+	return checkedRE.ReplaceAllString(string(b), "")
 }

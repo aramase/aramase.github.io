@@ -3,6 +3,9 @@ name: Update release ledger
 # Regenerates data/ledger.yaml from kubernetes/enhancements and opens a pull request
 # when it changed. Pull requests opened with GITHUB_TOKEN start no workflows, so
 # review the diff (new stages especially) before merging; the merge deploys the site.
+# The axis ends at the newest stage, so most months change nothing. While a GA target
+# is live the checked date moves every run, so a pull request opens each month; the
+# site stops drawing the target 35 days after checked if that pull request goes unmerged.
 #
 # The generate job runs the generator with a read-only token and hands the ledger to
 # the pull-request job as an artifact; only that job can write to the repository.

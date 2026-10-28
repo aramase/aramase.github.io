@@ -228,7 +228,7 @@ components:
 
 The home page introduces Anish to people looking him up: photo, name, bio, three plain-language focus areas, a few selected talks and posts, and contact. Its first screen is a deep spruce band that runs full width behind the header and the hero; a short saffron bar under the name is the one bright mark. Below the band the page is a pale spruce-tinted ground with dark spruce ink, and saffron returns only where something can be acted on: link underlines, action links, focus rings, text selection.
 
-The full record lives on `/work/` ("Work"), in three areas: Kubernetes identity and security, secrets and workload identity, and agent infrastructure. Each area opens on its title and a one- or two-line lede, then short entries (name, role, one line, link). The Kubernetes area carries the release ledger, where features advance across a fixed grid of Kubernetes releases, read the way release notes and enhancement tracking read: hairline rules, numerals set large and light. Three stage hues say what stage a feature reached, and every stage is also drawn in a distinct line weight, so the ledger still reads in greyscale. The one interaction lights a feature's posts and talks in the record and unlights the rest.
+The full record lives on `/work/` ("Work"), in three areas: Kubernetes identity and security, secrets and workload identity, and agent infrastructure. Each area opens on its title and a one- or two-line lede, then short entries (name, role, one line, link). The Kubernetes area carries the release ledger, where features advance across a grid of Kubernetes releases, read the way release notes and enhancement tracking read: hairline rules, numerals set large and light. Three stage hues say what stage a feature reached, and every stage is also drawn in a distinct line weight, so the ledger still reads in greyscale. The one interaction lights a feature's posts and talks in the record and unlights the rest.
 
 **Key Characteristics:**
 - Two tones carry the identity: spruce (the band) and saffron (action and focus). Stage hues appear only on stages.
@@ -292,7 +292,7 @@ Both are latin subsets, preloaded, `font-display: swap`. There is no monospace a
 ### Hierarchy
 - **Display** (Jost 500, `clamp(2.75rem, 1.4rem + 5.6vw, 5.5rem)`, line-height 0.95, tracking -0.02em): the name on the home page, followed by the saffron bar.
 - **Headline** (Jost 500, `clamp(2rem, 1.4rem + 2.6vw, 3rem)`, tracking -0.02em): list and detail page titles (detail pages at line-height 1.08).
-- **Section title** (Jost 500, 1.625rem, tracking -0.01em): "What I work on", "Selected talks", and the area titles on `/work/` ("Kubernetes identity and security", "Agent infrastructure"). The ledger title inside its area ("Features I've shipped, v1.25 to v1.38") is Jost 500 at the focus-name size.
+- **Section title** (Jost 500, 1.625rem, tracking -0.01em): "What I work on", "Selected talks", and the area titles on `/work/` ("Kubernetes identity and security", "Agent infrastructure"). The ledger title inside its area ("Kubernetes features I've shipped", with no release range) is Jost 500 at the focus-name size.
 - **Focus name** (Jost 500, 1.25rem): the three area names on the home page.
 - **Release numeral** (Jost 300, `clamp(1.5rem, 0.9rem + 1.6vw, 2.5rem)`, line-height 1, tabular): the ledger axis. The `v1.` prefix sits small in ink 3 at the left of the axis.
 - **Year numeral** (Jost 300, headline size, tabular): year headings on the Posts and Talks lists; sticky beside its rows on wide screens.
@@ -316,7 +316,7 @@ Both are latin subsets, preloaded, `font-display: swap`. There is no monospace a
 - **Container:** max width 76rem, centred, side gutter `clamp(1.25rem, 4vw, 3rem)`.
 - **Spacing scale:** nine steps from 0.25rem to 6rem (space-1 to space-9). Rows pad 1rem above and 1.5rem below; page heads pad 4rem above; the footer sits 6rem below content.
 - **Section openers:** home sections, the work page's areas, its ledger and its record open on their title alone, with space instead of a rule. Dated lists (`.rows`) and the doc "On the ledger" note open on a 2px ink rule. Rows inside are separated by 1px rule hairlines.
-- **Ledger grid:** a label column of `minmax(14rem, 19rem)` then one equal column per release (`--cols`, set from the data: v1.25 to v1.38 gives 14). The axis, feature list and each feature row share it through subgrid, so every stage aligns to its release numeral.
+- **Ledger grid:** a label column of `minmax(14rem, 19rem)` then one equal column per release (`--cols`, set from the data, at most 14). The axis, feature list and each feature row share it through subgrid, so every stage aligns to its release numeral.
 - **Shared label column:** area entries reuse the 14rem to 19rem label column with a single fluid line column, so entry names align with the ledger's feature names.
 - **Areas:** each `/work/` area is a section with 4rem below it; the ledger sits 3rem under the Kubernetes area's entries.
 - **Home band:** the header and a `.band` wrapper around the hero share the band colour and run the full viewport width; the hero sits in the normal 76rem container inside it. A 13rem square headshot spans two rows beside the name and the bio; 4rem padding above and below; 4rem of ground before "What I work on".
@@ -332,7 +332,7 @@ Both are latin subsets, preloaded, `font-display: swap`. There is no monospace a
 - **22.5rem:** the home name drops to 2.25rem so "Ramasekar" fits beside the photo at 320px.
 
 ### Named Rules
-**The Every Cell Exists Rule.** Each release column in each feature row is drawn as a ghost cell (a 1px rule tick and a 1px rule baseline), whether or not a stage occurred. Stages are laid over the cells; nothing is drawn to fill an empty release.
+**The Every Cell Exists Rule.** Each axis column in each feature row, the folded "≤N" column included, is drawn as exactly one ghost cell (a 1px rule tick and a 1px rule baseline), whether or not a stage occurred. Stages are laid over the cells; nothing is drawn to fill an empty release.
 
 ## Elevation & Depth
 
@@ -375,13 +375,18 @@ Flat. There are no shadows and no raised panels. The spruce band is the one fill
 
 ### Ledger grid and axis
 - Section title plus legend on one line, wrapping when tight.
+- Section title: "Kubernetes features I've shipped", with no release range; the axis carries the releases.
+- The axis follows Anish's own stages, not the Kubernetes calendar. It starts at `first`, the oldest released stage, and ends at `last`, the newest released stage; targets never extend it. A Kubernetes release with no new stage leaves the ledger unchanged.
+- An "in dev" column follows `last` only while a fresh target is drawn (see below).
+- At most 14 columns. Past that the oldest releases fold into a leading "≤N" column: N is the newest folded release, the "≤" hangs left of the numeral in ink 3, and each feature shows only its latest stage from the folded releases there, written with its release ("GA v1.29"). A stage that began in the fold and continues runs from the "≤N" column.
 - Axis: `v1.` prefix in small ink 3, then one light numeral per release in ink 2; the in-development release is ink 3 with a 0.625rem uppercase "in dev" line under it. Hidden from assistive tech (each stage carries its own release text).
-- A note under the ledger, small ink 3, names the source of the stages; when a stage is a target it also explains the dashed GA target box.
-- A target is drawn only while the KEP issue's milestone is the in-development release and it carries `lead-opted-in`. A kep.yaml target alone is not enough.
+- A note under the ledger, small ink 3, names the source of the stages; while a target is drawn it also explains the dashed GA target box and gives the date the target was checked.
+- A target is drawn only while the KEP issue's milestone is the in-development release and it carries `lead-opted-in`; a kep.yaml target alone is not enough. The generator writes `inDevelopment` and `checked` only with a target, and the site stops drawing targets 35 days after `checked` (UTC days), everywhere at once: no "in dev" column, legend entry or note on the ledger, and no "GA target" in post and talk ledger notes; a feature whose only stage is a stale target drops off the ledger. The build fails if `inDevelopment` is set without `checked`.
+- KEP-only: the ledger tracks Kubernetes KEPs Anish carried through releases. Projects and agent-platform work stay in the area entries, never on the release axis.
 
 ### Feature row
 - Label column: feature name, then a meta line with the KEP link, SIG, authorship and implementation PR links (PR numbers tabular).
-- Track: ghost cells, then stages spanning from their release to the next stage's release. A final stage short of GA stays open to the right edge.
+- Track: ghost cells, then stages spanning from their release to the next stage's release. An open stage (the latest, short of GA and not a target) ends at `last`, never in the "in dev" column, with a 2px end-cap in its hue, and its name reads "beta since v1.34" (the "since" part small ink 3 at 400, hidden in the folded list, where the release label already says it).
 - A cue link ("2 posts, 1 talk in the record below") appears under the label only while the row is lit and has related entries.
 
 ### Stage
@@ -389,10 +394,10 @@ Flat. There are no shadows and no raised panels. The spruce band is the one fill
 - Stage name, stage tag and line sample always share a hue and line weight.
 
 ### Ghost cells
-- 0.5rem tall, 1px rule left tick, 1px rule baseline at mid-height; one per release per feature. Decorative and `aria-hidden`.
+- 0.5rem tall, 1px rule left tick, 1px rule baseline at mid-height; one per axis column per feature, the folded column included. Decorative and `aria-hidden`.
 
 ### Legend
-- Small type in ink 2: a 1.75rem line sample for alpha, beta and GA (and GA target, only when a stage is a target) followed by its name. The same line samples reappear in the doc ledger note.
+- Small type in ink 2: a 1.75rem line sample for alpha, beta and GA (and GA target, only while a target is drawn) followed by its name. The same line samples reappear in the doc ledger note.
 
 ### Work page head and area entries
 - Page head: "Work", one line, then an index of the three areas as accent links at small 600 weight, 44px tall.

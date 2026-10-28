@@ -8,6 +8,7 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"time"
 
 	"gopkg.in/yaml.v3"
 )
@@ -65,7 +66,9 @@ type generator struct {
 	issues issueReader
 	// latest is the newest released Kubernetes minor; latest+1 is in development.
 	latest int
-	log    io.Writer
+	// now gives the time of the run; Checked is its UTC date. Nil means time.Now.
+	now func() time.Time
+	log io.Writer
 }
 
 type stage struct {
@@ -86,8 +89,17 @@ type entry struct {
 }
 
 type ledger struct {
-	First, Last, InDevelopment int
-	Features, Subprojects      []entry
+	// First and Last are the releases of the oldest and newest released stage on the grid;
+	// a target is not released, so it never moves Last.
+	First, Last int
+	// InDevelopment is the release in development while a target is drawn, else 0.
+	// Checked is the UTC date of the run that confirmed the target, set only with it: the
+	// site stops drawing the target once that date is old, so an unmerged update cannot
+	// leave a stale "in development" on the page.
+	InDevelopment int
+	Checked       time.Time
+	Features      []entry
+	Subprojects   []entry
 }
 
 func (g generator) logf(format string, args ...any) {
@@ -97,7 +109,7 @@ func (g generator) logf(format string, args ...any) {
 }
 
 func (g generator) build(ctx context.Context, keps []tracked, ov map[int]override) (ledger, error) {
-	l := ledger{InDevelopment: g.latest + 1, Last: g.latest + 1}
+	var l ledger
 	for kep := range ov {
 		if !slices.ContainsFunc(keps, func(t tracked) bool { return t.KEP == kep }) {
 			return ledger{}, fmt.Errorf("overrides: KEP %d is not in the tracked list", kep)
@@ -113,12 +125,36 @@ func (g generator) build(ctx context.Context, keps []tracked, ov map[int]overrid
 			continue
 		}
 		l.Features = append(l.Features, e)
-		if l.First == 0 || e.Stages[0].Release < l.First {
-			l.First = e.Stages[0].Release
-		}
 	}
 	if len(l.Features) == 0 {
 		return ledger{}, fmt.Errorf("no tracked KEP is a feature on the release grid")
+	}
+	// The axis ends at the newest released stage, not at the newest release: it only
+	// moves when the work does. A target is the one stage in the release in development,
+	// so the in-development release, and the date that vouches for it, exist only while
+	// a target does.
+	for _, e := range l.Features {
+		for _, s := range e.Stages {
+			if s.Target {
+				l.InDevelopment = s.Release
+				continue
+			}
+			if l.First == 0 || s.Release < l.First {
+				l.First = s.Release
+			}
+			l.Last = max(l.Last, s.Release)
+		}
+	}
+	if l.Last == 0 {
+		return ledger{}, fmt.Errorf("no tracked KEP has a stage in a released Kubernetes version")
+	}
+	if l.InDevelopment > 0 {
+		now := time.Now
+		if g.now != nil {
+			now = g.now
+		}
+		y, m, d := now().UTC().Date()
+		l.Checked = time.Date(y, m, d, 0, 0, 0, 0, time.UTC)
 	}
 	return l, nil
 }

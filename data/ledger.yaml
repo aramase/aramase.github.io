@@ -5,16 +5,20 @@
 # - stages and releases: kep.yaml `milestone`, up to kep.yaml `stage`, in
 #   kubernetes/enhancements; a stage counts once its release is out (a v1.N.0 tag in
 #   kubernetes/kubernetes);
+# - first and last: the oldest and newest released stage; the page's release axis ends
+#   at last, so the file changes only when the work does;
 # - targets (`target: true`): a GA stage in the release in development, drawn only
 #   while the KEP issue's milestone is that release and it carries lead-opted-in;
 #   kep.yaml alone is not enough, it keeps a target after the release drops the KEP;
+# - inDevelopment and checked: written only with a target; checked is the UTC date of the
+#   run, and the site stops drawing targets 35 days after it, so an unmerged update
+#   shows released stages only, never a stale target;
 # - coauthors: kep.yaml `authors`, without @aramase;
 # - prs, posts, talks: ledger/overrides.yaml.
 
 kubernetes:
   first: 25   # v1.25, the first release with a stage on the ledger
-  last: 38    # v1.38, in development (no v1.38.0 tag yet)
-  inDevelopment: 38
+  last: 37    # v1.37, the newest released stage on the ledger
   features:
     - id: kms-v2
       name: KMS v2
