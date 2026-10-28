@@ -61,7 +61,9 @@
   --page: 76rem;
   --gutter: clamp(1.25rem, 4vw, 3rem);
   --measure: 60ch;
-  --label-col: minmax(14rem, 19rem);
+  /* Narrows between the 56rem breakpoint and about 73rem so 14 release columns keep
+     their numerals apart. */
+  --label-col: clamp(14rem, 30vw - 3rem, 19rem);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -983,13 +985,41 @@ main:focus {
 }
 
 .stage__links li {
-  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 .stage__links a {
   display: inline-block;
   min-height: 1.5rem;
   padding-block: 0.2rem;
+}
+
+/* Link labels never wrap, so on a one-column stage one can be wider than its column, like
+   "Microsoft" at 897 to 1000px. Grid layout only: the stacked list has its own columns.
+   - stage--end, in the final column with nothing to its right: name and links align to
+     its end, and a long label runs inward over the column before. Text overflowing a line
+     box always runs to its end side, so this uses flex-end, which overflows to the start.
+   - stage--tight, with the next stage in the next column: a long label ends in an
+     ellipsis instead of running under that stage, after taking half the stage's end
+     padding; the link keeps its full hidden title. */
+@media (width > 56rem) {
+  .stage--end {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: end;
+  }
+
+  .stage--end::before {
+    align-self: stretch;
+  }
+
+  .stage--tight .stage__links a {
+    display: block;
+    margin-right: calc(-0.5 * var(--space-2));
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .feature__cue {

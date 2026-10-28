@@ -685,7 +685,7 @@
       "page": "76rem",
       "gutter": "clamp(1.25rem, 4vw, 3rem)",
       "measure": "60ch",
-      "labelColumn": "minmax(14rem, 19rem)",
+      "labelColumn": "clamp(14rem, 30vw - 3rem, 19rem)",
       "releaseColumns": "repeat(var(--cols), minmax(0, 1fr)), --cols = last - first + 1",
       "doc": "48rem",
       "entryDateColumn": "5.5rem",

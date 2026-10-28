@@ -117,7 +117,7 @@ spacing:
   gutter: "clamp(1.25rem, 4vw, 3rem)"
   page: "76rem"
   measure: "60ch"
-  label-col: "minmax(14rem, 19rem)"
+  label-col: "clamp(14rem, 30vw - 3rem, 19rem)"
   doc: "48rem"
 components:
   nav-link:
@@ -316,8 +316,8 @@ Both are latin subsets, preloaded, `font-display: swap`. There is no monospace a
 - **Container:** max width 76rem, centred, side gutter `clamp(1.25rem, 4vw, 3rem)`.
 - **Spacing scale:** nine steps from 0.25rem to 6rem (space-1 to space-9). Rows pad 1rem above and 1.5rem below; page heads pad 4rem above; the footer sits 6rem below content.
 - **Section openers:** home sections, the work page's areas, its ledger and its record open on their title alone, with space instead of a rule. Dated lists (`.rows`) and the doc "On the ledger" note open on a 2px ink rule. Rows inside are separated by 1px rule hairlines.
-- **Ledger grid:** a label column of `minmax(14rem, 19rem)` then one equal column per release (`--cols`, set from the data, at most 14). The axis, feature list and each feature row share it through subgrid, so every stage aligns to its release numeral.
-- **Shared label column:** area entries reuse the 14rem to 19rem label column with a single fluid line column, so entry names align with the ledger's feature names.
+- **Ledger grid:** a label column of `clamp(14rem, 30vw - 3rem, 19rem)`, which narrows between the 56rem breakpoint and about 73rem so the release columns keep their numerals apart, then one equal column per release (`--cols`, set from the data, at most 14). The axis, feature list and each feature row share it through subgrid, so every stage aligns to its release numeral.
+- **Shared label column:** area entries reuse the same label column with a single fluid line column, so entry names align with the ledger's feature names.
 - **Areas:** each `/work/` area is a section with 4rem below it; the ledger sits 3rem under the Kubernetes area's entries.
 - **Home band:** the header and a `.band` wrapper around the hero share the band colour and run the full viewport width; the hero sits in the normal 76rem container inside it. A 13rem square headshot spans two rows beside the name and the bio; 4rem padding above and below; 4rem of ground before "What I work on".
 - **Home sections:** focus rows use the shared label column, a fluid line column and a link column, divided by 1px rules; selected talks and posts sit in two equal columns with a 3rem gap, each list opening on a 1px rule.
@@ -390,7 +390,7 @@ Flat. There are no shadows and no raised panels. The spruce band is the one fill
 - A cue link ("2 posts, 1 talk in the record below") appears under the label only while the row is lit and has related entries.
 
 ### Stage
-- Line first (alpha dashed, beta solid, GA block, GA target dashed box), then the stage name in its hue at 650, then links ("k8s.io", "Microsoft", "Talk") each with hidden full-title context for screen readers.
+- Line first (alpha dashed, beta solid, GA block, GA target dashed box), then the stage name in its hue at 650, then links ("k8s.io", "Microsoft", "Talk") each with hidden full-title context for screen readers. A link label never wraps; the label column narrows instead so columns stay wide enough. On a one-column stage a label can still be wider than its column: in the final column, with the column before it free, the stage aligns its name and links to its end so the label runs inward instead of into the gutter; with the next stage in the next column, the label ends in an ellipsis (the link keeps its full hidden title).
 - Stage name, stage tag and line sample always share a hue and line weight.
 
 ### Ghost cells
