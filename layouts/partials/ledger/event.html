@@ -1,0 +1,40 @@
+{{- /* One timeline entry. Input: an event from layouts/work/list.html: kind (release, post or
+       talk), date, and the feature and stage of a release or the page of a post or talk. */ -}}
+{{- $t := printf `<time datetime="%s">%s</time>` (.date.Format "2006-01-02") (.date.Format "Jan 2") | safeHTML }}
+{{- if eq .kind "release" }}
+{{- $f := .feature }}{{ $s := .stage }}{{ $k := $s.stage }}
+{{- $verb := index (dict "alpha" "shipped as alpha" "beta" "moved to beta" "ga" "became generally available") $k }}
+{{- if and (eq $k "beta") (not (where $f.stages "stage" "alpha")) }}{{ $verb = "shipped as beta" }}{{ end }}
+<li class="ev ev--release ev--{{ $k }}" data-kind="release">
+  <span class="ev__node">{{ partial "stage-mark.html" (dict "stage" $k "class" "node") }}</span>{{ $t }}
+  <div class="ev__body">
+    <p class="ev__title"><a href="/work/#{{ $f.id }}">{{ $f.name }}</a> {{ $verb }}</p>
+    <p class="ev__meta">Kubernetes v1.{{ $s.release }} release · KEP-{{ $f.kep }}</p>
+  </div>
+</li>
+{{- else }}
+{{- $p := .page }}
+{{- $tag := "" }}
+{{- with index .refs $p.Path }}
+  {{- $feature := where . "kind" "feature" }}
+  {{- if $feature }}
+    {{- $r := index (last 1 $feature) 0 }}
+    {{- $tag = printf "%s, %s" $r.name (cond (eq $r.stage "ga") "GA" $r.stage) }}
+  {{- else }}
+    {{- $tag = (index . 0).name }}
+  {{- end }}
+{{- end }}
+{{- $kind := cond (eq .kind "post") "Post" "Talk" }}
+<li class="ev ev--{{ .kind }}" data-kind="{{ .kind }}">
+  <span class="ev__node"><span class="dot"></span></span>{{ $t }}
+  <div class="ev__body">
+    <p class="ev__title"><span class="ev__kind">{{ $kind }}</span> <a href="{{ partial "ledger/page-href.html" $p }}">{{ $p.Title }}</a></p>
+    <p class="ev__meta">{{ if eq .kind "post" }}{{ $p.Params.source }}{{ else }}{{ $p.Params.venue }}
+      {{- if or $p.Params.recording $p.Params.slides }}<span class="links">
+        {{- with $p.Params.recording }}<a href="{{ . }}">Watch<span class="vh">: {{ $p.Title }}</span></a>{{ end }}
+        {{- with $p.Params.slides }}<a href="{{ . }}">Slides<span class="vh">: {{ $p.Title }}</span></a>{{ end }}</span>{{ end }}{{ end }}
+      {{- with $tag }}<span class="ev__tag">{{ . }}</span>{{ end }}</p>
+    {{- if eq .kind "talk" }}{{ with $p.Params.achievement }}<p class="ev__note">{{ . }}</p>{{ end }}{{ end }}
+  </div>
+</li>
+{{- end }}

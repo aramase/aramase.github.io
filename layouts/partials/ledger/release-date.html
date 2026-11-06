@@ -1,0 +1,7 @@
+{{- /* The date of Kubernetes release v1.N: its v1.N.0 tag date from data/ledger.yaml
+       `releases`. Input: N. Hugo reads the YAML number keys as strings. */ -}}
+{{- with index hugo.Data.ledger.releases (string .) }}
+  {{- return time.AsTime . }}
+{{- else }}
+  {{- errorf "data/ledger.yaml: releases has no date for v1.%d; run make ledger" (int .) }}
+{{- end }}
