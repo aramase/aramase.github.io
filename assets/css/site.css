@@ -117,6 +117,38 @@ main { display: block; padding-bottom: 4rem; }
 .jump { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; padding-bottom: 0.2rem; }
 .jump a { display: inline-block; padding: 0.3rem 0; font-weight: 500; }
 
+/* Home: the datasheet front page */
+.title {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "name name" "desc photo" "areas areas";
+  column-gap: clamp(2rem, 5vw, 5rem); row-gap: clamp(2rem, 4vw, 3.5rem);
+  padding-top: clamp(2.5rem, 6vw, 5rem);
+}
+.title h1 { grid-area: name; font-size: clamp(3.5rem, 10vw, 6rem); line-height: 0.9; font-weight: 800; letter-spacing: -0.02em; align-self: end; }
+.title__photo { grid-area: photo; margin: 0; justify-self: end; align-self: start; padding: 6px; border: 1px solid var(--ink); background: var(--paper); }
+.title__photo img { width: clamp(8rem, 14vw, 13rem); aspect-ratio: 1; object-fit: cover; filter: grayscale(1) contrast(1.05); }
+.title__desc { grid-area: desc; }
+.title__areas { grid-area: areas; }
+.bio { font-size: clamp(1.125rem, 1.6vw, 1.25rem); line-height: 1.55; max-width: 38em; }
+.areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 0 clamp(2rem, 4vw, 3.5rem); }
+.areas li { padding: 0 0 1rem; }
+.areas h3 { display: flex; align-items: baseline; gap: 0.6rem; font-size: 1.25rem; font-weight: 700; }
+.areas h3::before { content: ""; flex: none; width: 0.6rem; height: 0.6rem; background: var(--sig); }
+.areas p { margin: 0.25rem 0 0.15rem; color: var(--ink-2); }
+.areas .go { margin-top: 0.25rem; font-size: 0.9375rem; }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(2rem, 5vw, 5rem); }
+.tab li { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--rule); }
+.tab time { font: 600 0.9375rem/1.6 var(--cond); color: var(--ink-2); }
+.tab a { font-weight: 600; }
+
+/* For event organizers: a select-all bio and a headshot download */
+.kit__body { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2.5rem clamp(2rem, 5vw, 5rem); }
+.kit__bio { max-width: 62ch; padding: 1rem 1.25rem; border: 1px solid var(--rule); border-left: 1px solid var(--sig); background: var(--sig-fill); user-select: all; -webkit-user-select: all; }
+.kit__shot { display: inline-flex; flex-direction: column; gap: 0.6rem; font-weight: 600; }
+.kit__shot img { width: 10rem; aspect-ratio: 1; object-fit: cover; padding: 6px; border: 1px solid var(--ink); background: var(--paper); }
+
+.contact .email { font: 800 clamp(1.75rem, 5vw, 3.25rem)/1.1 var(--cond); text-decoration-thickness: 3px; overflow-wrap: anywhere; }
+
 /* Work */
 .area .lede { font-size: 1.25rem; max-width: 44em; }
 .entries { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 0 3rem; margin-top: 1rem; }
@@ -274,6 +306,10 @@ a.tag:hover { border-color: var(--sig); }
   .strip__in { padding-top: 0.25rem; }
   .strip nav { order: 3; width: 100%; margin-left: 0; }
   .toggle { margin-left: auto; }
+  .title { grid-template-areas: "name photo" "desc desc" "areas areas"; }
+  .areas li { padding: 0.9rem 0; border-bottom: 1px solid var(--rule); }
+  .areas li:first-child { padding-top: 0; }
+  .two, .kit__body { grid-template-columns: minmax(0, 1fr); }
   /* Visually hidden, not display: none, so the cells keep their column headers in the
      accessibility tree. */
   .tbl thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -289,6 +325,7 @@ a.tag:hover { border-color: var(--sig); }
   .pager__next { grid-column: auto; text-align: left; }
 }
 @media (max-width: 30rem) {
+  .title__photo img { width: 6.5rem; }
   .key { gap: 0.5rem 1rem; }
 }
 @media (prefers-reduced-motion: no-preference) {
