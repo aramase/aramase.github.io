@@ -5,14 +5,16 @@
 # - stages and releases: kep.yaml `milestone`, up to kep.yaml `stage`, in
 #   kubernetes/enhancements; a stage counts once its release is out (a v1.N.0 tag in
 #   kubernetes/kubernetes);
-# - first and last: the oldest and newest released stage; the page's release axis ends
-#   at last, so the file changes only when the work does;
-# - targets (`target: true`): a GA stage in the release in development, drawn only
+# - releases: the commit date of the v1.N.0 tag of each release with a stage; tag dates
+#   never change, so the file changes only when the work does;
+# - first and last: the oldest and newest released stage;
+# - targets (`target: true`): a GA stage in the release in development, written only
 #   while the KEP issue's milestone is that release and it carries lead-opted-in;
-#   kep.yaml alone is not enough, it keeps a target after the release drops the KEP;
-# - inDevelopment and checked: written only with a target; checked is the UTC date of the
-#   run, and the site stops drawing targets 35 days after it, so an unmerged update
-#   shows released stages only, never a stale target;
+#   kep.yaml alone is not enough, it keeps a target after the release drops the KEP.
+#   The site shows a target as not reached yet;
+# - inDevelopment and checked: written only with a target; checked is the UTC date of
+#   the run that confirmed it;
+# - line: the one-line description in ledger/keps.yaml;
 # - coauthors: kep.yaml `authors`, without @aramase;
 # - prs, posts, talks: ledger/overrides.yaml.
 
@@ -22,6 +24,7 @@ kubernetes:
   features:
     - id: kms-v2
       name: KMS v2
+      line: "Encrypts Kubernetes Secrets at rest with keys held in an external key management service."
       kep: 3299
       path: sig-auth/3299-kms-v2-improvements
       sig: SIG Auth
@@ -40,6 +43,7 @@ kubernetes:
 
     - id: structured-authn
       name: Structured authentication configuration
+      line: "Sets how the API server trusts sign-in tokens from identity providers, in a config file instead of command-line flags."
       kep: 3331
       path: sig-auth/3331-structured-authentication-configuration
       sig: SIG Auth
@@ -58,6 +62,7 @@ kubernetes:
 
     - id: image-pull-tokens
       name: Service account tokens for image pulls
+      line: "Lets the kubelet pull private images with a short-lived service account token instead of a long-lived stored secret."
       kep: 4412
       path: sig-auth/4412-projected-service-account-tokens-for-kubelet-image-credential-providers
       sig: SIG Auth
@@ -78,6 +83,7 @@ kubernetes:
 
     - id: csi-sa-tokens
       name: Service account tokens for CSI drivers
+      line: "Hands service account tokens to CSI storage drivers through the secrets field, where sensitive data belongs."
       kep: 5538
       path: sig-storage/5538-csi-sa-tokens-secrets-field
       sig: SIG Storage
@@ -93,6 +99,7 @@ kubernetes:
 
     - id: manifest-admission
       name: Manifest-based admission control
+      line: "Loads admission policies from files at API server startup, so they can't be deleted or bypassed."
       kep: 5793
       path: sig-api-machinery/5793-manifest-based-admission-control-config
       sig: SIG API Machinery
@@ -122,3 +129,16 @@ subprojects:
       - "/talks/2024-you-choose-secrets-management-tools"
       - "/talks/2024-kubecon-na-sig-auth-storage-secrets"
       - "/talks/2025-microsoft-developer-secrets-store-csi"
+
+# The commit date of each release's v1.N.0 tag in kubernetes/kubernetes.
+releases:
+  22: "2021-08-04"
+  25: "2022-08-23"
+  27: "2023-04-11"
+  29: "2023-12-13"
+  30: "2024-04-17"
+  33: "2025-04-23"
+  34: "2025-08-27"
+  35: "2025-12-17"
+  36: "2026-04-22"
+  37: "2026-08-26"

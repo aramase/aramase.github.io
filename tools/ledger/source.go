@@ -14,6 +14,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 )
 
 // source finds a KEP's directory under keps/<sig>/ and reads its kep.yaml.
@@ -240,4 +241,66 @@ func parseLatestRelease(lsRemote string) (int, error) {
 		return 0, fmt.Errorf("no v1.N.0 tag in kubernetes/kubernetes")
 	}
 	return latest, nil
+}
+
+// releaseDater gives the date of each Kubernetes release: the commit date of its v1.N.0 tag.
+type releaseDater interface {
+	releaseDates(ctx context.Context, releases []int) (map[int]time.Time, error)
+}
+
+// gitDater reads the v1.N.0 tag dates from a kubernetes/kubernetes remote. It fetches
+// only the tagged commits, without trees or blobs, into a temporary bare repository, and
+// reads each commit date as `git log -1 --format=%cs` gives it. Tag dates never change,
+// so the dates in the output change only when a release gains its first stage.
+type gitDater struct {
+	remote string
+}
+
+const kubernetesRemote = "https://github.com/kubernetes/kubernetes"
+
+func (d gitDater) releaseDates(ctx context.Context, releases []int) (map[int]time.Time, error) {
+	dates := make(map[int]time.Time, len(releases))
+	if len(releases) == 0 {
+		return dates, nil
+	}
+	dir, err := os.MkdirTemp("", "ledger-tags-")
+	if err != nil {
+		return nil, err
+	}
+	defer os.RemoveAll(dir)
+
+	git := func(args ...string) (string, error) {
+		var stderr bytes.Buffer
+		cmd := exec.CommandContext(ctx, "git", append([]string{"-C", dir}, args...)...)
+		cmd.Env = append(os.Environ(), "GIT_TERMINAL_PROMPT=0")
+		cmd.Stderr = &stderr
+		out, err := cmd.Output()
+		if err != nil {
+			return "", fmt.Errorf("git %s: %w: %s", args[0], err, strings.TrimSpace(stderr.String()))
+		}
+		return strings.TrimSpace(string(out)), nil
+	}
+
+	if _, err := git("init", "--quiet", "--bare"); err != nil {
+		return nil, err
+	}
+	fetch := []string{"fetch", "--quiet", "--no-tags", "--depth=1", "--filter=tree:0", d.remote}
+	for _, r := range releases {
+		fetch = append(fetch, fmt.Sprintf("refs/tags/v1.%d.0:refs/tags/v1.%d.0", r, r))
+	}
+	if _, err := git(fetch...); err != nil {
+		return nil, fmt.Errorf("fetching the v1.N.0 tags from %s: %w", d.remote, err)
+	}
+	for _, r := range releases {
+		out, err := git("log", "-1", "--format=%cs", fmt.Sprintf("refs/tags/v1.%d.0", r))
+		if err != nil {
+			return nil, err
+		}
+		t, err := time.Parse(time.DateOnly, out)
+		if err != nil {
+			return nil, fmt.Errorf("v1.%d.0: commit date %q: %w", r, out, err)
+		}
+		dates[r] = t
+	}
+	return dates, nil
 }

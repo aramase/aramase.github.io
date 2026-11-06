@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"regexp"
+	"strings"
 
 	"gopkg.in/yaml.v3"
 )
@@ -17,6 +18,8 @@ type tracked struct {
 	SIG  string `yaml:"sig"`
 	ID   string `yaml:"id"`
 	Name string `yaml:"name"`
+	// Line is an optional one-line plain description shown under the name on /work/.
+	Line string `yaml:"line"`
 	Kind string `yaml:"kind"`
 }
 
@@ -53,6 +56,8 @@ func loadTracked(path string) ([]tracked, error) {
 			return nil, fmt.Errorf("%s: KEP %d: id %q must be lowercase words joined by hyphens", path, t.KEP, t.ID)
 		case t.Name == "":
 			return nil, fmt.Errorf("%s: KEP %d: name is empty", path, t.KEP)
+		case strings.ContainsAny(t.Line, "\n\r"):
+			return nil, fmt.Errorf("%s: KEP %d: line must be a single line", path, t.KEP)
 		case t.Kind != "" && t.Kind != kindSubproject:
 			return nil, fmt.Errorf("%s: KEP %d: kind %q is not %q", path, t.KEP, t.Kind, kindSubproject)
 		case seenKEP[t.KEP]:
