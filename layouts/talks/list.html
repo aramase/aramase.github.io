@@ -4,20 +4,20 @@
 <div class="wrap">
   <header class="pagehead">
     <h1>{{ .Title | default "Talks" }}</h1>
-    <p>{{ len $talks }} talks, newest first. Recordings and slides open on the host site.</p>
+    <p class="pagehead__lede">{{ len $talks }} talks, newest first. Recordings and slides open on the host site.</p>
   </header>
 
   {{- with where $talks "Params.featured" true }}
-  <section class="year" aria-labelledby="pinned-title">
-    <h2 class="h2" id="pinned-title">Pinned</h2>
-    {{ partial "record-table.html" (dict "pages" . "label" "pinned-title" "refs" $refs) }}
+  <section class="list" aria-labelledby="pinned-title">
+    <h2 class="list__label" id="pinned-title">Pinned</h2>
+    <ol class="picks">{{ range . }}{{ partial "record.html" (dict "page" . "refs" $refs) }}{{ end }}</ol>
   </section>
   {{- end }}
 
   {{- range $talks.GroupByDate "2006" }}
-  <section class="year" aria-labelledby="talks-{{ .Key }}">
-    <h2 class="h2" id="talks-{{ .Key }}">{{ .Key }}</h2>
-    {{ partial "record-table.html" (dict "pages" .Pages "label" (printf "talks-%s" .Key) "refs" $refs "dateFormat" "2 Jan") }}
+  <section class="list" aria-labelledby="talks-{{ .Key }}">
+    <h2 class="list__label" id="talks-{{ .Key }}">{{ .Key }}</h2>
+    <ol class="picks">{{ range .Pages }}{{ partial "record.html" (dict "page" . "refs" $refs "dateFormat" "2 Jan") }}{{ end }}</ol>
   </section>
   {{- end }}
 </div>

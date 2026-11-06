@@ -2,7 +2,7 @@
 {{- with site.GetPage . }}
 <li class="pick">
   <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2006" }}</time>
-  <div><a href="{{ if eq .Section "blogs" }}{{ .Params.link | default .RelPermalink }}{{ else }}{{ .RelPermalink }}{{ end }}">{{ .Title }}</a>
+  <div><a href="{{ partial "ledger/page-href.html" . }}">{{ .Title }}</a>
     {{- with .Params.venue | default .Params.source }}<p class="pick__meta">{{ . }}</p>{{ end }}
     {{- with .Params.achievement }}<p class="pick__note">{{ . }}</p>{{ end }}</div>
 </li>

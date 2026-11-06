@@ -1,10 +1,10 @@
-{{- /* The aside on a talk or post page: the ledger stages it covers. Input: its ledger references. */ -}}
+{{- /* The aside on a talk or post page: the released stages it covers. Input: its ledger references. */ -}}
 {{- with . }}
-<aside class="note" aria-labelledby="on-diagram">
-  <h2 id="on-diagram">On the work page</h2>
+<aside class="note" aria-labelledby="on-work">
+  <h2 id="on-work">On the work page</h2>
   <ul>
     {{- range . }}
-    <li><span class="lv lv--{{ index (dict "alpha" 1 "beta" 2 "ga" 3) .stage }}{{ if .target }} lv--target{{ end }}" aria-hidden="true"></span><span><a href="/work/#{{ .id }}">{{ .name }}</a>, {{ partial "ledger/stage-label.html" . }} in v1.{{ .release }} (KEP-{{ .kep }})</span></li>
+    <li>{{ partial "stage-mark.html" (dict "stage" .stage) }}<span><a href="/work/#{{ .id }}">{{ .name }}</a>, {{ cond (eq .stage "ga") "GA" .stage }} in v1.{{ .release }} (KEP-{{ .kep }})</span></li>
     {{- end }}
   </ul>
 </aside>

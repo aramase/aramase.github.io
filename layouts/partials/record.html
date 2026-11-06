@@ -1,0 +1,24 @@
+{{- /* One talk or post in a list. Input: dict with
+       page       the page;
+       refs       optional map of content path -> ledger references (ledger/refs.html), which
+                  tags the row with the features and subprojects it covers;
+       dateFormat optional, default "2 Jan 2006";
+       summary    optional, show the page's summary.
+       A post links to its publisher (link) when it has one, a talk to its page here. */ -}}
+{{- $p := .page }}
+<li class="pick">
+  <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format (.dateFormat | default "2 Jan 2006") }}</time>
+  <div><a href="{{ partial "ledger/page-href.html" $p }}">{{ $p.Title }}</a>
+    {{- $src := $p.Params.venue | default $p.Params.source }}
+    {{- if or $src $p.Params.recording $p.Params.slides }}
+    <p class="pick__meta">{{ $src }}
+      {{- if or $p.Params.recording $p.Params.slides }}<span class="links">
+        {{- with $p.Params.recording }}<a href="{{ . }}">Recording<span class="vh">: {{ $p.Title }}</span></a>{{ end }}
+        {{- with $p.Params.slides }}<a href="{{ . }}">Slides<span class="vh">: {{ $p.Title }}</span></a>{{ end }}</span>{{ end }}</p>
+    {{- end }}
+    {{- if .summary }}{{ with $p.Summary }}<p class="pick__sum">{{ . | plainify }}</p>{{ end }}{{ end }}
+    {{- with $p.Params.achievement }}<p class="pick__note">{{ . }}</p>{{ end }}
+    {{- with and .refs (index .refs $p.Path) }}
+    <p class="tags">{{ range . }}<a class="tag" href="/work/#{{ .id }}">{{ .name }}{{ if eq .kind "feature" }}, {{ cond (eq .stage "ga") "GA" .stage }}{{ end }}</a>{{ end }}</p>
+    {{- end }}</div>
+</li>

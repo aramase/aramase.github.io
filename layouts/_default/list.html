@@ -3,9 +3,9 @@
   <header class="pagehead">
     <h1>{{ .Title }}</h1>
   </header>
-  <section class="year" aria-labelledby="list-pages">
+  <section class="list" aria-labelledby="list-pages">
     <h2 class="vh" id="list-pages">{{ .Title }}</h2>
-    {{ partial "record-table.html" (dict "pages" .Pages.ByDate.Reverse "label" "list-pages") }}
+    <ol class="picks">{{ range .Pages.ByDate.Reverse }}{{ partial "record.html" (dict "page" .) }}{{ end }}</ol>
   </section>
 </div>
 {{ end }}
