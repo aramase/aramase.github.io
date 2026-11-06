@@ -10,8 +10,9 @@
   <meta name="description" content="{{ $desc }}">
   <meta name="author" content="{{ site.Params.author }}">
   <link rel="canonical" href="{{ .Permalink }}">
-  <meta name="theme-color" content="#f2f9f6" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#041b1d" media="(prefers-color-scheme: dark)">
+  {{- /* The header strip's colour, the inverse of the page: --ink in site.css. */}}
+  <meta name="theme-color" content="#111419" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#edeef1" media="(prefers-color-scheme: dark)">
 
   {{- partial "social-meta.html" (dict "page" . "title" $title "description" $desc) }}
 
@@ -23,8 +24,8 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/sofia-sans.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/sofia-sans-condensed.woff2" as="font" type="font/woff2" crossorigin>
   {{- $css := resources.Get "css/site.css" | minify | fingerprint }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
   {{- range .AlternativeOutputFormats }}
@@ -37,7 +38,7 @@
   {{ hugo.Generator }}
 </head>
 <body>
-  <a class="skip-link{{ if .IsHome }} skip-link--band{{ end }}" href="#main">Skip to content</a>
+  <a class="skip" href="#main">Skip to content</a>
   {{ partial "header.html" . }}
   <main id="main" tabindex="-1">
     {{ block "main" . }}{{ end }}

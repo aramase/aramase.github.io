@@ -1,26 +1,23 @@
 {{ define "main" }}
+{{- $refs := partialCached "ledger/refs.html" . }}
 {{- $talks := .Pages.ByDate.Reverse }}
 <div class="wrap">
-  <header class="page-head">
+  <header class="pagehead">
     <h1>{{ .Title | default "Talks" }}</h1>
-    <p><span class="num">{{ len $talks }}</span> talks, newest first. Recordings and slides open on the host site.</p>
+    <p>{{ len $talks }} talks, newest first. Recordings and slides open on the host site.</p>
   </header>
 
   {{- with where $talks "Params.featured" true }}
-  <section class="pinned" aria-labelledby="pinned-title">
-    <h2 class="pinned__label" id="pinned-title">Pinned</h2>
-    <ol class="rows">
-      {{- range . }}{{ partial "talk-row.html" (dict "page" . "dateFormat" "Jan 2, 2006") }}{{ end }}
-    </ol>
+  <section class="year" aria-labelledby="pinned-title">
+    <h2 class="h2" id="pinned-title">Pinned</h2>
+    {{ partial "record-table.html" (dict "pages" . "label" "pinned-title" "refs" $refs) }}
   </section>
   {{- end }}
 
   {{- range $talks.GroupByDate "2006" }}
   <section class="year" aria-labelledby="talks-{{ .Key }}">
-    <h2 class="year__num" id="talks-{{ .Key }}">{{ .Key }}</h2>
-    <ol class="rows">
-      {{- range .Pages }}{{ partial "talk-row.html" (dict "page" . "dateFormat" "Jan 2") }}{{ end }}
-    </ol>
+    <h2 class="h2" id="talks-{{ .Key }}">{{ .Key }}</h2>
+    {{ partial "record-table.html" (dict "pages" .Pages "label" (printf "talks-%s" .Key) "refs" $refs "dateFormat" "2 Jan") }}
   </section>
   {{- end }}
 </div>

@@ -56,10 +56,10 @@ stage backed by a KEP, a release blog post or a talk. No template personal site 
 ## Evidence on Hand
 
 - 9 blog entries (7 kubernetes.io release posts, 2 Microsoft Open Source posts).
-- 14 talks with recordings; 8 with slides; KubeCon EU 2021 talk ranked in the top 10 (CNCF transparency report, linked from the talk page).
+- 14 talks with recordings; 6 with slides; KubeCon EU 2021 talk ranked in the top 10 (CNCF transparency report, linked from the talk page).
 - KEPs authored or co-authored: 2907, 3299, 3331, 4412, 5538, 5793 (kep.yaml authors).
 - Roles (checked 2026-10-27): SIG Auth co-chair (kubernetes/community sig-auth README); Secrets Store CSI Driver approver (OWNERS); `*` code owner of the Azure Key Vault provider and Azure Workload Identity (CODEOWNERS); creator of agent-primitives/sessions and aramase/kontxt (initial commits).
-- Absent, must not be fabricated: 2026 talks, speaker kit, testimonials.
+- Absent, must not be fabricated: 2026 talks, testimonials.
 
 ## Product Principles
 

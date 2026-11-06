@@ -1,0 +1,39 @@
+{{- /* Talks or posts as a datasheet table. Input: dict with
+       pages      the pages, in display order;
+       label      id of the heading that names the table;
+       refs       optional map of content path -> ledger references (ledger/refs.html), which adds
+                  the "Feature" column linking each reference to its row on /work/;
+       dateFormat optional, default "2 Jan 2006";
+       summary    optional, show each page's summary under its title.
+       A post links to its publisher (link) when it has one, a talk to its page here. */ -}}
+{{- $refs := .refs }}
+{{- $fmt := .dateFormat | default "2 Jan 2006" }}
+{{- $summary := .summary }}
+<table class="tbl" aria-labelledby="{{ .label }}">
+  <thead>
+    <tr><th scope="col">Date</th><th scope="col">Title</th><th scope="col">Venue or source</th>{{ if $refs }}<th scope="col">Feature</th>{{ end }}</tr>
+  </thead>
+  <tbody>
+    {{- range .pages }}
+    {{- $p := . }}
+    <tr>
+      <td class="c-date"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format $fmt }}</time></td>
+      <td class="c-title">
+        <a href="{{ if eq .Section "blogs" }}{{ .Params.link | default .RelPermalink }}{{ else }}{{ .RelPermalink }}{{ end }}">{{ .Title }}</a>
+        {{- if $summary }}{{ with .Summary }}<p class="summary">{{ . | plainify }}</p>{{ end }}{{ end }}
+      </td>
+      <td class="c-src">
+        {{- with .Params.venue | default .Params.source }}{{ . }}{{ end }}
+        {{- with .Params.recording }}{{ if or $p.Params.venue $p.Params.source }} &middot; {{ end }}<a href="{{ . }}">Recording<span class="vh">: {{ $p.Title }}</span></a>{{ end }}
+        {{- with .Params.slides }}{{ if or $p.Params.venue $p.Params.source $p.Params.recording }} &middot; {{ end }}<a href="{{ . }}">Slides<span class="vh">: {{ $p.Title }}</span></a>{{ end }}
+        {{- with .Params.achievement }}<span class="ach">{{ . }}</span>{{ end -}}
+      </td>
+      {{- if $refs }}
+      <td class="c-rel">
+        {{- range index $refs .Path }}<a class="tag" href="/work/#{{ .id }}"><span class="lv lv--{{ index (dict "alpha" 1 "beta" 2 "ga" 3) .stage }}{{ if .target }} lv--target{{ end }}" aria-hidden="true"></span>{{ .name }} <b>{{ partial "ledger/stage-label.html" . }}</b></a>{{ end -}}
+      </td>
+      {{- end }}
+    </tr>
+    {{- end }}
+  </tbody>
+</table>

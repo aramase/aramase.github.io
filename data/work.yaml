@@ -2,9 +2,9 @@
 #
 # Every role has a public source, noted beside it (checked 2026-10-27). Leave a role out
 # until it does. Keep each entry to a name, a role, one line and a link.
-# ledger: the id of a data/ledger.yaml subproject; the entry then shows the KEP and its stage
-# and lights its talks in the record.
-# ledger: true on an area renders the Kubernetes release ledger after its entries.
+# ledger: the id of a data/ledger.yaml subproject; the entry then shows the KEP and its stage,
+# and the posts and talks tables tag its talks with a link to it.
+# ledger: true on an area renders the Kubernetes release ledger before its entries.
 areas:
   - id: kubernetes
     name: Kubernetes identity and security

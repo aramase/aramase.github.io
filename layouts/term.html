@@ -1,17 +1,12 @@
 {{ define "main" }}
 <div class="wrap">
-  <header class="page-head">
+  <header class="pagehead">
     <h1>{{ .Title }}</h1>
     <p>Posts and talks tagged {{ .Title }}. <a href="/tags/">All tags</a></p>
   </header>
-  <ol class="rows">
-    {{- range .Pages.ByDate.Reverse }}
-    <li class="row">
-      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2006" }}</time>
-      <div><h2 class="row__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2></div>
-      <div class="row__aside">{{ with .Params.source }}{{ . }}{{ end }}{{ with .Params.venue }}{{ . }}{{ end }}</div>
-    </li>
-    {{- end }}
-  </ol>
+  <section class="year" aria-labelledby="term-pages">
+    <h2 class="vh" id="term-pages">Tagged {{ .Title }}</h2>
+    {{ partial "record-table.html" (dict "pages" .Pages.ByDate.Reverse "label" "term-pages") }}
+  </section>
 </div>
 {{ end }}

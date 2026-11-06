@@ -1,21 +1,17 @@
-<footer class="site-footer">
-  <div class="wrap">
-    {{- /* Home lists these links in its Contact section. */}}
-    {{- if not .IsHome }}
+<footer class="foot">
+  <div class="wrap foot__in">
     <nav aria-label="Elsewhere">
       <ul>
         {{- with site.Params.social }}
         {{- with .github }}<li><a href="https://github.com/{{ . }}">GitHub</a></li>{{ end }}
         {{- with .linkedin }}<li><a href="https://www.linkedin.com/in/{{ . }}">LinkedIn</a></li>{{ end }}
-        {{- with .twitter }}<li><a href="https://x.com/{{ . }}">X</a></li>{{ end }}
         {{- with .bluesky }}<li><a href="https://bsky.app/profile/{{ . }}">Bluesky</a></li>{{ end }}
+        {{- with .twitter }}<li><a href="https://x.com/{{ . }}">X</a></li>{{ end }}
         {{- with .youtube }}<li><a href="https://www.youtube.com/@{{ . }}">YouTube</a></li>{{ end }}
-        {{- with .email }}<li><a href="mailto:{{ . }}">{{ . }}</a></li>{{ end }}
         {{- end }}
         <li><a href="/index.xml">RSS</a></li>
       </ul>
     </nav>
-    {{- end }}
     <p>&copy; {{ now.Year }} {{ site.Params.author }}</p>
   </div>
 </footer>

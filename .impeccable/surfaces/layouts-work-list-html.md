@@ -16,21 +16,21 @@ Proof: kubernetes/enhancements kep.yaml milestones, kubernetes.io release posts,
 OWNERS, CODEOWNERS and the SIG Auth README for roles. Nothing unverified is drawn.
 Constraints: only agent-primitives/sessions and aramase/kontxt under Agent infrastructure; the ledger is KEP-only, so projects and agent-platform work stay in the area entries; entries stay short (name, role, one line, link); permalinks kept.
 
-Direction: "Release ledger", pinned by Anish on 2026-10-26 (overrides the roll).
-Memorable moment: the staircase of feature lines firming from dashed alpha to solid GA across the releases Anish's own stages span.
+Direction: "timing", chosen by Anish on 2026-11-05; it replaces the "Release ledger" grid. The ledger data, its rules (fold, cap, fresh targets) and its sources are unchanged; only the drawing changed.
+Memorable moment: each feature as a signal stepping up from baseline to alpha, beta and GA on the release that moved it, so maturity reads as height.
 
-Unresolved: sessions role. Shown as "Creator" (initial commit); "maintainer" rests on a GitHub team that is not public. 4412 GA is not drawn: kep.yaml lists v1.38, but v1.38 dropped the KEP; its beta reads "beta since v1.34".
+Unresolved: sessions role. Shown as "Creator" (initial commit); "maintainer" rests on a GitHub team that is not public. 4412 GA is not drawn: kep.yaml lists v1.38, but v1.38 dropped the KEP; its stage list reads "beta since v1.34".
 
 ## Direction contract
 
-THESIS: The record is the page. Features advance across a grid of Kubernetes releases that ends at Anish's newest stage; refuses the avatar, bio, card-grid personal-site default.
+THESIS: The record is the page, drawn as a timing diagram. Features are signals across a grid of Kubernetes releases that ends at Anish's newest stage; refuses the avatar, bio, card-grid personal-site default.
 
-OWN-WORLD: Release-notes and enhancements-tracking typography on the site's spruce-tinted ground. Jost names and numerals, DM Sans text (self-hosted), tabular figures; version numerals set large and light. Three stage colours (alpha rust, beta olive, GA teal) are the only colour inside the ledger, each also coded by line weight (dashed, thin, solid block); saffron marks links and focus as on every page (type and colour changed from Archivo and neutral greys to spruce by Anish, 2026-10-27). Hairline rules, ghost cells for empty releases, no cards, gradients, icons-as-glyphs or terminal chrome. Raised by seven-segment display: absence is drawn, every release cell exists and only stages light it. Raised by Game Boy four-shade field: total palette commitment, no fourth stage hue, focus and selection drawn from the site accent.
+OWN-WORLD: An engineering datasheet. Sofia Sans text and Sofia Sans Condensed names, numerals and labels (self-hosted), tabular figures; paper and ink with one magenta signal for the trace, links, roles and focus. Stages are coded by height (baseline 280, alpha 195, beta 110, GA 25 in a 300-unit track) and by name, never by hue. A square-wave clock runs along the axis, one period per release, dashed for the release in development. Square corners, 1px and 2px rules, no shadows or cards.
 
-STORY: The visitor reads the three areas from the index, sees the SIG Auth role and five features climbing through releases, opens the post or talk for a stage, then the secrets and agent entries, then the dated record of posts and talks.
+STORY: The visitor reads the three areas from the "On this page" index, sees five features stepping up through releases, opens the post or talk at a step, then the SIG Auth, secrets and agent entries, then the Posts and Talks tables, where each row tags the feature it belongs to.
 
-FIRST VIEWPORT: Top bar: name, Work, Posts, Talks, Email, theme toggle. The page title "Work", one line, and the index of the three areas. Below it the Kubernetes area: title, lede, the SIG Auth entry, then the ledger at full width: release axis from Anish's first to newest released stage (at most 14 columns, older ones folded into "≤N") set as large tabular numerals, legend, and the first feature rows. Primary action: the stage links inside the rows.
+FIRST VIEWPORT: Header strip and clock rule. The page title "Work" with the area index. Below it the Kubernetes area: title, lede, then the timing diagram at full width: head with the key (alpha low, beta mid, GA high; GA target dashed only when drawn), the axis (at most 14 release columns, older ones folded into "≤N", "in dev" for a fresh target), and the first feature rows. Primary action: the post and talk links on each step.
 
-FORM: Release ledger, owner-pinned; the roll's assigned candidate was overridden by the brief. seed:8661f46ec84f7a5a. Raised by pulp rack: hovering or focusing a feature promotes its posts and talks in the record below and quiets the rest (the signature interaction; no motion under reduced motion). Raised by akari: under 900px each feature folds flat into a stacked stage list in the same order.
+FORM: Timing diagram, owner-chosen. Edge labels sit under each step, as wide as the stage runs; one-column stages run inward at the end or stack and truncate, and a tall label grows its row. The trace thickens on row hover or focus (no motion under reduced motion). Under 64rem each row stacks, edge labels hide and a stage list carries stage, release and links. Under 48rem the tables stack to rows.
 
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+FINISH: the build ends with screenshots at 1280 and 390 in both themes, the acceptance run (future talks and a fake feature and target in a /tmp copy), DESIGN.md, and the contrast table.
