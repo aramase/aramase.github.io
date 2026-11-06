@@ -1,37 +1,27 @@
 {{ define "main" }}
-<div class="post" role="main">
-    <div class="talks">
-        <div class="talk">
-            <div class="h3 talk-title">
-                {{ if .Draft }}[Draft] {{ end }}{{ .Title }}
-                {{ with .Params.subtitle }}
-                <span class="talk-subtitle">&nbsp;&nbsp;{{ . }}</span>
-                {{ end }}
-            </div>
-            <div>
-                <p class="talk-meta">
-                    {{ .Date.Format "Jan 2, 2006" }}
-                    {{ with .Params.venue }}
-                    &nbsp;&middot;&nbsp;{{ . }}
-                    {{ end }}
-                    {{ with .Params.cospeaker }}
-                    &nbsp;&middot;&nbsp;Co-presented with {{ . }}
-                    {{ end }}
-                </p>
-                <p class="talk-meta">
-                    {{ with .Params.recording }}
-                    <a href="{{ . }}" class="talk-resource">Recording</a>
-                    &nbsp;&middot;&nbsp;
-                    {{ end }}
-                    {{ with .Params.slides }}
-                    <a href="{{ . }}" class="talk-resource">Slides</a>
-                    {{ end }}
-                </p>
-                <article class="talk-abstract">
-                    {{ with .Content }}{{ . }}{{ end }}
-                </article>
-            </div>
-        </div>
+{{- $refs := index (partialCached "ledger/refs.html" .) .Path }}
+<div class="wrap">
+  <article class="doc">
+    <a class="doc__back" href="/talks/">All talks</a>
+    <h1>{{ if .Draft }}[Draft] {{ end }}{{ .Title }}</h1>
+    {{- with .Params.subtitle }}<p class="doc__sub">{{ . }}</p>{{ end }}
+    <p class="doc__meta">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+      {{- with .Params.venue }}<span>{{ . }}</span>{{ end }}
+      {{- with .Params.location }}<span>{{ . }}</span>{{ end }}
+      {{- with .Params.cospeaker }}<span>Co-presented with {{ . }}</span>{{ end }}
+    </p>
+    {{- if or .Params.recording .Params.slides .Params.playlist }}
+    <ul class="doc__actions">
+      {{- with .Params.recording }}<li><a href="{{ . }}">Watch the recording</a></li>{{ end }}
+      {{- with .Params.slides }}<li><a href="{{ . }}">Slides</a></li>{{ end }}
+      {{- with .Params.playlist }}<li><a href="{{ . }}">Playlist</a></li>{{ end }}
+    </ul>
+    {{- end }}
+    <div class="doc__body">
+      {{ .Content }}
     </div>
+    {{- partial "ledger-note.html" $refs }}
+  </article>
 </div>
 {{ end }}

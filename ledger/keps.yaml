@@ -1,0 +1,13 @@
+# KEPs tracked on the /work/ release ledger. tools/ledger reads each one's kep.yaml in
+# kubernetes/enhancements and writes data/ledger.yaml; see ledger/README.md.
+#
+# One line per KEP: kep number, owning SIG directory under keps/, id (the anchor on /work/,
+# keep it stable), display name. kind: subproject marks an out-of-tree project, shown with
+# its stage instead of on the release grid.
+keps:
+  - {kep: 3299, sig: sig-auth, id: kms-v2, name: KMS v2}
+  - {kep: 3331, sig: sig-auth, id: structured-authn, name: Structured authentication configuration}
+  - {kep: 4412, sig: sig-auth, id: image-pull-tokens, name: Service account tokens for image pulls}
+  - {kep: 5538, sig: sig-storage, id: csi-sa-tokens, name: Service account tokens for CSI drivers}
+  - {kep: 5793, sig: sig-api-machinery, id: manifest-admission, name: Manifest-based admission control}
+  - {kep: 2907, sig: sig-auth, id: secrets-store-csi, name: Secrets Store CSI Driver, kind: subproject}

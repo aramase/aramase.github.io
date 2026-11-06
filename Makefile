@@ -1,23 +1,24 @@
+# CI pins the Hugo version in .github/workflows/hugo.yml (HUGO_VERSION); hugo.toml sets the minimum.
+HUGO ?= hugo
+
 build:
-	hugo --gc --minify --cleanDestinationDir
+	$(HUGO) --gc --minify --cleanDestinationDir
 
 build-draft:
-	hugo --buildDrafts
-
-deploy: build
-	netlify deploy --prod
-
-deploy-preview:
-	netlify deploy --draft
+	$(HUGO) --buildDrafts
 
 preview:
-	hugo server
+	$(HUGO) server
 
 clean:
-	rm -r public
+	rm -rf public
 
-build-deps:
-	go get -u github.com/netlify/netlifyctl
-	go get -u github.com/gohugoio/hugo
+# Regenerate data/ledger.yaml from kubernetes/enhancements on GitHub, or from a local
+# clone with ENHANCEMENTS=<path>. See ledger/README.md.
+ledger:
+	cd tools/ledger && go run . -root ../.. $(if $(ENHANCEMENTS),-enhancements $(abspath $(ENHANCEMENTS)))
 
-.PHONY: build deploy clean
+ledger-test:
+	cd tools/ledger && go vet ./... && go test ./...
+
+.PHONY: build build-draft preview clean ledger ledger-test

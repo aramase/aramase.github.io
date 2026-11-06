@@ -1,5 +1,5 @@
 baseURL = 'https://anishram.com'
-languageCode = 'en-us'
+locale = 'en-US'
 title = 'Anish Ramasekar'
 enableInlineShortcodes = true
 buildDrafts = false
@@ -7,12 +7,16 @@ buildFuture = false
 enableRobotsTXT = true
 canonifyURLs = true
 
+# Matches HUGO_VERSION in .github/workflows/hugo.yml.
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = '0.168.0'
+
 [params]
   author = "Anish Ramasekar"
-  description = "Principal Software Engineer at Microsoft, Kubernetes SIG Auth Co-Chair, and Secrets Store CSI Driver Maintainer. Expert in cloud-native security, Kubernetes authentication, and open source leadership."
-  keywords = ["kubernetes", "security", "cloud-native", "authentication", "microsoft", "cncf", "talks", "blog"]
-  showMenuItems = 3
-  MenuMore = "Show more"
+  description = "Principal software engineer at Microsoft working on Kubernetes security and on infrastructure for running AI agents. Co-chair of Kubernetes SIG Auth and maintainer of the Secrets Store CSI Driver."
+  keywords = ["kubernetes", "security", "authentication", "secrets", "ai agents", "microsoft", "cncf", "talks", "blog"]
   
   [params.social]
     github = "aramase"
@@ -35,6 +39,9 @@ canonifyURLs = true
     noClasses = true
     tabWidth = 4
 
+[taxonomies]
+  tag = "tags"
+
 [outputs]
   home = ["HTML", "RSS"]
   page = ["HTML"]
@@ -47,12 +54,17 @@ canonifyURLs = true
 
 [menu]
   [[menu.main]]
+    identifier = "work"
+    name = "Work"
+    url = "/work/"
+    weight = 5
+  [[menu.main]]
     identifier = "blogs"
-    name = "Blogs"
-    url = "/blogs"
+    name = "Posts"
+    url = "/blogs/"
     weight = 10
   [[menu.main]]
     identifier = "talks"
     name = "Talks"
-    url = "/talks"
+    url = "/talks/"
     weight = 20

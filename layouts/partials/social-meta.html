@@ -1,0 +1,26 @@
+{{- $p := .page }}
+{{- $image := "" }}
+{{- if $p.IsHome }}
+  {{- with resources.Get "images/anish-ramasekar.png" }}
+    {{- $image = (.Fill "432x432 jpg q85 Center").Permalink }}
+  {{- end }}
+{{- else if $p.Params.images }}
+  {{- $image = index $p.Params.images 0 }}
+{{- else if $p.Params.image }}
+  {{- $image = $p.Params.image }}
+{{- end }}
+<meta property="og:title" content="{{ .title }}">
+<meta property="og:description" content="{{ .description }}">
+<meta property="og:type" content="{{ if $p.IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ $p.Permalink }}">
+<meta property="og:site_name" content="{{ site.Title }}">
+{{- with $image }}
+<meta property="og:image" content="{{ . }}">
+{{- end }}
+<meta name="twitter:card" content="{{ if and $image (not $p.IsHome) }}summary_large_image{{ else }}summary{{ end }}">
+<meta name="twitter:title" content="{{ .title }}">
+<meta name="twitter:description" content="{{ .description }}">
+{{- with site.Params.social.twitter }}
+<meta name="twitter:site" content="@{{ . }}">
+<meta name="twitter:creator" content="@{{ . }}">
+{{- end }}

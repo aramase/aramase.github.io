@@ -1,0 +1,30 @@
+# Home page content beyond the bio. The bio itself is in layouts/index.html.
+#
+# focus: plain-language areas for visitors who don't know the individual
+# features; no KEP numbers here, the ledger on /work/ carries those. Each links
+# to its area on /work/ (an id in data/work.yaml).
+# talks, posts: content paths, newest or most significant first; the build
+# fails if one is not a page.
+focus:
+  - name: Kubernetes identity and security
+    line: How a cluster decides who a person or workload is and what it may do, from authentication and service account tokens to encrypting secrets at rest.
+    href: /work/#kubernetes
+    text: Features I've shipped
+  - name: Secrets and workload identity
+    line: Mounting secrets from external stores into pods, and workload identity on Azure.
+    href: /work/#secrets
+    text: Projects I've maintained
+  - name: Infrastructure for AI agents
+    line: "Open building blocks for running AI agents: a neutral contract for durable agent sessions, and transaction tokens that carry identity across multi-hop agent calls."
+    href: /work/#agents
+    text: Sessions and transaction tokens
+
+talks:
+  - /talks/2025-kubecon-na-sig-auth-update
+  - /talks/2024-kubecon-na-authorization-cel-rbac
+  - /talks/2021-kubecon-eu-secrets-store-csi
+
+posts:
+  - /blogs/2026-kubernetes-v1-36-manifest-based-admission-control
+  - /blogs/2025-kubernetes-v1-34-sa-tokens-image-pulls-beta
+  - /blogs/jwt-kubernetes-structured-authentication

@@ -1,0 +1,22 @@
+{{- /* One entry in a /work/ area: name, role, one line, link. Input: an entry from data/work.yaml.
+       An entry with `ledger` names a data/ledger.yaml subproject: it shows the KEP and its
+       stage, and takes part in the ledger cross-highlight. */ -}}
+{{- $sp := false }}
+{{- with .ledger }}
+  {{- $id := . }}
+  {{- range hugo.Data.ledger.subprojects }}{{ if eq .id $id }}{{ $sp = . }}{{ end }}{{ end }}
+  {{- if not $sp }}{{ errorf "data/work.yaml: entry %q: ledger %q is not a subproject in data/ledger.yaml" $.name $id }}{{ end }}
+{{- end }}
+<li class="area-entry"{{ with $sp }} id="{{ .id }}" data-feature="{{ .id }}"{{ end }}>
+  <div class="area-entry__label">
+    <h3 class="feature__name"><a href="{{ .href }}">{{ .name }}</a></h3>
+    <p class="feature__meta">
+      {{- .role }}
+      {{- with $sp }} &middot; <a href="https://github.com/kubernetes/enhancements/tree/master/keps/{{ .path }}">KEP-{{ .kep }}</a>, <span class="stage-tag stage-tag--{{ .stage }}">{{ partial "ledger/stage-label.html" . }}</span> at <span class="num">v1.{{ .release }}</span>{{ end -}}
+    </p>
+    {{- with $sp }}
+    <a class="feature__cue" href="#record-title" hidden></a>
+    {{- end }}
+  </div>
+  <p class="area-entry__line">{{ .line }}</p>
+</li>
