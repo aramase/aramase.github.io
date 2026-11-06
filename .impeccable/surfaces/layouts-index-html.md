@@ -18,11 +18,16 @@ the matching areas on the work page (`/work/#kubernetes`, `#secrets`, `#agents`)
 Constraints: no timelines and no KEP numbers here (they live on `/work/`); bio verbatim; only
 agent-primitives/sessions and kontxt named on the agent side; permalinks kept.
 
-FIRST VIEWPORT: Top bar: name, Work, Posts, Talks, Email, theme toggle. Headshot, the name as
-the h1, the bio. Below: "What I work on" (Kubernetes identity and security, secrets and workload identity,
-infrastructure for AI agents, one line and one link each), selected talks and posts (three each,
-from `data/home.yaml`), and contact (email and profiles).
+FIRST VIEWPORT: Header strip (ink, the inverse of the page): name, Work, Posts, Talks, Email,
+the "Inverse" theme toggle; the clock rule under it. The name as the h1 in condensed display type,
+the bio beside the headshot, then "What I work on" (Kubernetes identity and security, secrets and
+workload identity, infrastructure for AI agents, one line and one link each). Below: selected talks
+and posts (three each, from `data/home.yaml`), "For event organizers" (the bio again as a
+select-all panel, and a headshot download with its pixel size), and contact (email; profiles in the
+footer).
 
-Type and colour: spruce, picked by Anish on 2026-10-27 (Slack 1a) from three rendered directions.
-Jost for names and headings, DM Sans for text, a deep spruce band full width behind the header and
-hero, and saffron as the second colour for the name bar, links and focus. DESIGN.md holds the tokens.
+Type and colour: "timing", chosen by Anish on 2026-11-05 from the rendered concepts, replacing
+spruce. The page is an engineering datasheet: Sofia Sans for text, Sofia Sans Condensed for names,
+headings and numerals (self-hosted, OFL), a cool neutral paper and ink, and one magenta signal for
+link underlines, roles, focus and selection. Dark mode is the inverse print. DESIGN.md holds the
+tokens and the contrast table.
