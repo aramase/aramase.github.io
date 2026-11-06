@@ -117,6 +117,108 @@ main { display: block; padding-bottom: 4rem; }
 .jump { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; padding-bottom: 0.2rem; }
 .jump a { display: inline-block; padding: 0.3rem 0; font-weight: 500; }
 
+/* Work */
+.area .lede { font-size: 1.25rem; max-width: 44em; }
+.entries { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 0 3rem; margin-top: 1rem; }
+.diagram ~ .entries { margin-top: 2.5rem; }
+.entries li { padding: 1rem 0; border-top: 1px solid var(--rule); }
+.entries h3 { font-size: 1.25rem; font-weight: 700; }
+.entries .meta { margin-top: 0.4rem; }
+.role { color: var(--sig); font-weight: 600; font-size: 0.9375rem; margin: 0.15rem 0 0.35rem; }
+
+/* The timing diagram */
+.diagram { margin: 1.5rem 0 0; border: 1px solid var(--ink); }
+.diagram__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem 2rem; padding: 0.9rem 1.1rem; border-bottom: 1px solid var(--ink); }
+.diagram__head h3 { font-size: clamp(1.375rem, 2.4vw, 1.75rem); font-weight: 800; }
+.key { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin: 0; }
+.key div { display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
+.key dt { display: flex; align-items: center; gap: 0.45rem; font-weight: 600; }
+.key dd { margin: 0; color: var(--ink-2); font-size: 0.875rem; }
+.key dd::before { content: "= "; }
+
+/* Level glyph: a step at the stage's height */
+.lv { position: relative; display: inline-block; flex: none; width: 1.4rem; height: 0.9rem; border-bottom: 1.5px solid var(--ink-2); }
+.lv::after { content: ""; position: absolute; left: 35%; right: 0; bottom: 0; border-top: 2px solid var(--sig); border-left: 2px solid var(--sig); background: var(--sig-fill); }
+.lv--1::after { top: 62%; }
+.lv--2::after { top: 30%; }
+.lv--3::after { top: 0; }
+.lv--target::after { border-style: dashed; background: none; }
+
+.axis, .sig { display: grid; grid-template-columns: var(--label) minmax(0, 1fr); }
+.axis { border-bottom: 1px solid var(--rule); }
+.axis__v { align-self: end; padding: 0 1.1rem 0.35rem; font: 600 0.875rem/1 var(--cond); color: var(--ink-2); text-align: right; }
+.axis__clock { padding-top: 0.6rem; }
+.axis__clock svg { display: block; width: 100%; height: 1.5rem; }
+.axis__clock path, .wave path { vector-effect: non-scaling-stroke; }
+.axis__clock path { fill: none; stroke: var(--ink-2); stroke-width: 1.25; }
+.axis__clock .axis__dev { stroke-dasharray: 3 3; }
+.axis__nums { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); }
+.axis__nums span { padding: 0.35rem 0 0.45rem 5px; border-left: 1px solid var(--rule); font: 700 0.9375rem/1 var(--cond); white-space: nowrap; }
+.axis__nums small { display: block; margin-top: 0.2rem; font: 600 0.75rem/1 var(--cond); color: var(--ink-2); }
+
+.sig { border-bottom: 1px solid var(--rule); }
+.sig:last-child { border-bottom: 0; }
+.sig__label { padding: 1rem 1.1rem; border-right: 1px solid var(--rule); }
+.sig__label h4 { font-size: 1.125rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.3rem; }
+.sig__label .meta { font-size: 0.875rem; line-height: 1.45; }
+/* The track is a grid of release columns. The wave has a fixed height, so the levels sit at
+   the same heights in every row; edge labels are grid items in one row, so a tall label
+   grows the track instead of running into the next row. The wave is drawn first and takes
+   no pointer events, so the labels and their links sit above it. */
+.sig__track {
+  --wave: 9rem;
+  position: relative; min-height: 10.5rem; padding-bottom: 0.6rem;
+  display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); align-items: start;
+  background-image: linear-gradient(to right, var(--grid) 1px, transparent 1px);
+  background-size: calc(100% / var(--cols)) 100%;
+}
+.wave { position: absolute; top: 0.9rem; left: 0; width: 100%; height: var(--wave); overflow: visible; pointer-events: none; }
+.w-line { fill: none; stroke: var(--sig); stroke-width: 2.25; stroke-linejoin: miter; }
+.w-fill { fill: var(--sig-fill); }
+.w-pre { fill: none; stroke: var(--ink-2); stroke-width: 1.25; stroke-dasharray: 2 5; }
+.w-target { fill: none; stroke: var(--sig); stroke-width: 2; stroke-dasharray: 6 4; }
+.sig:hover .w-line, .sig:focus-within .w-line { stroke-width: 3.5; }
+.sig:hover .w-fill, .sig:focus-within .w-fill { fill: var(--sig-fill-2); }
+
+/* Edge labels sit just under the level they step to, as wide as the stage they open
+   (grid-column is set per label from the data). */
+.edge {
+  position: relative; grid-row: 1; min-width: 0;
+  margin: calc(0.9rem + var(--wave) * var(--lvl) / 300 + 5px) 3px 0 7px;
+  display: flex; flex-wrap: wrap; gap: 0 0.55rem;
+  font-size: 0.8125rem; line-height: 1.3;
+}
+.edge__name { width: 100%; font: 700 0.875rem/1.3 var(--cond); }
+.edge a { padding: 0.1rem 0; font-weight: 600; }
+/* A one-column stage in the final column: nothing to its right, so stack its lines against
+   the end. Its grid area also takes the column before, so only a line wider than the last
+   column runs inward across the rise. */
+.edge--end {
+  justify-self: end; margin-left: 0; width: max-content; max-width: calc(100% - 3px);
+  flex-direction: column; align-items: flex-end; text-align: right;
+}
+/* A one-column stage with the next stage one column on: stack the links and cut long ones short. */
+.edge--tight { flex-direction: column; }
+.edge--tight a { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stages { display: none; }
+
+.diagram figcaption { padding: 0.8rem 1.1rem; border-top: 1px solid var(--ink); color: var(--ink-2); font-size: 0.9375rem; }
+
+/* Datasheet tables */
+.tbl { width: 100%; border-collapse: collapse; font-size: 1rem; }
+.tbl th { padding: 0.5rem 0.75rem 0.5rem 0; border-bottom: 1px solid var(--ink); font: 700 0.875rem/1.2 var(--cond); text-align: left; color: var(--ink-2); }
+.tbl td { padding: 0.75rem 0.75rem 0.75rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.c-date { width: 7.5rem; white-space: nowrap; color: var(--ink-2); font-family: var(--cond); font-weight: 600; }
+.c-title a { font-weight: 600; }
+.c-title .summary { margin-top: 0.3rem; color: var(--ink-2); font-size: 0.9375rem; max-width: 70ch; }
+.c-src { width: 22%; color: var(--ink-2); }
+.c-src .ach { display: block; }
+.c-rel { width: 22%; }
+.tag { display: inline-flex; align-items: center; gap: 0.4rem; margin: 0 0.4rem 0.3rem 0; padding: 0.25rem 0.5rem; border: 1px solid var(--rule); font-size: 0.8125rem; line-height: 1.4; text-decoration: none; }
+a.tag:hover { border-color: var(--sig); }
+.tag b { color: var(--sig); font-weight: 700; }
+.year { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+
 /* Talk and post pages */
 .doc { max-width: 46rem; padding-top: clamp(2rem, 5vw, 3.5rem); }
 .doc__back { display: inline-block; padding: 0.3rem 0; font-weight: 600; }
@@ -137,6 +239,9 @@ main { display: block; padding-bottom: 4rem; }
 .doc__body blockquote { margin-left: 0; padding-left: 1rem; border-left: 1px solid var(--sig); color: var(--ink-2); }
 .doc__body code { font-size: 0.9em; }
 .doc__body pre { overflow-x: auto; padding: 1rem; border: 1px solid var(--rule); }
+.note { margin-top: 2.5rem; padding-top: 1rem; border-top: 2px solid var(--ink); }
+.note h2 { margin-bottom: 0.6rem; font-size: 1.25rem; font-weight: 700; }
+.note li { display: flex; align-items: baseline; gap: 0.6rem; padding: 0.3rem 0; }
 .pager { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
 .pager a { display: flex; flex-direction: column; gap: 0.2rem; text-decoration: none; }
 .pager a span:first-child { font: 600 0.875rem/1.2 var(--cond); color: var(--ink-2); }
@@ -152,10 +257,40 @@ main { display: block; padding-bottom: 4rem; }
 .foot ul { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
 .foot a { display: inline-block; padding: 0.3rem 0; }
 
+/* Below 64rem the track is too narrow for edge labels: the stage list carries them instead. */
+@media (max-width: 63.99rem) {
+  .axis, .sig { grid-template-columns: minmax(0, 1fr); }
+  .axis__v { display: none; }
+  .axis__clock { margin: 0 1.1rem; }
+  .sig__label { border-right: 0; padding-bottom: 0.5rem; }
+  .sig__track { --wave: 4rem; min-height: 5.5rem; margin: 0 1.1rem 1rem; }
+  .edge { display: none; }
+  .stages { display: flex; flex-wrap: wrap; gap: 0.2rem 1.25rem; margin-top: 0.5rem; font-size: 0.9375rem; }
+  .stages li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.4rem; }
+  .stages .lv { align-self: center; }
+  .stages b { font-family: var(--cond); }
+}
 @media (max-width: 48rem) {
   .strip__in { padding-top: 0.25rem; }
   .strip nav { order: 3; width: 100%; margin-left: 0; }
   .toggle { margin-left: auto; }
+  /* Visually hidden, not display: none, so the cells keep their column headers in the
+     accessibility tree. */
+  .tbl thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .tbl, .tbl tbody, .tbl tr, .tbl td { display: block; width: auto; }
+  .tbl tr { padding: 0.75rem 0; border-bottom: 1px solid var(--rule); }
+  .tbl td { padding: 0.1rem 0; border: 0; }
+  .tbl td:empty { margin: 0; padding: 0; }
+  .c-rel { margin-top: 0.35rem; }
+  .axis__nums span { padding-left: 2px; font-size: 0.75rem; }
+  .axis__nums span:nth-child(even):not(.axis__in-dev) { color: transparent; }
+  .axis__nums small { display: none; }
   .pager { grid-template-columns: minmax(0, 1fr); }
   .pager__next { grid-column: auto; text-align: left; }
+}
+@media (max-width: 30rem) {
+  .key { gap: 0.5rem 1rem; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .w-line { transition: stroke-width 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 }

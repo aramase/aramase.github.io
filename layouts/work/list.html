@@ -1,57 +1,46 @@
 {{ define "main" }}
 {{- $refs := partialCached "ledger/refs.html" . }}
 {{- $areas := hugo.Data.work.areas }}
-<div class="wrap" data-ledger-scope>
-  <header class="page-head">
+{{- $talks := (where site.RegularPages "Section" "talks").ByDate.Reverse }}
+<div class="wrap">
+  <header class="pagehead">
     <h1>{{ .Title }}</h1>
-    <p>What I build and the roles I hold, by area, with the posts and talks behind them.</p>
-    <nav class="area-index" aria-label="Areas">
-      <ul>
+    <nav aria-label="On this page">
+      <ul class="jump">
         {{- range $areas }}
         <li><a href="#{{ .id }}">{{ .name }}</a></li>
         {{- end }}
+        <li><a href="#posts">Posts</a></li>
+        <li><a href="#talks">Talks</a></li>
       </ul>
     </nav>
   </header>
 
   {{- range $areas }}
-  <section class="area" id="{{ .id }}" aria-labelledby="{{ .id }}-title">
-    <div class="area__head">
-      <h2 class="section-title" id="{{ .id }}-title">{{ .name }}</h2>
-      <p>{{ .lede }}</p>
-    </div>
-    <ul class="area__entries">
+  <section class="sec area" id="{{ .id }}" aria-labelledby="{{ .id }}-title">
+    <h2 class="h2" id="{{ .id }}-title">{{ .name }}</h2>
+    <p class="lede">{{ .lede }}</p>
+    {{- if .ledger }}
+    {{ partial "ledger/ledger.html" $ }}
+    {{- end }}
+    <ul class="entries">
       {{- range .entries }}
       {{ partial "work-entry.html" . }}
       {{- end }}
     </ul>
-    {{- if .ledger }}
-    {{ partial "ledger/ledger.html" $ }}
-    {{- end }}
   </section>
   {{- end }}
 
-  <section class="record" aria-labelledby="record-title">
-    <h2 class="visually-hidden" id="record-title">Posts and talks</h2>
-    <div>
-      <h3>Posts</h3>
-      <ol>
-        {{- range (where site.RegularPages "Section" "blogs").ByDate.Reverse }}
-        {{ partial "entry.html" (dict "page" . "refs" (index $refs .Path)) }}
-        {{- end }}
-      </ol>
-      <a class="record__more" href="/blogs/">All posts</a>
-    </div>
-    <div>
-      <h3>Talks</h3>
-      {{- $talks := (where site.RegularPages "Section" "talks").ByDate.Reverse }}
-      <ol>
-        {{- range first 6 $talks }}
-        {{ partial "entry.html" (dict "page" . "refs" (index $refs .Path)) }}
-        {{- end }}
-      </ol>
-      <a class="record__more" href="/talks/">All {{ len $talks }} talks</a>
-    </div>
+  <section class="sec" id="posts" aria-labelledby="posts-title">
+    <h2 class="h2" id="posts-title">Posts</h2>
+    {{ partial "record-table.html" (dict "pages" (where site.RegularPages "Section" "blogs").ByDate.Reverse "label" "posts-title" "refs" $refs) }}
+    <a class="go" href="/blogs/">All posts</a>
+  </section>
+
+  <section class="sec" id="talks" aria-labelledby="talks-title">
+    <h2 class="h2" id="talks-title">Talks</h2>
+    {{ partial "record-table.html" (dict "pages" (first 6 $talks) "label" "talks-title" "refs" $refs) }}
+    <a class="go" href="/talks/">All {{ len $talks }} talks</a>
   </section>
 </div>
 {{ end }}
