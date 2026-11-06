@@ -10,9 +10,10 @@
   <meta name="description" content="{{ $desc }}">
   <meta name="author" content="{{ site.Params.author }}">
   <link rel="canonical" href="{{ .Permalink }}">
-  {{- /* The header strip's colour, the inverse of the page: --ink in site.css. */}}
-  <meta name="theme-color" content="#111419" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#edeef1" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  {{- /* The page background, --bg in site.css; site.js follows a manual theme choice. */}}
+  <meta name="theme-color" content="#fcfdff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0c0f12" media="(prefers-color-scheme: dark)">
 
   {{- partial "social-meta.html" (dict "page" . "title" $title "description" $desc) }}
 
@@ -24,8 +25,8 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="preload" href="/fonts/sofia-sans.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/fonts/sofia-sans-condensed.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/geist-mono.woff2" as="font" type="font/woff2" crossorigin>
   {{- $css := resources.Get "css/site.css" | minify | fingerprint }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
   {{- range .AlternativeOutputFormats }}
@@ -40,7 +41,7 @@
 <body>
   <a class="skip" href="#main">Skip to content</a>
   {{ partial "header.html" . }}
-  <main id="main" tabindex="-1">
+  <main id="main">
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}

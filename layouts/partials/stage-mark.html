@@ -1,0 +1,15 @@
+{{- /* A Kubernetes stage drawn by shape, not hue: ring = alpha, half disc = beta, full disc = GA.
+       Input: dict "stage" (alpha, beta or ga) and "class" (mark by default, node on the timeline). */ -}}
+{{- $cls := .class | default "mark" -}}
+<svg class="{{ $cls }} {{ $cls }}--{{ .stage }}" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+{{- if eq .stage "alpha" -}}
+<circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/>
+{{- else if eq .stage "beta" -}}
+<circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 2.5a5.5 5.5 0 0 1 0 11z" fill="currentColor"/>
+{{- else if eq .stage "ga" -}}
+<circle cx="8" cy="8" r="6.5" fill="currentColor"/>
+{{- else -}}
+{{- errorf "stage-mark: unknown stage %q" .stage -}}
+{{- end -}}
+</svg>
+{{- /**/ -}}

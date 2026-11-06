@@ -57,14 +57,14 @@ canonifyURLs = true
     identifier = "work"
     name = "Work"
     url = "/work/"
-    weight = 5
-  [[menu.main]]
-    identifier = "blogs"
-    name = "Posts"
-    url = "/blogs/"
     weight = 10
   [[menu.main]]
-    identifier = "talks"
-    name = "Talks"
-    url = "/talks/"
+    identifier = "timeline"
+    name = "Talks and posts"
+    url = "/work/#timeline"
     weight = 20
+  [[menu.main]]
+    identifier = "contact"
+    name = "Contact"
+    url = "/#contact"
+    weight = 30
