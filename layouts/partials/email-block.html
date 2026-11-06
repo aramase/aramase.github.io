@@ -1,0 +1,10 @@
+{{- /* The address as selectable text, a Copy button site.js shows, and a mailto link.
+       Input: dict "uid" (unique on the page) and "addr". */ -}}
+<div class="mail">
+  <span class="mail__addr" id="addr-{{ .uid }}">{{ .addr }}</span>
+  <span class="mail__actions">
+    <button type="button" class="mail__copy" data-copy="addr-{{ .uid }}" data-status="st-{{ .uid }}" hidden>{{ partial "icon.html" "copy" }}<span data-label>Copy address</span></button>
+    <a class="mail__open" href="mailto:{{ .addr }}">{{ partial "icon.html" "mail" }}<span>Open in mail app</span></a>
+  </span>
+  <span class="mail__status" id="st-{{ .uid }}" role="status" aria-live="polite"></span>
+</div>

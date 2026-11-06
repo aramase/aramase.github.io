@@ -6,78 +6,86 @@
 {{- $bio := "I'm a principal software engineer at Microsoft working on identity and security for Kubernetes and for the AI agents that run on it. I co-chair Kubernetes SIG Auth and have taken features from proposal to GA, including KMS v2 encryption and structured authentication configuration, and I maintained the Secrets Store CSI Driver. Lately I'm building open pieces for agents: durable sessions, sandboxed runtimes and transaction tokens." }}
 {{- $photo := resources.Get "images/anish-ramasekar.png" }}
 {{- $alt := "Anish Ramasekar smiling outdoors, with mountains behind him" }}
-<div class="wrap">
-  <section class="title" aria-labelledby="name">
-    <h1 id="name">Anish<br>Ramasekar</h1>
-    {{- with $photo }}
-    {{- $s1 := .Fill "208x208 webp q80 Center" }}
-    {{- $s2 := .Fill "416x416 webp q78 Center" }}
-    {{- $fallback := .Fill "416x416 jpg q80 Center" }}
-    <figure class="title__photo">
-      <picture>
-        <source type="image/webp" srcset="{{ $s1.RelPermalink }} 208w, {{ $s2.RelPermalink }} 416w" sizes="(max-width: 30rem) 6.5rem, 13rem">
-        <img src="{{ $fallback.RelPermalink }}" width="208" height="208" alt="{{ $alt }}">
-      </picture>
-    </figure>
-    {{- end }}
-    <div class="title__desc">
-      <p class="bio">{{ $bio }}</p>
+<section class="hero wrap" aria-labelledby="name">
+  <div class="hero__text">
+    <h1 id="name">{{ site.Title }}</h1>
+    <p class="hero__bio">{{ $bio }}</p>
+    <div class="hero__actions">
+      <a class="btn btn--primary" href="/work/">See my work{{ partial "icon.html" "arrow" }}</a>
+      <a class="btn" href="#contact">{{ partial "icon.html" "mail" }}Get in touch</a>
     </div>
-    <div class="title__areas">
-      <h2 class="h2" id="focus-title">What I work on</h2>
-      <ul class="areas" aria-labelledby="focus-title">
-        {{- range $home.focus }}
-        <li>
-          <h3>{{ .name }}</h3>
-          <p>{{ .line }}</p>
-          <a class="go" href="{{ .href }}">{{ .text }}</a>
-        </li>
-        {{- end }}
-      </ul>
-    </div>
-  </section>
-
-  <div class="two">
-    <section class="sec" aria-labelledby="talks-title">
-      <h2 class="h2" id="talks-title">Selected talks</h2>
-      <ol class="tab">
-        {{- range $home.talks }}{{ partial "pick.html" . }}{{ end }}
-      </ol>
-      <a class="go" href="/talks/">All {{ len $talks }} talks</a>
-    </section>
-    <section class="sec" aria-labelledby="posts-title">
-      <h2 class="h2" id="posts-title">Selected posts</h2>
-      <ol class="tab">
-        {{- range $home.posts }}{{ partial "pick.html" . }}{{ end }}
-      </ol>
-      <a class="go" href="/blogs/">All {{ len $posts }} posts</a>
-    </section>
   </div>
+  {{- with $photo }}
+  {{- $s1 := .Fill "304x304 webp q80 Center" }}
+  {{- $s2 := .Fill "427x427 webp q80 Center" }}
+  {{- $fallback := .Fill "427x427 jpg q82 Center" }}
+  <figure class="hero__photo">
+    <picture>
+      <source type="image/webp" srcset="{{ $s1.RelPermalink }} 304w, {{ $s2.RelPermalink }} 427w" sizes="(max-width: 44rem) 9rem, clamp(9rem, 26vw, 19rem)">
+      <img class="hero__img" src="{{ $fallback.RelPermalink }}" width="427" height="427" alt="{{ $alt }}" decoding="async">
+    </picture>
+  </figure>
+  {{- end }}
+</section>
 
-  <section class="sec kit" aria-labelledby="kit-title">
-    <h2 class="h2" id="kit-title">For event organizers</h2>
-    <div class="kit__body">
-      <div>
-        <h3 class="h3">Speaker bio</h3>
-        <p class="kit__bio">{{ $bio }}</p>
-      </div>
-      {{- with $photo }}
-      {{- /* The headshot at its native size, as a JPG that event tools accept. */}}
-      {{- $shot := .Process "jpg q90" }}
-      {{- $thumb := .Fill "320x320 webp q80 Center" }}
-      <div>
-        <h3 class="h3">Headshot</h3>
-        <a class="kit__shot" href="{{ $shot.RelPermalink }}" download="anish-ramasekar.jpg"><img src="{{ $thumb.RelPermalink }}" width="160" height="160" alt="" loading="lazy">Download headshot (JPG, {{ $shot.Width }}&thinsp;&times;&thinsp;{{ $shot.Height }})</a>
-      </div>
-      {{- end }}
-    </div>
-  </section>
-
-  <section class="sec contact" aria-labelledby="contact-title">
-    <h2 class="h2" id="contact-title">Contact</h2>
-    {{- with site.Params.social.email }}
-    <a class="email" href="mailto:{{ . }}">{{ . }}</a>
+<section class="band wrap" aria-labelledby="focus-title">
+  <h2 id="focus-title">What I work on</h2>
+  <ul class="areas">
+    {{- range $home.focus }}
+    <li class="area">
+      <h3>{{ .name }}</h3>
+      <p>{{ .line }}</p>
+      <a class="more" href="{{ .href }}">{{ .text }}{{ partial "icon.html" "arrow" }}</a>
+    </li>
     {{- end }}
+  </ul>
+</section>
+
+<div class="wrap two">
+  <section aria-labelledby="talks-title">
+    <h2 id="talks-title">Selected talks</h2>
+    <ol class="picks">
+      {{- range $home.talks }}{{ partial "pick.html" . }}{{ end }}
+    </ol>
+    <a class="more" href="/work/#timeline">All {{ len $talks }} talks{{ partial "icon.html" "arrow" }}</a>
+  </section>
+  <section aria-labelledby="posts-title">
+    <h2 id="posts-title">Selected posts</h2>
+    <ol class="picks">
+      {{- range $home.posts }}{{ partial "pick.html" . }}{{ end }}
+    </ol>
+    <a class="more" href="/work/#timeline">All {{ len $posts }} posts{{ partial "icon.html" "arrow" }}</a>
   </section>
 </div>
+
+<section class="wrap kit" aria-labelledby="kit-title">
+  <h2 id="kit-title">For event organizers</h2>
+  <div class="kit__grid">
+    <div class="kit__bio">
+      <h3>Speaker bio</h3>
+      <p id="speaker-bio">{{ $bio }}</p>
+      <button type="button" class="btn btn--small" data-copy="speaker-bio" data-status="st-bio" hidden>{{ partial "icon.html" "copy" }}<span data-label>Copy bio</span></button>
+      <span class="status" id="st-bio" role="status" aria-live="polite"></span>
+    </div>
+    {{- with $photo }}
+    {{- /* The headshot at its native size, as a JPG that event tools accept. */}}
+    {{- $shot := .Process "jpg q90" }}
+    {{- $thumb := .Fill "192x192 webp q80 Center" }}
+    <div class="kit__shot">
+      <h3>Headshot</h3>
+      <a class="shot" href="{{ $shot.RelPermalink }}" download="anish-ramasekar.jpg"><img class="shot__img" src="{{ $thumb.RelPermalink }}" width="120" height="120" alt="" loading="lazy" decoding="async"><span>{{ partial "icon.html" "down" }}Download headshot<span class="shot__meta">JPG, {{ $shot.Width }} &times; {{ $shot.Height }}</span></span></a>
+    </div>
+    {{- end }}
+  </div>
+</section>
+
+<section class="wrap contact" id="contact" aria-labelledby="contact-title">
+  <h2 id="contact-title">Contact</h2>
+  <p class="contact__lede">Email is the best way to reach me. Copy the address if you don't use a mail app on this device.</p>
+  {{- with site.Params.social.email }}
+  {{ partial "email-block.html" (dict "uid" "home" "addr" .) }}
+  {{- else }}
+  {{- errorf "hugo.toml: params.social.email is empty" }}
+  {{- end }}
+</section>
 {{ end }}
