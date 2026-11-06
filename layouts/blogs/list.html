@@ -2,30 +2,15 @@
 {{- $refs := partialCached "ledger/refs.html" . }}
 {{- $posts := .Pages.ByDate.Reverse }}
 <div class="wrap">
-  <header class="page-head">
+  <header class="pagehead">
     <h1>{{ .Title | default "Posts" }}</h1>
-    <p><span class="num">{{ len $posts }}</span> posts, newest first. Each one is published on Kubernetes.io or Microsoft Open Source.</p>
+    <p>{{ len $posts }} posts, newest first. Each one is published on Kubernetes.io or Microsoft Open Source.</p>
   </header>
 
   {{- range $posts.GroupByDate "2006" }}
   <section class="year" aria-labelledby="posts-{{ .Key }}">
-    <h2 class="year__num" id="posts-{{ .Key }}">{{ .Key }}</h2>
-    <ol class="rows">
-      {{- range .Pages }}
-      {{- $r := index $refs .Path }}
-      <li class="row">
-        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
-        <div>
-          <h3 class="row__title"><a href="{{ .Params.link | default .RelPermalink }}">{{ .Title }}</a></h3>
-          {{- with .Summary }}<p class="row__summary">{{ . | plainify }}</p>{{ end }}
-        </div>
-        <div class="row__aside">
-          {{- with .Params.source }}<span>{{ . }}</span>{{ end }}
-          {{- range $r }}<br><span class="stage-tag stage-tag--{{ .stage }}">KEP-{{ .kep }} {{ partial "ledger/stage-label.html" . }}</span>{{ end }}
-        </div>
-      </li>
-      {{- end }}
-    </ol>
+    <h2 class="h2" id="posts-{{ .Key }}">{{ .Key }}</h2>
+    {{ partial "record-table.html" (dict "pages" .Pages "label" (printf "posts-%s" .Key) "refs" $refs "dateFormat" "2 Jan" "summary" true) }}
   </section>
   {{- end }}
 </div>
