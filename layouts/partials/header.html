@@ -1,7 +1,8 @@
-<header class="site-header{{ if .IsHome }} site-header--band{{ end }}">
-  <div class="wrap">
+{{- /* The strip is always the inverse of the page; the clock rule under it is the site's mark. */ -}}
+<header class="strip">
+  <div class="wrap strip__in">
     <a class="wordmark" href="/"{{ if .IsHome }} aria-current="page"{{ end }}>{{ site.Title }}</a>
-    <nav class="site-nav" aria-label="Primary">
+    <nav aria-label="Primary">
       <ul>
         {{- $current := . }}
         {{- range site.Menus.main }}
@@ -13,6 +14,8 @@
         {{- end }}
       </ul>
     </nav>
-    <button class="theme-toggle" type="button" aria-pressed="false" hidden><span class="theme-toggle__box" aria-hidden="true"></span>Dark</button>
+    {{- /* Shown by site.js; without JS the OS colour scheme applies. Pressed = dark (the inverse print). */}}
+    <button class="toggle" type="button" aria-pressed="false" hidden><span class="toggle__mark" aria-hidden="true"></span>Inverse<span class="vh"> theme</span></button>
   </div>
 </header>
+<div class="clock" aria-hidden="true"></div>
