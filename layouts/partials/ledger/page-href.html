@@ -1,0 +1,4 @@
+{{- /* Where a post or talk links from the work page: a post's original (link), else the page. */ -}}
+{{- $href := .RelPermalink }}
+{{- if eq .Section "blogs" }}{{ $href = .Params.link | default .RelPermalink }}{{ end }}
+{{- return $href }}

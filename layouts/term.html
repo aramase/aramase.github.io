@@ -2,11 +2,11 @@
 <div class="wrap">
   <header class="pagehead">
     <h1>{{ .Title }}</h1>
-    <p>Posts and talks tagged {{ .Title }}. <a href="/tags/">All tags</a></p>
+    <p class="pagehead__lede">Posts and talks tagged {{ .Title }}. <a href="/tags/">All tags</a></p>
   </header>
-  <section class="year" aria-labelledby="term-pages">
+  <section class="list" aria-labelledby="term-pages">
     <h2 class="vh" id="term-pages">Tagged {{ .Title }}</h2>
-    {{ partial "record-table.html" (dict "pages" .Pages.ByDate.Reverse "label" "term-pages") }}
+    <ol class="picks">{{ range .Pages.ByDate.Reverse }}{{ partial "record.html" (dict "page" .) }}{{ end }}</ol>
   </section>
 </div>
 {{ end }}

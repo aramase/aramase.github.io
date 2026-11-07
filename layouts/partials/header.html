@@ -1,21 +1,16 @@
-{{- /* The strip is always the inverse of the page; the clock rule under it is the site's mark. */ -}}
-<header class="strip">
-  <div class="wrap strip__in">
-    <a class="wordmark" href="/"{{ if .IsHome }} aria-current="page"{{ end }}>{{ site.Title }}</a>
+{{- $current := . }}
+<header class="top">
+  <div class="wrap top__in">
+    <a class="brand" href="/"{{ if .IsHome }} aria-current="page"{{ end }}>
+      {{- with resources.Get "images/anish-ramasekar.png" }}{{ with .Fill "56x56 webp q80 Center" }}<img src="{{ .RelPermalink }}" width="28" height="28" alt="">{{ end }}{{ end }}{{ site.Title }}</a>
     <nav aria-label="Primary">
       <ul>
-        {{- $current := . }}
         {{- range site.Menus.main }}
-        {{- $active := or ($current.IsMenuCurrent "main" .) ($current.HasMenuCurrent "main" .) (eq $current.Section .Identifier) }}
-        <li><a href="{{ .URL }}"{{ if $active }} aria-current="page"{{ end }}>{{ .Name }}</a></li>
-        {{- end }}
-        {{- with site.Params.social.email }}
-        <li><a href="mailto:{{ . }}">Email</a></li>
+        <li><a href="{{ .URL }}"{{ if eq .URL $current.RelPermalink }} aria-current="page"{{ end }}>{{ .Name }}</a></li>
         {{- end }}
       </ul>
     </nav>
-    {{- /* Shown by site.js; without JS the OS colour scheme applies. Pressed = dark (the inverse print). */}}
-    <button class="toggle" type="button" aria-pressed="false" hidden><span class="toggle__mark" aria-hidden="true"></span>Inverse<span class="vh"> theme</span></button>
+    {{- /* Shown by site.js; without JS the OS colour scheme applies. Pressed = dark. */}}
+    <button type="button" class="theme" data-theme-toggle aria-pressed="false" hidden>{{ partial "icon.html" "theme" }}<span>Dark</span></button>
   </div>
 </header>
-<div class="clock" aria-hidden="true"></div>

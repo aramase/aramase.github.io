@@ -2,24 +2,24 @@
 
 `data/ledger.yaml` drives the Kubernetes ledger on `/work/`. It is generated; don't edit it.
 
-- `keps.yaml`: the tracked KEPs, one line each.
+- `keps.yaml`: the tracked KEPs, each with an optional `line`, the one-sentence description
+  shown under its name.
 - `overrides.yaml`: what kep.yaml does not record (PRs, posts, talks), and exclusions for
   kep.yaml milestones that are not true.
 - `tools/ledger`: the generator. Stages come from each KEP's kep.yaml `milestone`, up to its
   `stage`. A stage counts once its release has a v1.N.0 tag; a GA stage in the release in
-  development is drawn as a target only while the KEP issue is on that milestone with
-  `lead-opted-in`. The page derives its release columns from the data: they run from
-  `first` to `last`, the oldest and newest released stage, so a release with no new stage
-  changes nothing. The ledger is KEP-only; projects belong in `data/work.yaml`.
+  development is written as a target only while the KEP issue is on that milestone with
+  `lead-opted-in`. `releases` maps each release with a released stage to the commit date of
+  its v1.N.0 tag in kubernetes/kubernetes, read with one shallow, tree-less fetch of those
+  tags; the page dates its stages and timeline from it. The ledger is KEP-only; projects
+  belong in `data/work.yaml`.
 
 With a target, the generator also writes `inDevelopment` (the release in development) and
-`checked`, the UTC date of the run that confirmed the target. The site draws targets (the
-"in dev" column, the dashed GA box and "GA target" on post and talk pages) only through the
-35th day after `checked`, so a monthly pull request left unmerged falls back to released
-stages instead of showing a stale target. The build fails if `inDevelopment` is set without
-`checked`. `-check` ignores the `checked` line.
+`checked`, the UTC date of the run that confirmed the target. The page shows a target like
+any stage not reached yet ("Not yet"), so a monthly pull request left unmerged shows nothing
+stale. `-check` ignores the `checked` line.
 
-Regenerate with `make ledger` (reads GitHub; set `GITHUB_TOKEN` if the anonymous API rate
+Regenerate with `make ledger` (reads GitHub and needs `git`; set `GITHUB_TOKEN` if the anonymous API rate
 limit runs out), or `make ledger ENHANCEMENTS=$HOME/go/src/k8s.io/enhancements`
 for a local clone (read as checked out). `make ledger-test` runs the generator's tests.
 

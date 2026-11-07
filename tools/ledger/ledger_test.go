@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"reflect"
 	"strings"
@@ -36,6 +37,33 @@ func (f fakeIssues) issue(_ context.Context, n int) (issue, error) {
 		return issue{}, errors.New("not found")
 	}
 	return is, nil
+}
+
+// relDate is the fake commit date of the v1.r.0 tag.
+func relDate(r int) time.Time { return time.Date(2000+r, 4, 1, 0, 0, 0, 0, time.UTC) }
+
+// fakeDates dates every release it is asked for with relDate, except missing, and
+// records what it was asked.
+type fakeDates struct {
+	missing int
+	err     error
+	asked   *[]int
+}
+
+func (f fakeDates) releaseDates(_ context.Context, releases []int) (map[int]time.Time, error) {
+	if f.asked != nil {
+		*f.asked = append(*f.asked, releases...)
+	}
+	if f.err != nil {
+		return nil, f.err
+	}
+	dates := map[int]time.Time{}
+	for _, r := range releases {
+		if r != f.missing {
+			dates[r] = relDate(r)
+		}
+	}
+	return dates, nil
 }
 
 func kep(n int, sig, stage, alpha, beta, stable string, authors ...string) string {
@@ -69,7 +97,8 @@ func TestBuild(t *testing.T) {
 	issues := fakeIssues{3: {Milestone: "v1.38", Labels: []string{"stage/stable", leadOptedIn}}}
 	// 23:30 on 2026-10-01 in UTC-7 is 2026-10-02 in UTC.
 	now := time.Date(2026, 10, 1, 23, 30, 0, 0, time.FixedZone("UTC-7", -7*60*60))
-	g := generator{src: src, issues: issues, latest: 37, now: func() time.Time { return now }}
+	var asked []int
+	g := generator{src: src, issues: issues, dates: fakeDates{asked: &asked}, latest: 37, now: func() time.Time { return now }}
 
 	got, err := g.build(context.Background(), keps, ov)
 	if err != nil {
@@ -98,9 +127,88 @@ func TestBuild(t *testing.T) {
 				{Stage: stageGA, Release: 22, annotation: annotation{Talks: []string{"/talks/x", "/talks/y"}}},
 			}},
 		},
+		// Every released stage's release, the subproject's too; the v1.38 target has no tag.
+		Releases: map[int]time.Time{22: relDate(22), 25: relDate(25), 27: relDate(27), 29: relDate(29), 35: relDate(35), 36: relDate(36), 37: relDate(37)},
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("build:\n got %+v\nwant %+v", got, want)
+	}
+	if !reflect.DeepEqual(asked, []int{22, 25, 27, 29, 35, 36, 37}) {
+		t.Errorf("asked for the dates of %v, want each released release once, in order", asked)
+	}
+}
+
+// A release date the dater cannot give fails the run.
+func TestBuildReleaseDates(t *testing.T) {
+	src := fakeSource{1: kep(1, "sig-auth", "stable", "v1.25", "v1.27", "v1.29", "aramase")}
+	keps := []tracked{{KEP: 1, SIG: "sig-auth", ID: "one", Name: "One"}}
+	for _, tc := range []struct {
+		name    string
+		dates   fakeDates
+		wantErr string
+	}{
+		{name: "missing", dates: fakeDates{missing: 27}, wantErr: "release dates: no date for v1.27.0"},
+		{name: "error", dates: fakeDates{err: errors.New("no network")}, wantErr: "release dates: no network"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			g := generator{src: src, issues: fakeIssues{}, dates: tc.dates, latest: 37}
+			if _, err := g.build(context.Background(), keps, nil); err == nil || err.Error() != tc.wantErr {
+				t.Errorf("error = %v, want %q", err, tc.wantErr)
+			}
+		})
+	}
+}
+
+// A run that fails leaves the output as it was; -check never writes.
+func TestUpdate(t *testing.T) {
+	dir := t.TempDir()
+	p := paths{keps: filepath.Join(dir, "keps.yaml"), overrides: filepath.Join(dir, "overrides.yaml"), out: filepath.Join(dir, "ledger.yaml")}
+	for path, body := range map[string]string{
+		p.keps:      "keps:\n  - kep: 1\n    sig: sig-auth\n    id: one\n    name: One\n    line: Does one thing.\n",
+		p.overrides: "# none\n",
+		p.out:       "old\n",
+	} {
+		if err := os.WriteFile(path, []byte(body), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	src := fakeSource{1: kep(1, "sig-auth", "stable", "v1.25", "v1.27", "v1.29", "aramase")}
+	read := func() string {
+		b, err := os.ReadFile(p.out)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return string(b)
+	}
+	ctx := context.Background()
+
+	g := generator{src: src, issues: fakeIssues{}, dates: fakeDates{missing: 29}, latest: 37}
+	if err := update(ctx, g, p, false); err == nil {
+		t.Fatal("want an error for a release without a date")
+	}
+	if got := read(); got != "old\n" {
+		t.Errorf("failed run wrote %q", got)
+	}
+
+	g.dates = fakeDates{}
+	if err := update(ctx, g, p, true); err == nil || !strings.Contains(err.Error(), "is out of date") {
+		t.Errorf("check against a stale file: error = %v", err)
+	}
+	if got := read(); got != "old\n" {
+		t.Errorf("check wrote %q", got)
+	}
+
+	if err := update(ctx, g, p, false); err != nil {
+		t.Fatal(err)
+	}
+	got := read()
+	for _, want := range []string{"      line: \"Does one thing.\"\n", "releases:\n  25: \"2025-04-01\"\n  27: \"2027-04-01\"\n  29: \"2029-04-01\"\n"} {
+		if !strings.Contains(got, want) {
+			t.Errorf("output does not contain %q:\n%s", want, got)
+		}
+	}
+	if err := update(ctx, g, p, true); err != nil {
+		t.Errorf("check after a write: %v", err)
 	}
 }
 
@@ -116,7 +224,7 @@ func TestBuildAxisEnd(t *testing.T) {
 		{KEP: 2, SIG: "sig-api-machinery", ID: "two", Name: "Two"},
 	}
 	for _, latest := range []int{37, 38, 41} {
-		g := generator{src: src, issues: fakeIssues{}, latest: latest}
+		g := generator{src: src, issues: fakeIssues{}, dates: fakeDates{}, latest: latest}
 		l, err := g.build(context.Background(), keps, nil)
 		if err != nil {
 			t.Fatal(err)
@@ -154,7 +262,7 @@ func TestBuildNoLiveTarget(t *testing.T) {
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			g := generator{src: src, issues: tc.issues, latest: 37, now: func() time.Time { return time.Date(2026, 10, 1, 9, 0, 0, 0, time.UTC) }}
+			g := generator{src: src, issues: tc.issues, dates: fakeDates{}, latest: 37, now: func() time.Time { return time.Date(2026, 10, 1, 9, 0, 0, 0, time.UTC) }}
 			l, err := g.build(context.Background(), keps, tc.ov)
 			if err != nil {
 				t.Fatal(err)
@@ -170,7 +278,7 @@ func TestBuildNoLiveTarget(t *testing.T) {
 func TestBuildCheckedDefaultsToNow(t *testing.T) {
 	src := fakeSource{1: kep(1, "sig-auth", "stable", "", "v1.37", "v1.38", "aramase")}
 	issues := fakeIssues{1: {Milestone: "v1.38", Labels: []string{leadOptedIn}}}
-	g := generator{src: src, issues: issues, latest: 37}
+	g := generator{src: src, issues: issues, dates: fakeDates{}, latest: 37}
 	before := time.Now().UTC()
 	l, err := g.build(context.Background(), []tracked{{KEP: 1, SIG: "sig-auth", ID: "one", Name: "One"}}, nil)
 	if err != nil {
@@ -328,6 +436,7 @@ func TestBuildErrors(t *testing.T) {
 	cases := []struct {
 		name    string
 		src     fakeSource
+		issues  fakeIssues
 		keps    []tracked
 		ov      map[int]override
 		wantErr string
@@ -355,6 +464,13 @@ func TestBuildErrors(t *testing.T) {
 			src:     fakeSource{1: kep(1, "sig-auth", "alpha", "v1.39", "", "")},
 			keps:    []tracked{{KEP: 1, SIG: "sig-auth", ID: "a", Name: "A"}},
 			wantErr: "no stage in a released Kubernetes version",
+		},
+		{
+			name:    "only a GA target",
+			src:     fakeSource{1: ok, 2: kep(2, "sig-auth", "stable", "", "", "v1.38")},
+			issues:  fakeIssues{2: {Milestone: "v1.38", Labels: []string{leadOptedIn}}},
+			keps:    []tracked{{KEP: 1, SIG: "sig-auth", ID: "a", Name: "A"}, {KEP: 2, SIG: "sig-auth", ID: "b", Name: "B"}},
+			wantErr: "KEP 2: kep.yaml gives no stage in a released Kubernetes version",
 		},
 		{
 			name:    "facts for a stage the ledger does not draw",
@@ -386,7 +502,7 @@ func TestBuildErrors(t *testing.T) {
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			g := generator{src: tc.src, issues: fakeIssues{}, latest: 37}
+			g := generator{src: tc.src, issues: tc.issues, dates: fakeDates{}, latest: 37}
 			_, err := g.build(context.Background(), tc.keps, tc.ov)
 			if err == nil || !strings.Contains(err.Error(), tc.wantErr) {
 				t.Fatalf("error = %v, want it to contain %q", err, tc.wantErr)
@@ -398,7 +514,7 @@ func TestBuildErrors(t *testing.T) {
 func TestKEPNumberQuoted(t *testing.T) {
 	// kep.yaml writes kep-number both as a number and as a string.
 	src := fakeSource{3331: strings.Replace(kep(3331, "sig-auth", "beta", "v1.29", "v1.30", ""), "kep-number: 3331", `kep-number: "3331"`, 1)}
-	g := generator{src: src, issues: fakeIssues{}, latest: 37}
+	g := generator{src: src, issues: fakeIssues{}, dates: fakeDates{}, latest: 37}
 	if _, err := g.build(context.Background(), []tracked{{KEP: 3331, SIG: "sig-auth", ID: "a", Name: "A"}}, nil); err != nil {
 		t.Fatal(err)
 	}
@@ -408,7 +524,7 @@ func TestRender(t *testing.T) {
 	l := ledger{
 		First: 25, Last: 37, InDevelopment: 38, Checked: time.Date(2026, 10, 1, 0, 0, 0, 0, time.UTC),
 		Features: []entry{
-			{ID: "kms-v2", Name: "KMS v2", KEP: 3299, Path: "sig-auth/3299-kms-v2-improvements", SIG: "SIG Auth", Coauthors: []string{"ritazh"}, Stages: []stage{
+			{ID: "kms-v2", Name: "KMS v2", Line: `Encrypts "Secrets": at rest.`, KEP: 3299, Path: "sig-auth/3299-kms-v2-improvements", SIG: "SIG Auth", Coauthors: []string{"ritazh"}, Stages: []stage{
 				{Stage: stageAlpha, Release: 25, annotation: annotation{PRs: []int{111126}, Posts: []string{"/blogs/a"}}},
 				{Stage: stageGA, Release: 29, annotation: annotation{Posts: []string{"/blogs/b", "/blogs/c"}}},
 			}},
@@ -421,6 +537,7 @@ func TestRender(t *testing.T) {
 				{Stage: stageGA, Release: 22, annotation: annotation{Talks: []string{"/talks/x"}}},
 			}},
 		},
+		Releases: map[int]time.Time{29: time.Date(2023, 12, 13, 0, 0, 0, 0, time.UTC), 22: time.Date(2021, 8, 4, 0, 0, 0, 0, time.UTC), 25: time.Date(2022, 8, 23, 0, 0, 0, 0, time.UTC)},
 	}
 	got := string(render(l))
 	want := header + `
@@ -432,6 +549,7 @@ kubernetes:
   features:
     - id: kms-v2
       name: KMS v2
+      line: "Encrypts \"Secrets\": at rest."
       kep: 3299
       path: sig-auth/3299-kms-v2-improvements
       sig: SIG Auth
@@ -471,6 +589,12 @@ subprojects:
     stage: ga
     release: 22
     talks: ["/talks/x"]
+
+# The commit date of each release's v1.N.0 tag in kubernetes/kubernetes.
+releases:
+  22: "2021-08-04"
+  25: "2022-08-23"
+  29: "2023-12-13"
 `
 	if got != want {
 		t.Errorf("render:\n%s\nwant:\n%s", got, want)
@@ -484,6 +608,7 @@ subprojects:
 			Checked       time.Time `yaml:"checked"`
 			Features      []struct {
 				Name      string
+				Line      string
 				Coauthors []string
 				Stages    []struct {
 					Stage   string
@@ -498,6 +623,7 @@ subprojects:
 			Stage string
 			Talks []string
 		}
+		Releases map[int]string
 	}
 	if err := yaml.Unmarshal([]byte(got), &doc); err != nil {
 		t.Fatal(err)
@@ -506,7 +632,9 @@ subprojects:
 	if k.First != 25 || k.Last != 37 || k.InDevelopment != 38 || !k.Checked.Equal(l.Checked) || len(k.Features) != 2 ||
 		k.Features[1].Name != "No: plain" || !k.Features[1].Stages[0].Target ||
 		!reflect.DeepEqual(k.Features[0].Stages[1].Posts, []string{"/blogs/b", "/blogs/c"}) ||
-		len(doc.Subprojects) != 1 || doc.Subprojects[0].Talks[0] != "/talks/x" {
+		len(doc.Subprojects) != 1 || doc.Subprojects[0].Talks[0] != "/talks/x" ||
+		k.Features[0].Line != `Encrypts "Secrets": at rest.` || k.Features[1].Line != "" ||
+		!reflect.DeepEqual(doc.Releases, map[int]string{22: "2021-08-04", 25: "2022-08-23", 29: "2023-12-13"}) {
 		t.Errorf("parsed output = %+v", doc)
 	}
 }
@@ -569,6 +697,7 @@ func TestLoadTracked(t *testing.T) {
 		"id \"a\" is used twice":        "keps:\n  - {kep: 1, sig: sig-auth, id: a, name: A}\n  - {kep: 2, sig: sig-auth, id: a, name: B}\n",
 		"field nmae not found":          "keps:\n  - {kep: 1, sig: sig-auth, id: a, nmae: A}\n",
 		"kep must be a positive number": "keps:\n  - {sig: sig-auth, id: a, name: A}\n",
+		"line must be a single line":    "keps:\n  - kep: 1\n    sig: sig-auth\n    id: a\n    name: A\n    line: |\n      two\n      lines\n",
 	}
 	dir := t.TempDir()
 	for want, body := range cases {
@@ -730,5 +859,52 @@ func TestWrap(t *testing.T) {
 	want := []string{"one two", "three", "four"}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("wrap = %q, want %q", got, want)
+	}
+}
+
+// gitDater reads the commit date of each v1.N.0 tag, annotated or not, in the
+// committer's time zone, from a local remote that allows the filtered fetch.
+func TestGitDater(t *testing.T) {
+	if _, err := exec.LookPath("git"); err != nil {
+		t.Skip("git not found")
+	}
+	// Keep the user's git settings, such as signing, out of the fixture.
+	t.Setenv("HOME", t.TempDir())
+	t.Setenv("XDG_CONFIG_HOME", t.TempDir())
+	remote := t.TempDir()
+	git := func(env []string, args ...string) {
+		t.Helper()
+		cmd := exec.Command("git", append([]string{"-C", remote, "-c", "commit.gpgSign=false", "-c", "tag.gpgSign=false"}, args...)...)
+		cmd.Env = append(os.Environ(), "GIT_AUTHOR_NAME=t", "GIT_AUTHOR_EMAIL=t@example.com", "GIT_COMMITTER_NAME=t", "GIT_COMMITTER_EMAIL=t@example.com")
+		cmd.Env = append(cmd.Env, env...)
+		if out, err := cmd.CombinedOutput(); err != nil {
+			t.Fatalf("git %v: %v\n%s", args, err, out)
+		}
+	}
+	git(nil, "init", "--quiet")
+	git(nil, "config", "uploadpack.allowFilter", "true")
+	// 23:30 in UTC-7 is the next day in UTC; the release is dated in the committer's zone.
+	git([]string{"GIT_COMMITTER_DATE=2023-04-11T23:30:00-07:00"}, "commit", "--quiet", "--allow-empty", "-m", "v1.27")
+	git([]string{"GIT_COMMITTER_DATE=2023-04-12T10:00:00Z"}, "tag", "-a", "-m", "v1.27.0", "v1.27.0")
+	git([]string{"GIT_COMMITTER_DATE=2023-12-13T18:00:00Z"}, "commit", "--quiet", "--allow-empty", "-m", "v1.29")
+	git(nil, "tag", "v1.29.0")
+	git(nil, "tag", "v1.30.0-rc.0")
+
+	d := gitDater{remote: "file://" + remote}
+	ctx := context.Background()
+	got, err := d.releaseDates(ctx, []int{27, 29})
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := map[int]time.Time{27: time.Date(2023, 4, 11, 0, 0, 0, 0, time.UTC), 29: time.Date(2023, 12, 13, 0, 0, 0, 0, time.UTC)}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("releaseDates = %v, want %v", got, want)
+	}
+
+	if _, err := d.releaseDates(ctx, []int{29, 30}); err == nil || !strings.Contains(err.Error(), "fetching the v1.N.0 tags") {
+		t.Errorf("untagged release: error = %v", err)
+	}
+	if got, err := d.releaseDates(ctx, nil); err != nil || len(got) != 0 {
+		t.Errorf("no releases: %v, %v", got, err)
 	}
 }

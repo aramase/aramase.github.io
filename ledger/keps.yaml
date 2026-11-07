@@ -1,13 +1,34 @@
-# KEPs tracked on the /work/ release ledger. tools/ledger reads each one's kep.yaml in
+# KEPs tracked on /work/. tools/ledger reads each one's kep.yaml in
 # kubernetes/enhancements and writes data/ledger.yaml; see ledger/README.md.
 #
-# One line per KEP: kep number, owning SIG directory under keps/, id (the anchor on /work/,
-# keep it stable), display name. kind: subproject marks an out-of-tree project, shown with
-# its stage instead of on the release grid.
+# Per KEP: kep number, owning SIG directory under keps/, id (the anchor on /work/, keep it
+# stable), display name, and an optional line: one plain sentence shown under the name.
+# kind: subproject marks an out-of-tree project, shown under Projects instead of with the
+# Kubernetes features.
 keps:
-  - {kep: 3299, sig: sig-auth, id: kms-v2, name: KMS v2}
-  - {kep: 3331, sig: sig-auth, id: structured-authn, name: Structured authentication configuration}
-  - {kep: 4412, sig: sig-auth, id: image-pull-tokens, name: Service account tokens for image pulls}
-  - {kep: 5538, sig: sig-storage, id: csi-sa-tokens, name: Service account tokens for CSI drivers}
-  - {kep: 5793, sig: sig-api-machinery, id: manifest-admission, name: Manifest-based admission control}
+  - kep: 3299
+    sig: sig-auth
+    id: kms-v2
+    name: KMS v2
+    line: Encrypts Kubernetes Secrets at rest with keys held in an external key management service.
+  - kep: 3331
+    sig: sig-auth
+    id: structured-authn
+    name: Structured authentication configuration
+    line: Sets how the API server trusts sign-in tokens from identity providers, in a config file instead of command-line flags.
+  - kep: 4412
+    sig: sig-auth
+    id: image-pull-tokens
+    name: Service account tokens for image pulls
+    line: Lets the kubelet pull private images with a short-lived service account token instead of a long-lived stored secret.
+  - kep: 5538
+    sig: sig-storage
+    id: csi-sa-tokens
+    name: Service account tokens for CSI drivers
+    line: Hands service account tokens to CSI storage drivers through the secrets field, where sensitive data belongs.
+  - kep: 5793
+    sig: sig-api-machinery
+    id: manifest-admission
+    name: Manifest-based admission control
+    line: Loads admission policies from files at API server startup, so they can't be deleted or bypassed.
   - {kep: 2907, sig: sig-auth, id: secrets-store-csi, name: Secrets Store CSI Driver, kind: subproject}

@@ -64,6 +64,7 @@ type issueReader interface {
 type generator struct {
 	src    source
 	issues issueReader
+	dates  releaseDater
 	// latest is the newest released Kubernetes minor; latest+1 is in development.
 	latest int
 	// now gives the time of the run; Checked is its UTC date. Nil means time.Now.
@@ -80,6 +81,7 @@ type stage struct {
 
 type entry struct {
 	ID, Name  string
+	Line      string
 	KEP       int
 	Path, SIG string
 	Coauthors []string
@@ -100,6 +102,9 @@ type ledger struct {
 	Checked       time.Time
 	Features      []entry
 	Subprojects   []entry
+	// Releases maps each release with a released stage, on a feature or a subproject, to the
+	// commit date of its v1.N.0 tag. A target has no tag yet, so it adds none.
+	Releases map[int]time.Time
 }
 
 func (g generator) logf(format string, args ...any) {
@@ -148,6 +153,27 @@ func (g generator) build(ctx context.Context, keps []tracked, ov map[int]overrid
 	if l.Last == 0 {
 		return ledger{}, fmt.Errorf("no tracked KEP has a stage in a released Kubernetes version")
 	}
+	var released []int
+	for _, e := range slices.Concat(l.Features, l.Subprojects) {
+		for _, s := range e.Stages {
+			if !s.Target && !slices.Contains(released, s.Release) {
+				released = append(released, s.Release)
+			}
+		}
+	}
+	slices.Sort(released)
+	dates, err := g.dates.releaseDates(ctx, released)
+	if err != nil {
+		return ledger{}, fmt.Errorf("release dates: %w", err)
+	}
+	l.Releases = make(map[int]time.Time, len(released))
+	for _, r := range released {
+		d, ok := dates[r]
+		if !ok || d.IsZero() {
+			return ledger{}, fmt.Errorf("release dates: no date for v1.%d.0", r)
+		}
+		l.Releases[r] = d
+	}
 	if l.InDevelopment > 0 {
 		now := time.Now
 		if g.now != nil {
@@ -175,7 +201,7 @@ func (g generator) entry(ctx context.Context, t tracked, o override) (entry, err
 		return entry{}, fmt.Errorf("KEP %d: kep.yaml owning-sig is %q, the tracked list says %q", t.KEP, k.OwningSIG, t.SIG)
 	}
 
-	e := entry{ID: t.ID, Name: t.Name, KEP: t.KEP, Path: t.SIG + "/" + dir, SIG: sigName(t.SIG), Coauthors: []string{}}
+	e := entry{ID: t.ID, Name: t.Name, Line: t.Line, KEP: t.KEP, Path: t.SIG + "/" + dir, SIG: sigName(t.SIG), Coauthors: []string{}}
 	for _, a := range k.Authors {
 		a = strings.TrimPrefix(strings.TrimSpace(a), "@")
 		if !strings.EqualFold(a, self) {
@@ -186,7 +212,8 @@ func (g generator) entry(ctx context.Context, t tracked, o override) (entry, err
 	if e.Stages, e.Notes, err = g.stages(ctx, t.KEP, k, o.Exclude); err != nil {
 		return entry{}, err
 	}
-	if len(e.Stages) == 0 {
+	// A GA target alone is not enough: the site draws a feature from its released stages.
+	if !slices.ContainsFunc(e.Stages, func(s stage) bool { return !s.Target }) {
 		return entry{}, fmt.Errorf("KEP %d: kep.yaml gives no stage in a released Kubernetes version", t.KEP)
 	}
 

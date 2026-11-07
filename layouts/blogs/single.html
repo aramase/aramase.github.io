@@ -14,7 +14,7 @@
     </div>
     {{- with .Params.link }}
     <ul class="doc__actions">
-      <li><a href="{{ . }}">Read the full post on {{ $.Params.source | default "the publisher's site" }}</a></li>
+      <li><a class="btn btn--small" href="{{ . }}">Read the full post on {{ $.Params.source | default "the publisher's site" }}</a></li>
     </ul>
     {{- end }}
     {{- partial "ledger-note.html" $refs }}

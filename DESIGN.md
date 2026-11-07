@@ -1,365 +1,194 @@
 ---
 name: anishram.com
-description: Anish Ramasekar's site set as an engineering datasheet in Sofia Sans, with his Kubernetes work drawn as a timing diagram.
+description: Anish Ramasekar's site as a modern product changelog in Geist, with each Kubernetes feature shown as an Alpha, Beta, GA stepper and a filterable timeline.
 colors:
-  paper: "oklch(0.99 0.002 260)"
-  ink: "oklch(0.19 0.012 260)"
-  ink-2: "oklch(0.43 0.012 260)"
-  rule: "oklch(0.78 0.006 260)"
-  grid: "oklch(0.915 0.004 260)"
-  sig: "oklch(0.50 0.20 350)"
-  sig-fill: "oklch(0.50 0.20 350 / 0.085)"
-  sig-fill-2: "oklch(0.50 0.20 350 / 0.16)"
-  paper-dark: "oklch(0.18 0.01 260)"
-  ink-dark: "oklch(0.95 0.004 260)"
-  ink-2-dark: "oklch(0.77 0.01 260)"
-  rule-dark: "oklch(0.42 0.01 260)"
-  grid-dark: "oklch(0.255 0.01 260)"
-  sig-dark: "oklch(0.78 0.14 350)"
-  sig-fill-dark: "oklch(0.78 0.14 350 / 0.11)"
-  sig-fill-2-dark: "oklch(0.78 0.14 350 / 0.2)"
+  bg: "oklch(0.995 0.002 250)"
+  surface: "oklch(0.972 0.005 250)"
+  ink: "oklch(0.21 0.015 255)"
+  ink-2: "oklch(0.45 0.015 255)"
+  line: "oklch(0.905 0.006 255)"
+  line-2: "oklch(0.80 0.008 255)"
+  accent: "oklch(0.49 0.13 250)"
+  accent-ink: "oklch(0.99 0.004 250)"
+  accent-soft: "oklch(0.945 0.03 250)"
+  bg-dark: "oklch(0.165 0.008 255)"
+  surface-dark: "oklch(0.205 0.01 255)"
+  ink-dark: "oklch(0.95 0.005 255)"
+  ink-2-dark: "oklch(0.73 0.012 255)"
+  line-dark: "oklch(0.29 0.01 255)"
+  line-2-dark: "oklch(0.42 0.012 255)"
+  accent-dark: "oklch(0.77 0.11 245)"
+  accent-ink-dark: "oklch(0.18 0.02 255)"
+  accent-soft-dark: "oklch(0.27 0.045 250)"
 typography:
-  display:
-    fontFamily: "Sofia Sans Condensed, Sofia Sans, system-ui, sans-serif"
-    fontSize: "clamp(3.5rem, 10vw, 6rem)"
-    fontWeight: 800
-    lineHeight: 0.9
-    letterSpacing: "-0.02em"
+  hero:
+    fontFamily: "Geist, system-ui, sans-serif"
+    fontSize: "clamp(2.6rem, 6.4vw, 4.75rem)"
+    fontWeight: 680
+    lineHeight: 1
+    letterSpacing: "-0.04em"
   page-title:
-    fontFamily: "Sofia Sans Condensed, Sofia Sans, system-ui, sans-serif"
-    fontSize: "clamp(3rem, 7vw, 5rem)"
-    fontWeight: 800
-    lineHeight: 0.9
-    letterSpacing: "-0.02em"
+    fontFamily: "Geist, system-ui, sans-serif"
+    fontSize: "clamp(2.5rem, 6vw, 4rem)"
+    fontWeight: 680
+    lineHeight: 1
+    letterSpacing: "-0.04em"
   doc-title:
-    fontFamily: "Sofia Sans Condensed, Sofia Sans, system-ui, sans-serif"
-    fontSize: "clamp(2.25rem, 5vw, 3.5rem)"
-    fontWeight: 800
-    lineHeight: 1
-    letterSpacing: "-0.015em"
-  contact:
-    fontFamily: "Sofia Sans Condensed, Sofia Sans, system-ui, sans-serif"
-    fontSize: "clamp(1.75rem, 5vw, 3.25rem)"
-    fontWeight: 800
-    lineHeight: 1.1
-  diagram-title:
-    fontFamily: "Sofia Sans Condensed, Sofia Sans, system-ui, sans-serif"
-    fontSize: "clamp(1.375rem, 2.4vw, 1.75rem)"
-    fontWeight: 800
+    fontFamily: "Geist, system-ui, sans-serif"
+    fontSize: "clamp(2rem, 4.6vw, 3rem)"
+    fontWeight: 680
+    lineHeight: 1.08
+    letterSpacing: "-0.035em"
   section-title:
-    fontFamily: "Sofia Sans Condensed, Sofia Sans, system-ui, sans-serif"
-    fontSize: "1.625rem"
-    fontWeight: 800
-    letterSpacing: "0.01em"
-  title:
-    fontFamily: "Sofia Sans Condensed, Sofia Sans, system-ui, sans-serif"
-    fontSize: "1.25rem"
-    fontWeight: 700
-  feature-name:
-    fontFamily: "Sofia Sans Condensed, Sofia Sans, system-ui, sans-serif"
-    fontSize: "1.125rem"
-    fontWeight: 700
+    fontFamily: "Geist, system-ui, sans-serif"
+    fontSize: "1.5rem"
+    fontWeight: 640
     lineHeight: 1.2
-  wordmark:
-    fontFamily: "Sofia Sans Condensed, Sofia Sans, system-ui, sans-serif"
-    fontSize: "1.125rem"
-    fontWeight: 700
-    lineHeight: 1
-    letterSpacing: "0.01em"
-  bio:
-    fontFamily: "Sofia Sans, system-ui, sans-serif"
-    fontSize: "clamp(1.125rem, 1.6vw, 1.25rem)"
-    fontWeight: 400
-    lineHeight: 1.55
+    letterSpacing: "-0.025em"
+  item-title:
+    fontFamily: "Geist, system-ui, sans-serif"
+    fontSize: "1.1875rem"
+    fontWeight: 640
+    lineHeight: 1.3
+    letterSpacing: "-0.02em"
   body:
-    fontFamily: "Sofia Sans, system-ui, sans-serif"
-    fontSize: "1.0625rem"
-    fontWeight: 400
-    lineHeight: 1.55
-    fontFeature: "tnum"
-  table:
-    fontFamily: "Sofia Sans, system-ui, sans-serif"
+    fontFamily: "Geist, system-ui, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
-    lineHeight: 1.55
+    lineHeight: 1.6
   meta:
-    fontFamily: "Sofia Sans, system-ui, sans-serif"
+    fontFamily: "Geist, system-ui, sans-serif"
     fontSize: "0.9375rem"
     fontWeight: 400
-  axis-numeral:
-    fontFamily: "Sofia Sans Condensed, Sofia Sans, system-ui, sans-serif"
-    fontSize: "0.9375rem"
-    fontWeight: 700
-    lineHeight: 1
-    fontFeature: "tnum"
-  label:
-    fontFamily: "Sofia Sans Condensed, Sofia Sans, system-ui, sans-serif"
-    fontSize: "0.875rem"
-    fontWeight: 700
-    lineHeight: 1.2
-  small:
-    fontFamily: "Sofia Sans, system-ui, sans-serif"
-    fontSize: "0.8125rem"
+  numeral:
+    fontFamily: "Geist Mono, ui-monospace, monospace"
+    fontSize: "0.875em"
     fontWeight: 400
-    lineHeight: 1.3
-  micro:
-    fontFamily: "Sofia Sans Condensed, Sofia Sans, system-ui, sans-serif"
-    fontSize: "0.75rem"
-    fontWeight: 600
-    lineHeight: 1
+    letterSpacing: "-0.01em"
 rounded:
-  none: "0px"
+  control: "10px"
+  chip: "999px"
+  panel: "14px"
+  kit: "18px"
+  photo: "28px"
 spacing:
-  space-1: "0.25rem"
-  space-2: "0.5rem"
-  space-3: "0.75rem"
-  space-4: "1rem"
-  space-5: "1.25rem"
-  space-6: "1.5rem"
-  space-7: "2.5rem"
-  section: "clamp(3rem, 6vw, 5rem)"
-  gutter: "clamp(1rem, 3.5vw, 3rem)"
-  page: "84rem"
-  label-col: "15rem"
-  doc: "46rem"
-  measure: "70ch"
+  wrap: "74rem"
+  gutter: "clamp(1rem, 4vw, 2.5rem)"
+  section: "clamp(2.5rem, 5vw, 4rem)"
 components:
-  strip:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.paper}"
-    height: "3.5rem"
-  theme-toggle:
-    textColor: "{colors.paper}"
-    typography: "{typography.meta}"
-    rounded: "{rounded.none}"
-    height: "44px"
-    padding: "0.55rem 0.75rem"
-  skip-link:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.none}"
-    padding: "0.6rem 0.9rem"
-  clock-rule:
-    backgroundColor: "{colors.sig}"
-    height: "12px"
-  section-head:
-    textColor: "{colors.ink}"
-    typography: "{typography.section-title}"
-    padding: "0 0 0.5rem"
-  diagram:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.none}"
-  trace:
-    backgroundColor: "{colors.sig-fill}"
-    textColor: "{colors.sig}"
-  edge-label:
-    textColor: "{colors.ink}"
-    typography: "{typography.small}"
-  feature-tag:
-    textColor: "{colors.ink}"
-    typography: "{typography.small}"
-    rounded: "{rounded.none}"
-    padding: "0.25rem 0.5rem"
-  table-head:
+  header:
+    backgroundColor: "{colors.bg}"
     textColor: "{colors.ink-2}"
-    typography: "{typography.label}"
-    padding: "0.5rem 0.75rem 0.5rem 0"
-  table-cell:
+  button-primary:
+    backgroundColor: "{colors.accent}"
+    textColor: "{colors.accent-ink}"
+    rounded: "{rounded.control}"
+  button:
+    backgroundColor: "{colors.bg}"
     textColor: "{colors.ink}"
-    typography: "{typography.table}"
-    padding: "0.75rem 0.75rem 0.75rem 0"
-  speaker-bio:
-    backgroundColor: "{colors.sig-fill}"
+    rounded: "{rounded.control}"
+  stepper:
+    textColor: "{colors.ink-2}"
+  timeline:
     textColor: "{colors.ink}"
-    typography: "{typography.body}"
-    rounded: "{rounded.none}"
-    padding: "1rem 1.25rem"
-  headshot:
-    backgroundColor: "{colors.paper}"
-    rounded: "{rounded.none}"
-    padding: "6px"
-    width: "10rem"
-  role:
-    textColor: "{colors.sig}"
-    typography: "{typography.meta}"
-  doc-page:
-    textColor: "{colors.ink}"
-    typography: "{typography.body}"
-    width: "46rem"
+  panel:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.panel}"
 ---
 
 # Design System: anishram.com
 
 ## Overview
 
-**Creative North Star: "The datasheet and its timing diagram"**
+**North star: a modern product changelog.** Someone landing from a talk learns within seconds what Anish works on and what he has shipped, through parts every visitor already knows: a hero, clear sections, a "how it works" explainer, then the list. Owner-chosen on 2026-11-06 ("changelog", concepts round 3), replacing "timing".
 
-The site reads like a component datasheet: a black header strip with a square-wave clock rule under it, a big condensed title, tabulated records, ruled sections and one signal colour. The proof sits on `/work/`: each Kubernetes feature Anish shipped is drawn as a digital signal that steps up a level (alpha, beta, GA) on the release that moved it. Maturity reads as height, so a visitor who does not know the Kubernetes vocabulary still sees which features went furthest.
-
-Density is that of a reference document: tight vertical rhythm, hairline rules between rows, 2px ink rules under section heads, tabular figures. Nothing is rounded, nothing casts a shadow. The page is paper and ink; the signal colour marks only what is live: the trace, link underlines, roles, stage names, focus and selection. Dark mode is the inverse print of the same sheet, not a second palette.
-
-Home introduces Anish in plain language with the title block, three areas, selected talks and posts, and a block for event organizers (a select-all bio and a headshot download). KEP numbers and the diagram stay on `/work/`.
-
-**Key Characteristics:**
-- One hue (signal magenta, 350) on a cool neutral sheet (hue 260); everything else is ink, ink-2 and rules.
-- Sofia Sans for text, Sofia Sans Condensed for names, headings, numerals and labels. Both self-hosted, OFL.
-- The timing diagram: release columns, a clock on the axis, one stepped trace per feature.
-- Datasheet tables for posts and talks, collapsing to stacked rows under 48rem.
-- Square corners, 1px and 2px rules, no shadows, no cards.
+- One accent hue (blue, 250) on a cool neutral ground; everything else is ink, ink-2 and lines.
+- Geist for text and headings, Geist Mono for release numbers and dates. Both self-hosted woff2 with their OFL licences in `static/fonts/`.
+- Stages are named in words (Alpha, Beta, GA, "Skipped", "Not yet") and drawn with three marks (ring, half disc, full disc), never told apart by hue.
+- Dark mode is a near-black product UI with the accent lifted; layout does not change.
 
 ## Colors
 
-A cool neutral sheet with a single magenta signal.
+Tokens live in `assets/css/site.css` (`:root`, the `prefers-color-scheme` block and `[data-theme="dark"]`).
 
-### Primary
-- **Signal** (`sig`, light `#ae1173` / oklch(0.50 0.20 350); dark `#f990c4` / oklch(0.78 0.14 350)): the trace on the diagram, the clock rule under the strip, link underlines, roles, stage names in tags, list markers, focus rings, caret and selection.
-- **Signal fill** (`sig-fill`, the signal at 8.5% light / 11% dark): the area under a trace, the speaker bio panel, level glyph fills.
-- **Signal fill, raised** (`sig-fill-2`, 16% / 20%): the area under a trace while its row is hovered or focused.
+| Token | Use | Light | Dark |
+|---|---|---|---|
+| `bg` | page ground, header | `#fcfeff` | `#0c0f12` |
+| `surface` | explainer, kit, notes, nav hover | `#f3f6f9` | `#14171c` |
+| `ink` | text | `#14191f` | `#eceff2` |
+| `ink-2` | secondary text, dates, meta | `#50565e` | `#a3a8af` |
+| `line` | section and row rules, timeline rail | `#dde0e4` | `#282c30` |
+| `line-2` | control borders, underlines, "Not yet" dash | `#babec3` | `#494e54` |
+| `accent` | links that act, marks, steps, focus, selection | `#1263a6` | `#75bbf6` |
+| `accent-ink` | text on `accent` | `#fafcfe` | `#0c121a` |
+| `accent-soft` | role chip | `#deefff` | `#14283c` |
 
-### Neutral
-- **Paper** (`paper`, `#fbfcfd` / dark `#0f1216`): page ground; text on the strip.
-- **Ink** (`ink`, `#111419` / dark `#edeef1`): text, the header strip, 2px section rules, diagram frame.
-- **Ink 2** (`ink-2`, `#4c5057` / dark `#b0b4bb`): secondary text, dates, table heads, the clock on the axis, the dotted pre-baseline.
-- **Rule** (`rule`, `#b5b7bb` / dark `#4a4d53`): hairlines between rows and cells, tag borders.
-- **Grid** (`grid`, `#e1e3e6` / dark `#202328`): release column lines inside diagram tracks only.
+Hexes are the sRGB rendering of the OKLCH values. `theme-color` follows the theme (`#fcfdff` light, `#0c0f12` dark).
 
-### Themes
-- Light by default; dark under `prefers-color-scheme: dark` unless `data-theme="light"` is set, and always under `data-theme="dark"`.
-- The "Inverse" toggle sets `data-theme`, stores it in `localStorage` ("theme") and updates `theme-color` to the strip colour (`#111419` light, `#edeef1` dark). Without JS the toggle stays `hidden` and the OS preference applies.
-- The strip is always the inverse of the page: ink ground, paper text, in both themes.
-
-### Contrast (WCAG 2.1 AA, computed from the OKLCH values converted to sRGB; fills composited over paper)
+### Contrast (WCAG 2.1 AA, sRGB rendering of the tokens in Chromium)
 
 | Pair | Use | Need | Light | Dark |
 |---|---|---|---|---|
-| ink on paper | body text | 4.5 | 17.94 | 16.25 |
-| ink-2 on paper | secondary text, dates | 4.5 | 7.88 | 9.07 |
-| sig on paper | roles, stage names | 4.5 | 6.54 | 8.81 |
-| sig on paper | trace, focus ring | 3 | 6.54 | 8.81 |
-| ink on sig-fill | edge labels, speaker bio | 4.5 | 15.52 | 13.66 |
-| ink on sig-fill-2 | edge labels, hovered row | 4.5 | 13.58 | 11.28 |
-| ink-2 on sig-fill | secondary text over a fill | 4.5 | 6.81 | 7.63 |
-| sig on sig-fill | trace over its fill | 3 | 5.66 | 7.41 |
-| sig on sig-fill-2 | trace over hovered fill | 3 | 4.95 | 6.12 |
-| ink-2 on paper | dotted baseline, axis clock | 3 | 7.88 | 9.07 |
-| paper on ink | strip text | 4.5 | 17.94 | 16.25 |
-| paper on ink | strip focus ring | 3 | 17.94 | 16.25 |
-| toggle border on ink | toggle outline (45% paper in ink) | 3 | 3.81 | 3.36 |
-| paper on sig | selection | 4.5 | 6.54 | 8.81 |
-| ink on grid | text crossing a column line | 4.5 | 14.35 | 13.63 |
+| ink on bg | body text | 4.5 | 17.47 | 16.65 |
+| ink-2 on bg | secondary text, dates | 4.5 | 7.33 | 8.03 |
+| ink on surface | kit, explainer, notes | 4.5 | 16.29 | 15.56 |
+| ink-2 on surface | secondary text on a panel | 4.5 | 6.83 | 7.51 |
+| accent on bg | links, step links | 4.5 | 6.18 | 9.33 |
+| accent-ink on accent | primary button, Copy | 4.5 | 6.08 | 9.13 |
+| bg on ink | pressed filter, copied state, skip link | 4.5 | 17.47 | 16.65 |
+| ink on accent-soft | role chip | 4.5 | 15.06 | 13.01 |
+| accent on bg | focus ring, stage marks | 3 | 6.18 | 9.33 |
 
-### Named Rules
-**The One Signal Rule.** Magenta is the only hue. It marks what is live or actionable: the trace, links, roles, focus. Stages are told apart by height and name, never by colour.
-
-**The Inverse Print Rule.** Dark mode swaps paper and ink and lifts the signal; it adds no colour and changes no layout.
-
-**The Strip Rule.** The header strip is always ink on the page's paper, so its focus ring, selection and skip link carry their own paper treatment.
+`line-2` borders (1.85 light, 2.29 dark) are decorative: every control carries a text label, so the border does not identify it.
 
 ## Typography
 
-**Display and label font:** Sofia Sans Condensed (fallback Sofia Sans, system-ui)
-**Body font:** Sofia Sans (fallback system-ui)
-
-**Character:** a technical grotesque in two widths. Condensed carries names, numerals and labels the way a datasheet sets part numbers; the normal width keeps running text comfortable. Both are variable woff2 (weights 1-1000), `font-display: swap`, the regular and condensed files preloaded.
-
-### Hierarchy
-- **Display** (Condensed 800, clamp(3.5rem, 10vw, 6rem), 0.9): the name on home.
-- **Page title** (Condensed 800, clamp(3rem, 7vw, 5rem), 0.9): h1 on Work, Talks, Posts and list pages.
-- **Doc title** (Condensed 800, clamp(2.25rem, 5vw, 3.5rem), 1): talk and post pages.
-- **Contact** (Condensed 800, clamp(1.75rem, 5vw, 3.25rem)): the email address on home.
-- **Section title** (Condensed 800, 1.625rem, 2px ink rule below): area and section heads, year heads.
-- **Diagram title** (Condensed 800, clamp(1.375rem, 2.4vw, 1.75rem)).
-- **Title** (Condensed 700, 1.25rem): entry names, area names, sub-heads.
-- **Feature name** (Condensed 700, 1.125rem, 1.2): the label column of the diagram; also the wordmark.
-- **Body** (Sans 400, 1.0625rem, 1.55, tabular figures); bio clamp(1.125rem, 1.6vw, 1.25rem); tables 1rem; prose up to 70ch.
-- **Meta** (Sans 400, 0.9375rem, ink-2): venues, sources, captions, footer.
-- **Label** (Condensed 700, 0.875rem): table heads, edge-label stage names, axis "release v1.".
-- **Small** (Sans, 0.8125rem): feature tags and edge-label links.
-- **Micro** (Condensed 600, 0.75rem): "in dev" under the axis numeral; axis numerals under 48rem.
-
-### Named Rules
-**The Two Widths Rule.** Condensed for anything you scan (names, numbers, dates, labels); normal width for anything you read.
-
-**The Tabular Rule.** Figures are tabular everywhere, so release numbers and dates line up in columns.
+- Hero h1 680, clamp(2.6rem, 6.4vw, 4.75rem), -0.04em. Page h1 680, clamp(2.5rem, 6vw, 4rem). Doc h1 680, clamp(2rem, 4.6vw, 3rem).
+- Section h2 640, 1.5rem, -0.025em. Feature and sub-heads 640, 1.1875rem. Area and entry names 620, about 1.0625 to 1.125rem.
+- Body 400, 1rem/1.6, `ss01`. Bio clamp(1.0625rem, 1.5vw, 1.25rem). Doc prose 1.0625rem/1.7, 46rem column.
+- Meta 0.9375rem in `ink-2`; small 0.875rem; chips 0.75 to 0.8125rem.
+- `time` and `.v` (release numbers) in Geist Mono at 0.875em, tabular figures.
 
 ## Layout
 
-- Page container 84rem with a clamp(1rem, 3.5vw, 3rem) gutter; sections separated by clamp(3rem, 6vw, 5rem).
-- Home: a title grid (name across; bio beside the photo; areas across), a two-column talks/posts block, the organizer block (bio panel beside the headshot), then contact.
-- Work: page head with an "On this page" jump list; per area the lede, the diagram (for the ledger area), then the entries in an auto-fit grid (min 22rem); then the Posts and Talks tables.
-- Diagram: a 15rem label column and a track of `--cols` equal release columns (at most 14; older releases fold into "≤N").
-- Doc pages: a 46rem column, prose at 70ch.
-
-### Responsive
-- Under 64rem the diagram stacks: the label column sits over the track, edge labels hide and the `.stages` text list carries stage, release and links.
-- Under 48rem the nav wraps under the wordmark, home and organizer columns stack, tables stack each row and hide their head visually (clipped, so the cells keep their column headers for screen readers; empty cells collapse to zero height), even axis numerals are hidden (except the release in development) and "in dev" goes.
-- Under 30rem the title photo shrinks to 6.5rem.
+- Container 74rem with a clamp(1rem, 4vw, 2.5rem) gutter. Sections are separated by a 1px `line` rule and clamp(2.5rem, 5vw, 4rem) padding.
+- Home: hero (text, photo), three areas, talks and posts side by side, organizer kit, contact.
+- Work: page head with jump links; Kubernetes (explainer, features, co-chair role); Projects (two columns); timeline.
+- Lists (talks, posts, tags): a 7rem year column beside the rows.
+- Breakpoints: under 60rem features, areas, project columns and the explainer stack. Under 44rem the hero photo moves above the text, the second nav item and the toggle label hide (the toggle keeps its accessible name), picks and list rows stack, the year label stops being sticky.
 - No horizontal overflow at 390px.
 
-## Elevation & Depth
+## Shapes and depth
 
-Flat. No shadows anywhere. Depth comes from rules (1px rule, 2px ink), the inverse strip, and the signal fill under a trace. The only box-shadow is the skip link's focus ring over the strip.
-
-## Shapes
-
-Square corners throughout (0px). Frames are 1px ink (diagram, photo mat with 6px paper padding); row dividers are 1px rule; section heads sit on a 2px ink rule. The recurring silhouette is the step: the square-wave clock, the trace, the level glyph and the toggle mark.
+- Radii: 10px controls, 999px chips and pills, 14px panels, 18px kit, 28px hero photo (22px on phones), 50% avatars and nodes.
+- One shadow token (`--shadow`), on the hero photo only. Everything else is flat, separated by lines and the `surface` fill.
 
 ## Components
 
-### Header strip and clock rule
-- Ink strip, min-height 3.5rem: wordmark left, primary nav (Work, Posts, Talks, Email) and the toggle right. Current page underlined in paper.
-- Under the strip a 12px clock rule: a repeating square wave in `sig`, drawn as a CSS mask, `aria-hidden`.
-- Skip link: first Tab stop, paper box with an ink ring, shown over the strip.
+- **Header:** sticky, `bg` with a bottom `line`. Avatar and name, nav (Work, Talks and posts, Contact; `aria-current` on the current page) and the theme toggle (`button.theme`, `aria-pressed`, label "Dark").
+- **Buttons:** `.btn` (outlined), `.btn--primary` (accent), `.btn--small`; `.more` is an accent text link with an arrow.
+- **Email block:** the address as selectable text, Copy (Clipboard API, then `execCommand`, then select and show "Press ⌘C/Ctrl+C"), "Open in mail app" (mailto) and a live status line.
+- **Explainer:** "How a Kubernetes feature ships", a `surface` panel with the three marks and one line each.
+- **Feature row:** name, line, KEP, SIG, co-authors and PRs on the left; the stepper on the right.
+- **Stepper:** three steps, Alpha, Beta, GA. A reached step has a solid accent bar and mark, shows `v1.N` and the month, and links its posts and talks. A missing stage below the highest reached reads "Skipped" (thin line). A stage above it, or a GA target, reads "Not yet" (dashed bar).
+- **Entry:** project or role, with a role chip (`accent-soft`); a subproject adds its KEP, stage and talk count.
+- **Timeline:** year groups with a sticky year on desktop, a rail with a node per event (stage mark for releases, dot for posts and talks). Filters All, Releases, Posts, Talks are `aria-pressed` buttons with counts and a live "N entries" count. Without JS every event shows and the filters stay hidden.
+- **List row (`.pick`):** date, title, venue or source with Recording and Slides links, optional summary and achievement, and tags linking to `/work/#<id>`.
+- **Doc page:** back link, title, meta, action buttons, prose, and the "On the work page" note for ledger pages; posts end with a newer and older pager.
 
-### Theme toggle ("Inverse")
-- Visible text "Inverse", accessible name "Inverse theme", `aria-pressed`. 44px min height, 1px border at 45% paper in ink, a half-filled mark that flips sides when pressed. `hidden` until JS runs (`.toggle[hidden] { display: none }`).
+## Accessibility
 
-### Links
-- Inherit text colour; 2px `sig` underline at 0.2em offset; hover turns the text `sig`. In the strip, underline in paper.
-
-### Timing diagram (signature)
-- `figure.diagram` framed in 1px ink: head (title and key), axis, one row per feature, caption.
-- Axis: "release v1." label, a square-wave clock with one period per release (dashed in the dev column), numerals with "≤N" for the fold and "in dev" for the release in development.
-- Row: label column (name, KEP link and SIG, co-authors, implementation PRs) and a track. The track is a grid of the release columns with a fixed-height wave (9rem; 4rem under 64rem), so every row draws its levels at the same heights. It holds an SVG (`viewBox 0 0 cols*100 300`, `preserveAspectRatio="none"`, non-scaling strokes): a dotted pre-baseline in ink-2, the fill under the trace, the trace in `sig` at 2.25 (3.5 on row hover or focus), and a dashed GA target in the dev column when a fresh target exists.
-- Levels: baseline 280, alpha 195, beta 110, GA 25.
-- Edge labels sit just under the level a stage steps to, as wide as the stage runs: stage name, then post and talk links. A one-column stage in the last column stacks its lines against the end (`edge--end`); its grid area also takes the column before, so only a line wider than the last column runs inward across the rise; a one-column stage followed by another, or one in the last column right after a stage in the column before it, stacks its links and truncates them (`edge--tight`). The row's last stage may use the free track to its end. Labels are grid items in one row, offset to their level, so a stage with many links grows its row instead of running into the next one. They are positioned, so they paint above the SVG, and the SVG takes no pointer events, so every label link is clickable. Two stages in one release share one label ("beta, GA").
-- Key: alpha = low, beta = mid, GA = high, plus "GA target" only when one is drawn.
-- Caption: how to read it, the fold, and the dev release with its checked date. All text comes from `data/ledger.yaml`.
-
-### Level glyph
-- A 1.4rem step at the stage's height (low, mid, high; dashed for a target). Used in the key, the stage list, feature tags and the "On the work page" note.
-
-### Datasheet tables (posts, talks)
-- Columns: Date, Title, Venue or source (with Recording and Slides links and achievements), Feature (where the ledger references the page). Condensed ink-2 heads over a 1px ink rule; 1px rule between rows.
-- Feature tag: 1px rule box, level glyph, feature name and stage name in `sig`; links to `/work/#<id>`; border turns `sig` on hover.
-
-### Event organizer block
-- Speaker bio: the home bio, rendered once more in a `sig-fill` panel with a 1px rule border and a `sig` left edge; `user-select: all` so one click selects it.
-- Headshot: a 10rem thumbnail in a paper mat; the link downloads a JPG generated from the source image at native size, its pixel size in the link text.
-
-### Doc page (talk, post, 404)
-- Talk and post pages: back link, doc title, subtitle, a meta bar between a 2px ink and 1px rule, action links, then prose at 70ch with `sig` list markers and blockquote edge. Pages referenced by the ledger end with an "On the work page" note. The 404 uses the same column with its body and action links.
-
-### Accessibility
-- One h1 per page; skip link to `main#main`; landmarks labelled (Primary, Elsewhere, On this page).
-- Tables keep `th scope="col"` headers at every width: under 48rem the head is clipped, not `display: none`, and empty cells stay in the table, so each cell keeps its column header.
-- The diagram is a `figure` labelled by its title; each row is a list item with a heading, and every stage and link exists as text (the SVG is `aria-hidden`); folded and truncated releases stay in visually hidden text.
-- Focus is a 2px `sig` outline at 3px offset (paper inside the strip).
-- Motion: only the trace thickening transitions, and only under `prefers-reduced-motion: no-preference`.
+- One h1 per page. The skip link is the first Tab stop and targets `main#main`.
+- Focus: 2px `accent` outline at 3px offset.
+- The theme toggle stores the choice in `localStorage` ("theme") and sets `aria-pressed`. Without JS the OS preference applies.
+- Stage marks are `aria-hidden`; every stage and status exists as text.
+- Motion is limited to 160ms hover transitions, removed under `prefers-reduced-motion: reduce`.
 
 ## Do's and Don'ts
 
-### Do:
-- **Do** keep magenta to the trace, link underlines, roles, stage names, focus and selection.
-- **Do** set names, numbers, dates and labels in Sofia Sans Condensed with tabular figures.
-- **Do** render every diagram element from `data/ledger.yaml`, and every list from content, so new KEPs, releases, talks and posts need no template edit.
-- **Do** keep the strip the inverse of the page in both themes.
-- **Do** check new contrast pairs against the table above, compositing fills over paper.
-
-### Don't:
-- **Don't** add a second hue, or colour stages differently; height carries the stage.
-- **Don't** round corners, add shadows or wrap content in cards.
-- **Don't** put KEP numbers or the diagram on home.
-- **Don't** load fonts or scripts from third parties, or add a JS framework.
-- **Don't** draw a stage, target or role that the data does not record.
+- **Do** render steppers and the timeline from `data/ledger.yaml` and lists from content, so new KEPs, releases, talks and posts need no template edit.
+- **Do** check any new colour pair against the contrast table.
+- **Don't** add a second hue or tell stages apart by colour.
+- **Don't** put KEP numbers or steppers on home.
+- **Don't** load fonts or scripts from third parties, add analytics or a JS framework.
+- **Don't** show a stage, target or role the data does not record.

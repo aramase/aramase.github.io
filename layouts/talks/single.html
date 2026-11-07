@@ -13,9 +13,9 @@
     </p>
     {{- if or .Params.recording .Params.slides .Params.playlist }}
     <ul class="doc__actions">
-      {{- with .Params.recording }}<li><a href="{{ . }}">Watch the recording</a></li>{{ end }}
-      {{- with .Params.slides }}<li><a href="{{ . }}">Slides</a></li>{{ end }}
-      {{- with .Params.playlist }}<li><a href="{{ . }}">Playlist</a></li>{{ end }}
+      {{- with .Params.recording }}<li><a class="btn btn--small" href="{{ . }}">Watch the recording</a></li>{{ end }}
+      {{- with .Params.slides }}<li><a class="btn btn--small" href="{{ . }}">Slides</a></li>{{ end }}
+      {{- with .Params.playlist }}<li><a class="btn btn--small" href="{{ . }}">Playlist</a></li>{{ end }}
     </ul>
     {{- end }}
     <div class="doc__body">

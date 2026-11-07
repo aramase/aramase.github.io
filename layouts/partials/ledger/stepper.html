@@ -1,0 +1,45 @@
+{{- /* A feature's Alpha, Beta and GA steps. A released stage shows its release, month and
+       the posts and talks on it. A stage it never had below its highest released one is
+       "Skipped"; anything above that, a GA target included, is "Not yet".
+       Input: a data/ledger.yaml feature. */ -}}
+{{- $f := . }}
+{{- $order := slice "alpha" "beta" "ga" }}
+{{- $names := dict "alpha" "Alpha" "beta" "Beta" "ga" "GA" }}
+{{- $done := dict }}
+{{- $top := -1 }}
+{{- range $f.stages }}
+  {{- if .target }}{{ continue }}{{ end }}
+  {{- $done = merge $done (dict .stage .) }}
+{{- end }}
+{{- range $i, $k := $order }}{{ if isset $done $k }}{{ $top = $i }}{{ end }}{{ end }}
+{{- $status := "Generally available" }}
+{{- if lt $top 2 }}{{ $status = printf "In %s" (index $order $top) }}{{ end }}
+<ol class="steps" aria-label="{{ $f.name }}: {{ $status }}">
+  {{- range $i, $k := $order }}
+  {{- $name := index $names $k }}
+  {{- with index $done $k }}
+  {{- $date := partialCached "ledger/release-date.html" .release .release }}
+  <li class="step step--done step--{{ $k }}">{{ partial "stage-mark.html" (dict "stage" $k) }}<span class="step__name">{{ $name }}</span>
+    <span class="step__when"><span class="v">v1.{{ .release }}</span> <time datetime="{{ $date.Format "2006-01-02" }}">{{ $date.Format "Jan 2006" }}</time></span>
+    {{- $links := slice }}
+    {{- range $word, $paths := dict "Post" (.posts | default slice) "Talk" (.talks | default slice) }}
+      {{- range $n, $path := $paths }}
+        {{- with site.GetPage $path }}
+          {{- $label := $word }}
+          {{- if gt (len $paths) 1 }}{{ $label = printf "%s %d" $word (add $n 1) }}{{ end }}
+          {{- $links = $links | append (printf `<a href="%s">%s<span class="vh">: %s</span></a>` (partial "ledger/page-href.html" . | htmlEscape) $label (.Title | htmlEscape)) }}
+        {{- else }}
+          {{- errorf "data/ledger.yaml: %s %s: %q is not a page" $f.id $k $path }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+    {{- with $links }}<span class="step__links">{{ delimit . "" | safeHTML }}</span>{{ end }}</li>
+  {{- else }}
+  {{- if lt $i $top }}
+  <li class="step step--none"><span class="step__name">{{ $name }}</span><span class="step__when">Skipped</span></li>
+  {{- else }}
+  <li class="step step--next"><span class="step__name">{{ $name }}</span><span class="step__when">Not yet</span></li>
+  {{- end }}
+  {{- end }}
+  {{- end }}
+</ol>

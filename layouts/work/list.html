@@ -1,46 +1,140 @@
 {{ define "main" }}
 {{- $refs := partialCached "ledger/refs.html" . }}
-{{- $areas := hugo.Data.work.areas }}
-{{- $talks := (where site.RegularPages "Section" "talks").ByDate.Reverse }}
-<div class="wrap">
-  <header class="pagehead">
-    <h1>{{ .Title }}</h1>
-    <nav aria-label="On this page">
-      <ul class="jump">
-        {{- range $areas }}
-        <li><a href="#{{ .id }}">{{ .name }}</a></li>
-        {{- end }}
-        <li><a href="#posts">Posts</a></li>
-        <li><a href="#talks">Talks</a></li>
-      </ul>
-    </nav>
-  </header>
+{{- $ledger := hugo.Data.ledger }}
+{{- $talks := where site.RegularPages "Section" "talks" }}
+{{- $posts := where site.RegularPages "Section" "blogs" }}
+{{- $k8s := false }}
+{{- $projects := slice }}
+{{- range hugo.Data.work.areas }}
+  {{- if .ledger }}{{ $k8s = . }}{{ else }}{{ $projects = $projects | append . }}{{ end }}
+{{- end }}
+{{- if not $k8s }}{{ errorf "data/work.yaml: no area has ledger: true" }}{{ end }}
 
-  {{- range $areas }}
-  <section class="sec area" id="{{ .id }}" aria-labelledby="{{ .id }}-title">
-    <h2 class="h2" id="{{ .id }}-title">{{ .name }}</h2>
-    <p class="lede">{{ .lede }}</p>
-    {{- if .ledger }}
-    {{ partial "ledger/ledger.html" $ }}
-    {{- end }}
-    <ul class="entries">
-      {{- range .entries }}
-      {{ partial "work-entry.html" . }}
-      {{- end }}
-    </ul>
-  </section>
+{{- /* One dated stream, newest first: each released stage, post and talk. On the same day a
+       release comes first, then posts, then talks; releases keep ledger order and posts and
+       talks sort by name, newest first. */}}
+{{- $events := slice }}
+{{- $i := 0 }}
+{{- range $f := $ledger.kubernetes.features }}
+  {{- range $s := $f.stages }}
+    {{- if $s.target }}{{ continue }}{{ end }}
+    {{- $d := partialCached "ledger/release-date.html" $s.release $s.release }}
+    {{- $events = $events | append (dict "kind" "release" "date" $d "feature" $f "stage" $s
+          "key" (printf "%s|2|%03d" ($d.Format "2006-01-02") (sub 999 $i))) }}
+    {{- $i = add $i 1 }}
   {{- end }}
+{{- end }}
+{{- range $p := $posts }}
+  {{- $events = $events | append (dict "kind" "post" "date" $p.Date "page" $p "refs" $refs
+        "key" (printf "%s|1|%s" ($p.Date.Format "2006-01-02") $p.File.ContentBaseName)) }}
+{{- end }}
+{{- range $p := $talks }}
+  {{- $events = $events | append (dict "kind" "talk" "date" $p.Date "page" $p "refs" $refs
+        "key" (printf "%s|0|%s" ($p.Date.Format "2006-01-02") $p.File.ContentBaseName)) }}
+{{- end }}
+{{- $events = sort $events "key" "desc" }}
+{{- $years := slice }}
+{{- range $events }}{{ $years = $years | append .date.Year }}{{ end }}
+{{- $years = $years | uniq }}
+{{- $releases := len (where $events "kind" "release") }}
 
-  <section class="sec" id="posts" aria-labelledby="posts-title">
-    <h2 class="h2" id="posts-title">Posts</h2>
-    {{ partial "record-table.html" (dict "pages" (where site.RegularPages "Section" "blogs").ByDate.Reverse "label" "posts-title" "refs" $refs) }}
-    <a class="go" href="/blogs/">All posts</a>
-  </section>
+<header class="pagehead wrap">
+  <h1>{{ .Title }}</h1>
+  <p class="pagehead__lede">The Kubernetes features I designed and carried through releases, the projects I maintain, and every post and talk, newest first.</p>
+  <nav aria-label="On this page"><ul class="jump">
+    <li><a href="#{{ $k8s.id }}">Kubernetes features</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+  </ul></nav>
+</header>
 
-  <section class="sec" id="talks" aria-labelledby="talks-title">
-    <h2 class="h2" id="talks-title">Talks</h2>
-    {{ partial "record-table.html" (dict "pages" (first 6 $talks) "label" "talks-title" "refs" $refs) }}
-    <a class="go" href="/talks/">All {{ len $talks }} talks</a>
-  </section>
-</div>
+<section class="wrap sec" id="{{ $k8s.id }}" aria-labelledby="{{ $k8s.id }}-title">
+  <div class="sec__head">
+    <h2 id="{{ $k8s.id }}-title">{{ $k8s.name }}</h2>
+    <p>{{ $k8s.lede }}</p>
+  </div>
+  <div class="explain">
+    <p class="explain__title">How a Kubernetes feature ships</p>
+    <ol class="explain__steps">
+      <li>{{ partial "stage-mark.html" (dict "stage" "alpha") }}<span><strong>Alpha</strong> An early version, off by default.</span></li>
+      <li>{{ partial "stage-mark.html" (dict "stage" "beta") }}<span><strong>Beta</strong> Refined with feedback from real use.</span></li>
+      <li>{{ partial "stage-mark.html" (dict "stage" "ga") }}<span><strong>GA</strong> Generally available and stable.</span></li>
+    </ol>
+    <p class="explain__note">Kubernetes releases three times a year; each stage lands in one release. Release dates are the v1.N.0 tags.</p>
+  </div>
+  <ol class="features">
+    {{- range $ledger.kubernetes.features }}
+    {{- $prs := slice }}
+    {{- range .stages }}{{ $prs = $prs | append (.prs | default slice) }}{{ end }}
+    <li class="feature" id="{{ .id }}">
+      <div class="feature__about">
+        <h3>{{ .name }}</h3>
+        {{- with .line }}
+        <p class="feature__line">{{ . }}</p>
+        {{- end }}
+        <p class="feature__meta"><a href="https://github.com/kubernetes/enhancements/tree/master/keps/{{ .path }}">KEP-{{ .kep }}</a> · {{ .sig }} ·
+          {{- with .coauthors }}
+          {{- $names := slice }}
+          {{- range . }}{{ $names = $names | append (printf `<a href="https://github.com/%s">@%s</a>` . .) }}{{ end }}
+          With {{ if eq (len $names) 1 }}{{ index $names 0 | safeHTML }}{{ else }}{{ delimit (first (sub (len $names) 1) $names) ", " | safeHTML }} and {{ index (last 1 $names) 0 | safeHTML }}{{ end }}
+          {{- else }} Sole author{{ end }}
+          {{- with $prs }} · PRs {{ range $n, $pr := . }}{{ if $n }}, {{ end }}<a href="https://github.com/kubernetes/kubernetes/pull/{{ $pr }}">#{{ $pr }}</a>{{ end }}{{ end }}</p>
+      </div>
+      {{ partial "ledger/stepper.html" . }}
+    </li>
+    {{- end }}
+  </ol>
+  <ul class="entries entries--one">
+    {{- range $k8s.entries }}
+    {{ partial "work-entry.html" . }}
+    {{- end }}
+  </ul>
+</section>
+
+<section class="wrap sec" id="projects" aria-labelledby="projects-title">
+  <div class="sec__head">
+    <h2 id="projects-title">Projects</h2>
+  </div>
+  <div class="cols">
+    {{- range $projects }}
+    <div id="{{ .id }}">
+      <h3 class="sub">{{ .name }}</h3>
+      <p class="sub__lede">{{ .lede }}</p>
+      <ul class="entries">
+        {{- range .entries }}
+        {{ partial "work-entry.html" . }}
+        {{- end }}
+      </ul>
+    </div>
+    {{- end }}
+  </div>
+</section>
+
+<section class="wrap sec" id="timeline" aria-labelledby="timeline-title">
+  <div class="sec__head sec__head--row">
+    <div>
+      <h2 id="timeline-title">Timeline</h2>
+      <p>Feature releases, {{ len $posts }} posts and {{ len $talks }} talks since {{ index (last 1 $years) 0 }}.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Show" data-filters="tl" data-count="tl-count" hidden>
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-filter="release" aria-pressed="false">Releases <span>{{ $releases }}</span></button>
+      <button type="button" data-filter="post" aria-pressed="false">Posts <span>{{ len $posts }}</span></button>
+      <button type="button" data-filter="talk" aria-pressed="false">Talks <span>{{ len $talks }}</span></button>
+      <span class="filters__count" id="tl-count" role="status" aria-live="polite">{{ len $events }} entries</span>
+    </div>
+  </div>
+  <ol class="timeline" id="tl">
+    {{- range $y := $years }}
+    <li class="year" data-group>
+      <h3 class="year__label">{{ $y }}</h3>
+      <ol class="events">
+        {{- range where $events "date.Year" $y }}
+        {{ partial "ledger/event.html" . }}
+        {{- end }}
+      </ol>
+    </li>
+    {{- end }}
+  </ol>
+</section>
 {{ end }}

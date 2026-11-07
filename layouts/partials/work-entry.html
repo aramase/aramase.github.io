@@ -1,17 +1,18 @@
-{{- /* One entry in a /work/ area: name, role, one line, link. Input: an entry from data/work.yaml.
-       An entry with `ledger` names a data/ledger.yaml subproject: it shows the KEP and its stage,
-       and its id is the target of the Feature tags in the posts and talks tables. */ -}}
+{{- /* One entry on /work/: name, role, one line, link. Input: an entry from data/work.yaml.
+       An entry with `ledger` names a data/ledger.yaml subproject: it shows the KEP, its stage
+       and its talks, and its id is where the timeline's tags for those talks point. */ -}}
 {{- $sp := false }}
 {{- with .ledger }}
   {{- $id := . }}
   {{- range hugo.Data.ledger.subprojects }}{{ if eq .id $id }}{{ $sp = . }}{{ end }}{{ end }}
   {{- if not $sp }}{{ errorf "data/work.yaml: entry %q: ledger %q is not a subproject in data/ledger.yaml" $.name $id }}{{ end }}
 {{- end }}
-<li{{ with $sp }} id="{{ .id }}"{{ end }}>
+<li class="entry"{{ with $sp }} id="{{ .id }}"{{ end }}>
   <h3><a href="{{ .href }}">{{ .name }}</a></h3>
-  <p class="role">{{ .role }}</p>
+  <p class="entry__role">{{ .role }}</p>
   <p>{{ .line }}</p>
   {{- with $sp }}
-  <p class="meta"><a href="https://github.com/kubernetes/enhancements/tree/master/keps/{{ .path }}">KEP-{{ .kep }}</a> &middot; {{ partial "ledger/stage-label.html" . }} in v1.{{ .release }}</p>
+  {{- $n := len (.talks | default slice) }}
+  <p class="entry__kep">{{ partial "stage-mark.html" (dict "stage" .stage) }}<a href="https://github.com/kubernetes/enhancements/tree/master/keps/{{ .path }}">KEP-{{ .kep }}</a> · {{ index (dict "alpha" "Alpha" "beta" "Beta" "ga" "GA") .stage }} at the Kubernetes v1.{{ .release }} milestone{{ with $n }} · {{ . }} {{ cond (eq . 1) "talk" "talks" }}{{ end }}</p>
   {{- end }}
 </li>
